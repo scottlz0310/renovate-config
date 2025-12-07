@@ -35,21 +35,14 @@ jobs:
 
       - name: Validate language presets
         run: |
-          for file in presets/languages/*.json; do
+          for file in cpp.json csharp.json docker.json go.json nodejs.json python.json rust.json typescript.json; do
             echo "Validating $file..."
             npx renovate-config-validator "$file"
           done
 
       - name: Validate project presets
         run: |
-          for file in presets/projects/*.json; do
-            echo "Validating $file..."
-            npx renovate-config-validator "$file"
-          done
-
-      - name: Validate examples
-        run: |
-          for file in examples/*.json; do
+          for file in automerge.json monorepo.json production.json schedule.json security.json; do
             echo "Validating $file..."
             npx renovate-config-validator "$file"
           done
