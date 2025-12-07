@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "TypeScript project configuration for Renovate (pnpm compatible)",
+  "description": "TypeScript project configuration for Renovate",
   "packageRules": [
     {
       "matchDatasources": ["npm"],
@@ -26,14 +26,6 @@
       "groupName": "TypeScript tools",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-tools"
-    },
-    {
-      "matchManagers": ["npm", "yarn"],
-      "enabled": false,
-      "description": "Disable npm and yarn - use pnpm only"
     }
-  ],
-  "pnpm": {
-    "enabled": true
-  }
+  ]
 }

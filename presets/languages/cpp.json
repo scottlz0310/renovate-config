@@ -9,20 +9,9 @@
       "semanticCommitScope": "deps-cpp-conan"
     },
     {
-      "matchManagers": ["cmake"],
-      "groupName": "CMake dependencies",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-cpp-cmake"
-    },
-    {
       "matchDatasources": ["conan"],
       "matchUpdateTypes": ["major"],
       "groupName": "C++ Conan major updates"
-    },
-    {
-      "matchManagers": ["cmake"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "C++ CMake major updates"
     },
     {
       "matchDatasources": ["conan"],

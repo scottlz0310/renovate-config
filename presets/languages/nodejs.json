@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Node.js project configuration for Renovate (pnpm only)",
+  "description": "Node.js project configuration for Renovate",
   "packageRules": [
     {
       "matchDatasources": ["npm"],
@@ -26,17 +26,9 @@
     {
       "matchPackagePatterns": ["^@types/"],
       "groupName": "Type definitions"
-    },
-    {
-      "matchManagers": ["npm", "yarn"],
-      "enabled": false,
-      "description": "Disable npm and yarn - use pnpm only"
     }
   ],
   "lockFileMaintenance": {
-    "enabled": true
-  },
-  "pnpm": {
     "enabled": true
   }
 }
