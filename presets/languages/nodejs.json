@@ -29,10 +29,6 @@
       "matchPackagePatterns": ["^@types/"],
       "groupName": "Type definitions",
       "automerge": false
-    },
-    {
-      "matchPackageNames": ["node"],
-      "enabled": true
     }
   ],
   "lockFileMaintenance": {

@@ -6,14 +6,12 @@
       "matchUpdateTypes": ["patch"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true,
-      "automergeType": "pr",
       "automergeStrategy": "squash"
     },
     {
       "matchUpdateTypes": ["minor"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true,
-      "automergeType": "pr",
       "automergeStrategy": "squash",
       "minimumReleaseAge": "3 days"
     },
@@ -21,13 +19,11 @@
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
-      "automergeType": "pr",
       "automergeStrategy": "squash"
     },
     {
       "matchPackagePatterns": ["^@types/"],
-      "automerge": true,
-      "automergeType": "pr"
+      "automerge": true
     }
   ],
   "platformAutomerge": true
