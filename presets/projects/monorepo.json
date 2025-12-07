@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Monorepo preset for handling monorepo dependencies",
+  "packageRules": [
+    {
+      "matchSourceUrlPrefixes": [
+        "https://github.com/babel/babel",
+        "https://github.com/facebook/react",
+        "https://github.com/typescript-eslint/typescript-eslint"
+      ],
+      "groupName": "Monorepo {{groupName}}"
+    },
+    {
+      "matchPackagePatterns": ["^@babel/"],
+      "groupName": "Babel monorepo"
+    },
+    {
+      "matchPackagePatterns": ["^@typescript-eslint/"],
+      "groupName": "TypeScript ESLint monorepo"
+    },
+    {
+      "matchPackagePatterns": ["^@angular/"],
+      "groupName": "Angular monorepo"
+    },
+    {
+      "matchPackagePatterns": ["^@nestjs/"],
+      "groupName": "NestJS monorepo"
+    },
+    {
+      "matchPackageNames": ["react", "react-dom"],
+      "groupName": "React monorepo"
+    }
+  ],
+  "extends": [
+    "group:monorepos"
+  ]
+}

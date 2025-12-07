@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Go project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["go"],
+      "groupName": "Go dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-go"
+    },
+    {
+      "matchDatasources": ["go"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Go major updates",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchDatasources": ["go"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Go minor and patch updates"
+    },
+    {
+      "matchFiles": ["go.mod", "go.sum"],
+      "groupName": "Go modules"
+    },
+    {
+      "matchPackageNames": ["golang"],
+      "groupName": "Go version"
+    },
+    {
+      "matchPackagePatterns": ["^github\\.com/"],
+      "groupName": "GitHub Go packages"
+    }
+  ],
+  "gomod": {
+    "enabled": true
+  },
+  "postUpdateOptions": [
+    "gomodTidy"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Node.js project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "groupName": "Node.js dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-node"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Node.js major updates",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Node.js minor and patch updates"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Node.js dev dependencies",
+      "automerge": false
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "groupName": "Type definitions",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["node"],
+      "enabled": true
+    }
+  ],
+  "npm": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 3am on Monday"]
+  }
+}

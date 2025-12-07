@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Docker project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "groupName": "Docker images",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-docker"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Docker major updates",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Docker minor and patch updates"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^alpine$", "^debian$", "^ubuntu$"],
+      "groupName": "Base OS images",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^node$", "^python$", "^golang$", "^rust$"],
+      "groupName": "Language runtime images"
+    }
+  ],
+  "docker": {
+    "enabled": true
+  },
+  "dockerfile": {
+    "enabled": true
+  },
+  "docker-compose": {
+    "enabled": true,
+    "fileMatch": ["(^|/)docker-compose[^/]*\\.ya?ml$"]
+  }
+}

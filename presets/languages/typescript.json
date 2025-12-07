@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "TypeScript project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "matchPackageNames": ["typescript"],
+      "groupName": "TypeScript",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-typescript",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchPackagePatterns": ["^@typescript-eslint/"],
+      "groupName": "TypeScript ESLint",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-eslint"
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "groupName": "TypeScript type definitions",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-types",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["ts-node", "ts-jest", "tsx"],
+      "groupName": "TypeScript tools",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-tools"
+    }
+  ],
+  "typescript": {
+    "enabled": true
+  }
+}

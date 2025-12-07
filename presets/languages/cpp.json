@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "C++ project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["conan"],
+      "groupName": "C++ Conan dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-cpp"
+    },
+    {
+      "matchDatasources": ["conan"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "C++ major updates",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchFiles": ["conanfile.txt", "conanfile.py"],
+      "groupName": "Conan configuration"
+    },
+    {
+      "matchFiles": ["vcpkg.json"],
+      "groupName": "vcpkg dependencies"
+    },
+    {
+      "matchFiles": ["CMakeLists.txt"],
+      "groupName": "CMake configuration"
+    }
+  ],
+  "conan": {
+    "enabled": true
+  }
+}

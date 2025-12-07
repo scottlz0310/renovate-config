@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Python project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["pypi"],
+      "groupName": "Python dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-python"
+    },
+    {
+      "matchDatasources": ["pypi"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Python major updates",
+      "schedule": ["before 3am on Monday"]
+    },
+    {
+      "matchDatasources": ["pypi"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Python minor and patch updates",
+      "automerge": false
+    },
+    {
+      "matchFiles": ["requirements.txt", "requirements/*.txt"],
+      "groupName": "Python requirements"
+    },
+    {
+      "matchFiles": ["pyproject.toml", "poetry.lock", "Pipfile", "Pipfile.lock"],
+      "groupName": "Python project files"
+    }
+  ],
+  "pip_requirements": {
+    "enabled": true,
+    "fileMatch": ["(^|/)([\\w-]*)requirements\\.txt$", "^requirements/.*\\.txt$"]
+  },
+  "pip_setup": {
+    "enabled": true,
+    "fileMatch": ["(^|/)setup\\.py$"]
+  },
+  "poetry": {
+    "enabled": true
+  },
+  "pipenv": {
+    "enabled": true
+  }
+}
