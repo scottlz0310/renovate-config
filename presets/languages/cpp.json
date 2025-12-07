@@ -17,14 +17,6 @@
     {
       "matchFileNames": ["conanfile.txt", "conanfile.py"],
       "groupName": "Conan configuration"
-    },
-    {
-      "matchFileNames": ["vcpkg.json"],
-      "groupName": "vcpkg dependencies"
-    },
-    {
-      "matchFileNames": ["CMakeLists.txt"],
-      "groupName": "CMake configuration"
     }
   ]
 }

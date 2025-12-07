@@ -26,6 +26,5 @@
       "matchDepTypes": ["devDependencies"],
       "minimumReleaseAge": "3 days"
     }
-  ],
-  "stabilityDays": 7
+  ]
 }
