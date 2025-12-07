@@ -5,7 +5,6 @@
     "before 3am on Monday"
   ],
   "timezone": "Asia/Tokyo",
-  "updateNotScheduled": false,
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
