@@ -8,8 +8,8 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
-      "enabled": false,
-      "description": "Disable major updates by default for production"
+      "dependencyDashboardApproval": true,
+      "description": "Require manual approval for major updates in production"
     },
     {
       "matchUpdateTypes": ["minor"],

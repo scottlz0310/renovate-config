@@ -1,11 +1,19 @@
+# Dependencies
 node_modules/
-package-lock.json
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# OS
 .DS_Store
 *.swp
 *.swo
 *~
-.vscode/
+
+# IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/

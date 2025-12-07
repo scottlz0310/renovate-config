@@ -11,14 +11,12 @@
     {
       "matchDatasources": ["pypi"],
       "matchUpdateTypes": ["major"],
-      "groupName": "Python major updates",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "Python major updates"
     },
     {
       "matchDatasources": ["pypi"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "Python minor and patch updates",
-      "automerge": false
+      "groupName": "Python minor and patch updates"
     },
     {
       "matchFileNames": ["requirements.txt", "requirements/*.txt"],

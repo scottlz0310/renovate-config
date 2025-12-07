@@ -11,8 +11,7 @@
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
-      "groupName": "Docker major updates",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "Docker major updates"
     },
     {
       "matchDatasources": ["docker"],
@@ -22,8 +21,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^alpine$", "^debian$", "^ubuntu$"],
-      "groupName": "Base OS images",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "Base OS images"
     },
     {
       "matchDatasources": ["docker"],

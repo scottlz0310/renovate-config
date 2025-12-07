@@ -11,8 +11,7 @@
     {
       "matchDatasources": ["crate"],
       "matchUpdateTypes": ["major"],
-      "groupName": "Rust major updates",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "Rust major updates"
     },
     {
       "matchDatasources": ["crate"],
@@ -29,7 +28,6 @@
     }
   ],
   "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["before 3am on Monday"]
+    "enabled": true
   }
 }

@@ -1,20 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Renovate configuration for this repository itself",
   "extends": [
-    "config:recommended"
+    "github>scottlz0310/renovate-config:default"
   ],
   "packageRules": [
-    {
-      "matchDatasources": ["npm"],
-      "groupName": "npm dependencies"
-    },
     {
       "matchPackageNames": ["renovate"],
       "groupName": "Renovate"
     }
-  ],
-  "dependencyDashboard": true,
-  "semanticCommits": "enabled",
-  "labels": ["dependencies"],
-  "timezone": "Asia/Tokyo"
+  ]
 }

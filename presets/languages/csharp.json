@@ -11,8 +11,7 @@
     {
       "matchDatasources": ["nuget"],
       "matchUpdateTypes": ["major"],
-      "groupName": "C# major updates",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "C# major updates"
     },
     {
       "matchDatasources": ["nuget"],

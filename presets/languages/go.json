@@ -11,8 +11,7 @@
     {
       "matchDatasources": ["go"],
       "matchUpdateTypes": ["major"],
-      "groupName": "Go major updates",
-      "schedule": ["before 3am on Monday"]
+      "groupName": "Go major updates"
     },
     {
       "matchDatasources": ["go"],

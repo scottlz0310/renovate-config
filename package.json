@@ -14,6 +14,10 @@
   ],
   "author": "scottlz0310",
   "license": "MIT",
+  "scripts": {
+    "validate": "npx renovate-config-validator default.json && for file in presets/languages/*.json presets/projects/*.json examples/*.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
+    "test": "npm run validate"
+  },
   "renovate-config": {
     "default": {
       "description": "Default Renovate configuration",

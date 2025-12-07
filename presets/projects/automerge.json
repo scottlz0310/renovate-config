@@ -4,13 +4,13 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["patch"],
-      "matchCurrentVersion": "!/^0/",
+      "matchCurrentVersion": "!/^0\\./",
       "automerge": true,
       "automergeStrategy": "squash"
     },
     {
       "matchUpdateTypes": ["minor"],
-      "matchCurrentVersion": "!/^0/",
+      "matchCurrentVersion": "!/^0\\./",
       "automerge": true,
       "automergeStrategy": "squash",
       "minimumReleaseAge": "3 days"
