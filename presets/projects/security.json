@@ -6,23 +6,39 @@
     "labels": [
       "security",
       "priority"
-    ]
+    ],
+    "schedule": [
+      "at any time"
+    ],
+    "automerge": true,
+    "automergeType": "pr"
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch"],
-      "matchCurrentVersion": "!/^0\\./",
-      "automerge": false,
-      "labels": [
-        "security",
+      "matchUpdateTypes": [
         "patch"
-      ]
+      ],
+      "matchCurrentVersion": "!/^0\\./",
+      "labels": [
+        "patch"
+      ],
+      "prPriority": 5
     },
     {
-      "matchDatasources": ["npm", "pypi", "nuget", "go", "crate"],
-      "matchUpdateTypes": ["patch"],
+      "matchDatasources": [
+        "npm",
+        "pypi",
+        "nuget",
+        "go",
+        "crate"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "groupName": "Security patches",
-      "schedule": ["at any time"],
+      "schedule": [
+        "at any time"
+      ],
       "prPriority": 10
     }
   ],

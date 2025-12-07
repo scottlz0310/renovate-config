@@ -3,26 +3,37 @@
   "description": "Auto-merge preset for automated dependency updates",
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "matchCurrentVersion": "!/^0\\./",
       "automerge": true,
       "automergeStrategy": "squash"
     },
     {
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "matchCurrentVersion": "!/^0\\./",
       "automerge": true,
       "automergeStrategy": "squash",
       "minimumReleaseAge": "3 days"
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true,
       "automergeStrategy": "squash"
     },
     {
-      "matchPackagePatterns": ["^@types/"],
+      "matchPackagePrefixes": [
+        "@types/"
+      ],
       "automerge": true
     }
   ],

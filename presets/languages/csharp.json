@@ -3,31 +3,49 @@
   "description": "C# (.NET) project configuration for Renovate",
   "packageRules": [
     {
-      "matchDatasources": ["nuget"],
+      "matchDatasources": [
+        "nuget"
+      ],
       "groupName": "C# dependencies",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-csharp"
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "nuget"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "C# major updates"
     },
     {
-      "matchDatasources": ["nuget"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDatasources": [
+        "nuget"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "C# minor and patch updates"
     },
     {
-      "matchPackagePatterns": ["^Microsoft\\."],
+      "matchPackagePrefixes": [
+        "Microsoft."
+      ],
       "groupName": "Microsoft packages"
     },
     {
-      "matchPackagePatterns": ["^System\\."],
+      "matchPackagePrefixes": [
+        "System."
+      ],
       "groupName": "System packages"
     },
     {
-      "matchPackageNames": ["dotnet-sdk", "Microsoft.NET.Sdk"],
+      "matchPackageNames": [
+        "dotnet-sdk",
+        "Microsoft.NET.Sdk"
+      ],
       "groupName": ".NET SDK"
     }
   ]

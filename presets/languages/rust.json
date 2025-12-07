@@ -3,28 +3,45 @@
   "description": "Rust project configuration for Renovate",
   "packageRules": [
     {
-      "matchDatasources": ["crate"],
+      "matchDatasources": [
+        "crate"
+      ],
       "groupName": "Rust dependencies",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-rust"
     },
     {
-      "matchDatasources": ["crate"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "crate"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "Rust major updates"
     },
     {
-      "matchDatasources": ["crate"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDatasources": [
+        "crate"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "Rust minor and patch updates"
     },
     {
-      "matchFileNames": ["Cargo.toml", "Cargo.lock"],
-      "groupName": "Cargo files"
+      "matchPackagePrefixes": [
+        "serde",
+        "tokio"
+      ],
+      "groupName": "Async and serialization libraries",
+      "description": "Group serde* and tokio* ecosystem packages"
     },
     {
-      "matchPackageNames": ["serde", "tokio", "async-trait"],
-      "groupName": "Common Rust libraries"
+      "matchPackagePrefixes": [
+        "tracing"
+      ],
+      "groupName": "Tracing ecosystem"
     }
   ],
   "lockFileMaintenance": {

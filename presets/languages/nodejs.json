@@ -3,28 +3,45 @@
   "description": "Node.js project configuration for Renovate",
   "packageRules": [
     {
-      "matchDatasources": ["npm"],
+      "matchDatasources": [
+        "npm"
+      ],
       "groupName": "Node.js dependencies",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-node"
     },
     {
-      "matchDatasources": ["npm"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "Node.js major updates"
     },
     {
-      "matchDatasources": ["npm"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "Node.js minor and patch updates"
     },
     {
-      "matchDatasources": ["npm"],
-      "matchDepTypes": ["devDependencies"],
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
       "groupName": "Node.js dev dependencies"
     },
     {
-      "matchPackagePatterns": ["^@types/"],
+      "matchPackagePrefixes": [
+        "@types/"
+      ],
       "groupName": "Type definitions"
     }
   ],

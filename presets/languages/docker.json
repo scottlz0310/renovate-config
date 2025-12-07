@@ -3,29 +3,53 @@
   "description": "Docker project configuration for Renovate",
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "groupName": "Docker images",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-docker"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "Docker major updates"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "Docker minor and patch updates"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["^alpine$", "^debian$", "^ubuntu$"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "alpine",
+        "debian",
+        "ubuntu"
+      ],
       "groupName": "Base OS images"
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["^node$", "^python$", "^golang$", "^rust$"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "node",
+        "python",
+        "golang",
+        "rust"
+      ],
       "groupName": "Language runtime images"
     }
   ]

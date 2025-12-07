@@ -7,24 +7,37 @@
   "timezone": "Asia/Tokyo",
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
-      "schedule": ["before 3am on Monday"],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "schedule": [
+        "before 3am on Monday"
+      ],
       "groupName": "Major updates (weekly)"
     },
     {
-      "matchUpdateTypes": ["minor"],
-      "schedule": ["before 3am on Monday and Thursday"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "schedule": [
+        "before 3am on Monday and Thursday"
+      ],
       "groupName": "Minor updates (twice weekly)"
     },
     {
-      "matchUpdateTypes": ["patch"],
-      "schedule": ["at any time"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "schedule": [
+        "at any time"
+      ],
       "groupName": "Patch updates (anytime)"
-    },
-    {
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "schedule": ["before 3am on Monday"]
     }
-  ]
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 3am on Monday"
+    ]
+  }
 }

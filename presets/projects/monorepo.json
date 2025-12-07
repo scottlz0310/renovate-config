@@ -1,37 +1,34 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Monorepo preset for handling monorepo dependencies",
+  "extends": [
+    "group:monorepos",
+    "group:recommended"
+  ],
   "packageRules": [
     {
-      "matchSourceUrlPrefixes": [
-        "https://github.com/babel/babel",
-        "https://github.com/facebook/react",
-        "https://github.com/typescript-eslint/typescript-eslint"
+      "matchPackagePrefixes": [
+        "@angular/"
       ],
-      "groupName": "Monorepo {{groupName}}"
-    },
-    {
-      "matchPackagePatterns": ["^@babel/"],
-      "groupName": "Babel monorepo"
-    },
-    {
-      "matchPackagePatterns": ["^@typescript-eslint/"],
-      "groupName": "TypeScript ESLint monorepo"
-    },
-    {
-      "matchPackagePatterns": ["^@angular/"],
       "groupName": "Angular monorepo"
     },
     {
-      "matchPackagePatterns": ["^@nestjs/"],
+      "matchPackagePrefixes": [
+        "@nestjs/"
+      ],
       "groupName": "NestJS monorepo"
     },
     {
-      "matchPackageNames": ["react", "react-dom"],
-      "groupName": "React monorepo"
+      "matchPackagePrefixes": [
+        "@vue/"
+      ],
+      "groupName": "Vue monorepo"
+    },
+    {
+      "matchPackagePrefixes": [
+        "@nuxt/"
+      ],
+      "groupName": "Nuxt monorepo"
     }
-  ],
-  "extends": [
-    "group:monorepos"
   ]
 }
