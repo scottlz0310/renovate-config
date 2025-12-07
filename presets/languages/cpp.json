@@ -15,19 +15,16 @@
       "schedule": ["before 3am on Monday"]
     },
     {
-      "matchFiles": ["conanfile.txt", "conanfile.py"],
+      "matchFileNames": ["conanfile.txt", "conanfile.py"],
       "groupName": "Conan configuration"
     },
     {
-      "matchFiles": ["vcpkg.json"],
+      "matchFileNames": ["vcpkg.json"],
       "groupName": "vcpkg dependencies"
     },
     {
-      "matchFiles": ["CMakeLists.txt"],
+      "matchFileNames": ["CMakeLists.txt"],
       "groupName": "CMake configuration"
     }
-  ],
-  "conan": {
-    "enabled": true
-  }
+  ]
 }

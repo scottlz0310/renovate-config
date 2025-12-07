@@ -21,11 +21,11 @@
       "automerge": false
     },
     {
-      "matchFiles": ["requirements.txt", "requirements/*.txt"],
+      "matchFileNames": ["requirements.txt", "requirements/*.txt"],
       "groupName": "Python requirements"
     },
     {
-      "matchFiles": ["pyproject.toml", "poetry.lock", "Pipfile", "Pipfile.lock"],
+      "matchFileNames": ["pyproject.toml", "poetry.lock", "Pipfile", "Pipfile.lock"],
       "groupName": "Python project files"
     }
   ],

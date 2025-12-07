@@ -20,7 +20,7 @@
       "groupName": "Rust minor and patch updates"
     },
     {
-      "matchFiles": ["Cargo.toml", "Cargo.lock"],
+      "matchFileNames": ["Cargo.toml", "Cargo.lock"],
       "groupName": "Cargo files"
     },
     {
@@ -28,9 +28,6 @@
       "groupName": "Common Rust libraries"
     }
   ],
-  "cargo": {
-    "enabled": true
-  },
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 3am on Monday"]

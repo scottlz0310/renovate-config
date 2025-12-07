@@ -31,11 +31,5 @@
       "matchPackageNames": ["dotnet-sdk", "Microsoft.NET.Sdk"],
       "groupName": ".NET SDK"
     }
-  ],
-  "nuget": {
-    "enabled": true
-  },
-  "dotnet": {
-    "enabled": true
-  }
+  ]
 }

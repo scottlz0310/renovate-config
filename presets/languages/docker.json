@@ -31,14 +31,7 @@
       "groupName": "Language runtime images"
     }
   ],
-  "docker": {
-    "enabled": true
-  },
-  "dockerfile": {
-    "enabled": true
-  },
   "docker-compose": {
-    "enabled": true,
     "fileMatch": ["(^|/)docker-compose[^/]*\\.ya?ml$"]
   }
 }

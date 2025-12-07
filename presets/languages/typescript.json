@@ -29,8 +29,5 @@
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-tools"
     }
-  ],
-  "typescript": {
-    "enabled": true
-  }
+  ]
 }

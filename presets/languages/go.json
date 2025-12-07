@@ -20,7 +20,7 @@
       "groupName": "Go minor and patch updates"
     },
     {
-      "matchFiles": ["go.mod", "go.sum"],
+      "matchFileNames": ["go.mod", "go.sum"],
       "groupName": "Go modules"
     },
     {
@@ -32,9 +32,6 @@
       "groupName": "GitHub Go packages"
     }
   ],
-  "gomod": {
-    "enabled": true
-  },
   "postUpdateOptions": [
     "gomodTidy"
   ]

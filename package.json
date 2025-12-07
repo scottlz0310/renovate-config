@@ -99,5 +99,8 @@
         "github>scottlz0310/renovate-config:presets/projects/production"
       ]
     }
+  },
+  "devDependencies": {
+    "renovate": "^39.264.1"
   }
 }
