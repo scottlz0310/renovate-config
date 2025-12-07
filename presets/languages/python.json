@@ -28,19 +28,5 @@
       "matchFileNames": ["pyproject.toml", "poetry.lock", "Pipfile", "Pipfile.lock"],
       "groupName": "Python project files"
     }
-  ],
-  "pip_requirements": {
-    "enabled": true,
-    "fileMatch": ["(^|/)([\\w-]*)requirements\\.txt$", "^requirements/.*\\.txt$"]
-  },
-  "pip_setup": {
-    "enabled": true,
-    "fileMatch": ["(^|/)setup\\.py$"]
-  },
-  "poetry": {
-    "enabled": true
-  },
-  "pipenv": {
-    "enabled": true
-  }
+  ]
 }

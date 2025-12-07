@@ -30,8 +30,5 @@
       "matchPackagePatterns": ["^node$", "^python$", "^golang$", "^rust$"],
       "groupName": "Language runtime images"
     }
-  ],
-  "docker-compose": {
-    "fileMatch": ["(^|/)docker-compose[^/]*\\.ya?ml$"]
-  }
+  ]
 }
