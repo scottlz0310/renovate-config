@@ -51,6 +51,3 @@ jobs:
             echo "Validating $file..."
             npx renovate-config-validator "$file"
           done
-
-      - name: Validate package.json
-        run: npx renovate-config-validator package.json

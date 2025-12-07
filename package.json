@@ -18,7 +18,7 @@
     "default": {
       "description": "Default Renovate configuration",
       "extends": [
-        "config:base"
+        "config:recommended"
       ]
     },
     "python": {
