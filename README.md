@@ -12,14 +12,16 @@ Renovateの設定を一元管理するためのリポジトリ
 
 以下の言語・環境に対応したプリセットを提供しています：
 
-- **Python** - pip, poetry, pipenv
-- **Node.js** - npm, yarn
-- **TypeScript** - TypeScript関連の依存関係
+- **Python** - uv (modern Python package manager)
+- **Node.js** - pnpm (modern Node.js package manager)
+- **TypeScript** - TypeScript関連の依存関係 (pnpm compatible)
 - **Docker** - Dockerfile, docker-compose
 - **C#** - NuGet, .NET
 - **C++** - Conan, vcpkg, CMake
 - **Rust** - Cargo
 - **Go** - Go modules
+
+**Note:** このリポジトリはモダンなツールチェーンを採用しています。Pythonはuv、Node.js/TypeScriptはpnpmのみをサポートします。
 
 ## プリセット一覧
 

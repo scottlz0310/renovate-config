@@ -12,14 +12,16 @@ This repository centralizes Renovate Bot configurations and provides reusable co
 
 Presets are available for the following languages and environments:
 
-- **Python** - pip, poetry, pipenv
-- **Node.js** - npm, yarn
-- **TypeScript** - TypeScript-related dependencies
+- **Python** - uv (modern Python package manager)
+- **Node.js** - pnpm (modern Node.js package manager)
+- **TypeScript** - TypeScript-related dependencies (pnpm compatible)
 - **Docker** - Dockerfile, docker-compose
 - **C#** - NuGet, .NET
 - **C++** - Conan, vcpkg, CMake
 - **Rust** - Cargo
 - **Go** - Go modules
+
+**Note:** This repository adopts modern toolchains. Python supports uv only, Node.js/TypeScript supports pnpm only.
 
 ## Available Presets
 

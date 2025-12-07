@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Python project configuration for Renovate",
+  "description": "Python project configuration for Renovate (uv only)",
   "packageRules": [
     {
       "matchDatasources": ["pypi"],
@@ -19,12 +19,17 @@
       "groupName": "Python minor and patch updates"
     },
     {
-      "matchFileNames": ["requirements.txt", "requirements/*.txt"],
-      "groupName": "Python requirements"
+      "matchManagers": ["pep621"],
+      "groupName": "Python uv dependencies"
     },
     {
-      "matchFileNames": ["pyproject.toml", "poetry.lock", "Pipfile", "Pipfile.lock"],
-      "groupName": "Python project files"
+      "matchFileNames": ["pyproject.toml", "uv.lock"],
+      "groupName": "Python uv project files"
+    },
+    {
+      "matchManagers": ["poetry", "pipenv"],
+      "enabled": false,
+      "description": "Disable poetry and pipenv - use uv only"
     }
   ]
 }
