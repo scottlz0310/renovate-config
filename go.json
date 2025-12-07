@@ -36,8 +36,8 @@
       "groupName": "Go version"
     },
     {
-      "matchPackagePrefixes": [
-        "github.com/"
+      "matchPackageNames": [
+        "github.com/**"
       ],
       "groupName": "GitHub Go packages"
     }

@@ -30,14 +30,14 @@
       "groupName": "C# minor and patch updates"
     },
     {
-      "matchPackagePrefixes": [
-        "Microsoft."
+      "matchPackageNames": [
+        "Microsoft.**"
       ],
       "groupName": "Microsoft packages"
     },
     {
-      "matchPackagePrefixes": [
-        "System."
+      "matchPackageNames": [
+        "System.**"
       ],
       "groupName": "System packages"
     },

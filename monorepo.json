@@ -7,26 +7,26 @@
   ],
   "packageRules": [
     {
-      "matchPackagePrefixes": [
-        "@angular/"
+      "matchPackageNames": [
+        "@angular/**"
       ],
       "groupName": "Angular monorepo"
     },
     {
-      "matchPackagePrefixes": [
-        "@nestjs/"
+      "matchPackageNames": [
+        "@nestjs/**"
       ],
       "groupName": "NestJS monorepo"
     },
     {
-      "matchPackagePrefixes": [
-        "@vue/"
+      "matchPackageNames": [
+        "@vue/**"
       ],
       "groupName": "Vue monorepo"
     },
     {
-      "matchPackagePrefixes": [
-        "@nuxt/"
+      "matchPackageNames": [
+        "@nuxt/**"
       ],
       "groupName": "Nuxt monorepo"
     }

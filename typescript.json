@@ -14,16 +14,16 @@
       "semanticCommitScope": "deps-typescript"
     },
     {
-      "matchPackagePrefixes": [
-        "@typescript-eslint/"
+      "matchPackageNames": [
+        "@typescript-eslint/**"
       ],
       "groupName": "TypeScript ESLint",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-eslint"
     },
     {
-      "matchPackagePrefixes": [
-        "@types/"
+      "matchPackageNames": [
+        "@types/**"
       ],
       "groupName": "TypeScript type definitions",
       "semanticCommitType": "chore",

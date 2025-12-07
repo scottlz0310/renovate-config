@@ -30,16 +30,16 @@
       "groupName": "Rust minor and patch updates"
     },
     {
-      "matchPackagePrefixes": [
-        "serde",
-        "tokio"
+      "matchPackageNames": [
+        "serde**",
+        "tokio**"
       ],
       "groupName": "Async and serialization libraries",
       "description": "Group serde* and tokio* ecosystem packages"
     },
     {
-      "matchPackagePrefixes": [
-        "tracing"
+      "matchPackageNames": [
+        "tracing**"
       ],
       "groupName": "Tracing ecosystem"
     }

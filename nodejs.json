@@ -39,8 +39,8 @@
       "groupName": "Node.js dev dependencies"
     },
     {
-      "matchPackagePrefixes": [
-        "@types/"
+      "matchPackageNames": [
+        "@types/**"
       ],
       "groupName": "Type definitions"
     }

@@ -31,8 +31,8 @@
       "automergeStrategy": "squash"
     },
     {
-      "matchPackagePrefixes": [
-        "@types/"
+      "matchPackageNames": [
+        "@types/**"
       ],
       "automerge": true
     }
