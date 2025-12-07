@@ -1,0 +1,110 @@
+{
+  "name": "@scottlz0310/renovate-config",
+  "version": "1.0.0",
+  "description": "Centralized Renovate configuration for multi-language projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scottlz0310/renovate-config.git"
+  },
+  "keywords": [
+    "renovate",
+    "renovate-config",
+    "shareable-config",
+    "dependencies"
+  ],
+  "author": "scottlz0310",
+  "license": "MIT",
+  "scripts": {
+    "validate": "npx renovate-config-validator default.json && for file in presets/languages/*.json presets/projects/*.json examples/*.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
+    "test": "npm run validate"
+  },
+  "renovate-config": {
+    "default": {
+      "description": "Default Renovate configuration",
+      "extends": [
+        "config:recommended"
+      ]
+    },
+    "python": {
+      "description": "Python project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/python"
+      ]
+    },
+    "nodejs": {
+      "description": "Node.js project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/nodejs"
+      ]
+    },
+    "typescript": {
+      "description": "TypeScript project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/typescript"
+      ]
+    },
+    "docker": {
+      "description": "Docker project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/docker"
+      ]
+    },
+    "csharp": {
+      "description": "C# project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/csharp"
+      ]
+    },
+    "cpp": {
+      "description": "C++ project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/cpp"
+      ]
+    },
+    "rust": {
+      "description": "Rust project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/rust"
+      ]
+    },
+    "go": {
+      "description": "Go project configuration",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/languages/go"
+      ]
+    },
+    "security": {
+      "description": "Security-focused preset",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/projects/security"
+      ]
+    },
+    "automerge": {
+      "description": "Auto-merge preset",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/projects/automerge"
+      ]
+    },
+    "schedule": {
+      "description": "Schedule-based preset",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/projects/schedule"
+      ]
+    },
+    "monorepo": {
+      "description": "Monorepo preset",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/projects/monorepo"
+      ]
+    },
+    "production": {
+      "description": "Production-safe preset",
+      "extends": [
+        "github>scottlz0310/renovate-config:presets/projects/production"
+      ]
+    }
+  },
+  "devDependencies": {
+    "renovate": "^39.264.1"
+  }
+}

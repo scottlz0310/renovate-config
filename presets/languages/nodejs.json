@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Node.js project configuration for Renovate (pnpm only)",
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "groupName": "Node.js dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-node"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Node.js major updates"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Node.js minor and patch updates"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Node.js dev dependencies"
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "groupName": "Type definitions"
+    },
+    {
+      "matchManagers": ["npm", "yarn"],
+      "enabled": false,
+      "description": "Disable npm and yarn - use pnpm only"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "pnpm": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Rust project configuration for Renovate",
+  "packageRules": [
+    {
+      "matchDatasources": ["crate"],
+      "groupName": "Rust dependencies",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-rust"
+    },
+    {
+      "matchDatasources": ["crate"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Rust major updates"
+    },
+    {
+      "matchDatasources": ["crate"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Rust minor and patch updates"
+    },
+    {
+      "matchFileNames": ["Cargo.toml", "Cargo.lock"],
+      "groupName": "Cargo files"
+    },
+    {
+      "matchPackageNames": ["serde", "tokio", "async-trait"],
+      "groupName": "Common Rust libraries"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  }
+}
