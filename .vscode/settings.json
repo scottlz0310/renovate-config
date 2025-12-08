@@ -115,8 +115,48 @@
     "biomejs.biome",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "ms-python.python",
+    "astral-sh.ruff",
+    "ms-python.mypy-type-checker",
+    "detachhead.basedpyright",
     "ms-vscode-remote.remote-wsl"
   ],
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.executeInFileDir": false,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    },
+    "editor.defaultFormatter": "astral-sh.ruff",
+    "editor.rulers": [
+      120
+    ]
+  },
+  "mypy-type-checker.args": [
+    "--strict",
+    "--config-file=pyproject.toml"
+  ],
+  "mypy-type-checker.reportingScope": "workspace",
+  "basedpyright.analysis.typeCheckingMode": "strict",
+  "basedpyright.analysis.diagnosticMode": "workspace",
+  "basedpyright.analysis.inlayHints.functionReturnTypes": true,
+  "basedpyright.analysis.inlayHints.variableTypes": true,
+  "basedpyright.analysis.inlayHints.callArgumentNames": true,
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "tests",
+    "-v",
+    "--tb=short"
+  ],
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
   "files.eol": "\n",
   "terminal.integrated.defaultProfile.linux": "bash",
   "terminal.integrated.profiles.linux": {
