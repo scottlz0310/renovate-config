@@ -15,10 +15,10 @@
   "author": "scottlz0310",
   "license": "MIT",
   "scripts": {
-    "validate": "npx renovate-config-validator default.json && for file in presets/languages/*.json presets/projects/*.json examples/*.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
+    "validate": "npx renovate-config-validator default.json && for file in cpp.json csharp.json docker.json go.json nodejs.json python.json rust.json typescript.json automerge.json monorepo.json production.json schedule.json security.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
     "test": "npm run validate"
   },
   "devDependencies": {
-    "renovate": "^42.39.2"
+    "renovate": "^42.40.1"
   }
 }
