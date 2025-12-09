@@ -19,6 +19,6 @@
     "test": "npm run validate"
   },
   "devDependencies": {
-    "renovate": "^42.39.6"
+    "renovate": "^42.40.1"
   }
 }
