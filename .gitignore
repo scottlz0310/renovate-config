@@ -40,7 +40,6 @@ $RECYCLE.BIN/
 
 # IDE files
 .vscode/*
-!.vscode/settings.json
 !.vscode/extensions.json
 .idea/
 *.sublime-project
