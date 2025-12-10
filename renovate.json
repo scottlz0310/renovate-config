@@ -2,7 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Renovate configuration for this repository itself",
   "extends": [
-    "github>scottlz0310/renovate-config:default"
+    "github>scottlz0310/renovate-config:default",
+    "github>scottlz0310/renovate-config:automerge",
+    "github>scottlz0310/renovate-config:nodejs"
   ],
   "packageRules": [
     {
