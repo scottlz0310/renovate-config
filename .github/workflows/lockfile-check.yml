@@ -1,0 +1,30 @@
+name: Lockfile Consistency Check
+
+on:
+    pull_request:
+        branches:
+            - main
+            - master
+
+jobs:
+    lockfile-consistency:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - name: Check for package.json changes without package-lock.json update
+              run: |
+                  set -e
+                  BASE=${{ github.base_ref }}
+                  echo "Comparing changes against origin/$BASE"
+                  CHANGED=$(git diff --name-only origin/$BASE..HEAD)
+                  echo "$CHANGED"
+                  if echo "$CHANGED" | grep -q "^package.json$"; then
+                    if ! echo "$CHANGED" | grep -q "^package-lock.json$"; then
+                      echo "Error: package.json changed but package-lock.json not updated. Please run 'npm install' and commit the updated package-lock.json."
+                      exit 1
+                    fi
+                  fi
