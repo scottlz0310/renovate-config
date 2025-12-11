@@ -13,7 +13,7 @@
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "tsc:check": "tsc --noEmit",
-    "test": "vitest --run --root ./ --dir ./test --pool threads --minWorkers 1 --maxWorkers 1",
+    "test": "vitest --run --root ./ --dir ./test --pool threads --minWorkers 1 --maxWorkers 1 --no-isolate",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

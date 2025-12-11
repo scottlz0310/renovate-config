@@ -32,3 +32,6 @@ jobs:
 
             - name: Run Preset Validations
               run: npm test
+
+            - name: Run CLI unit tests (Vitest)
+              run: NODE_OPTIONS=--max-old-space-size=4096 npm run test:cli
