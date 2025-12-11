@@ -23,11 +23,12 @@
     "validate": "npm run validate:presets",
     "validate:presets": "node scripts/validate-presets.js",
     "test": "npm run validate",
+    "test:cli": "npm run -w @scottlz0310/renovate-config-init test",
     "lint": "biome check . --ci",
     "format": "biome format .",
     "tsc:check": "npm run -w packages/cli tsc:check",
     "knip": "knip --isolate-workspaces",
-    "check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test",
+    "check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
     "prepare": "npx lefthook install"
   },
   "devDependencies": {

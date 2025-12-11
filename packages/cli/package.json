@@ -13,6 +13,7 @@
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "tsc:check": "tsc --noEmit",
+    "test": "vitest --run --root ./ --dir ./test --pool threads --minWorkers 1 --maxWorkers 1",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -35,7 +36,8 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^1.0.0"
   },
   "engines": {
     "node": ">=18"
