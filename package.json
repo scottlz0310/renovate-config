@@ -1,7 +1,12 @@
 {
   "name": "@scottlz0310/renovate-config",
   "version": "1.0.0",
+  "type": "module",
   "description": "Centralized Renovate configuration for multi-language projects",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/scottlz0310/renovate-config.git"
@@ -15,7 +20,8 @@
   "author": "scottlz0310",
   "license": "MIT",
   "scripts": {
-    "validate": "npx renovate-config-validator default.json && for file in cpp.json csharp.json docker.json go.json nodejs.json python.json rust.json typescript.json automerge.json monorepo.json production.json schedule.json security.json precommit.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
+    "validate": "npm run validate:presets",
+    "validate:presets": "node scripts/validate-presets.js",
     "test": "npm run validate"
   },
   "devDependencies": {

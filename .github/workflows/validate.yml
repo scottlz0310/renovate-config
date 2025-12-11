@@ -14,35 +14,48 @@ jobs:
   validate:
     name: Validate Configuration Files
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
-          node-version: '24.11.1'
+          node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate default configuration
-        run: npx renovate-config-validator default.json
+      - name: Validate presets
+        run: npm run validate:presets
 
-      - name: Validate language presets
-        run: |
-          for file in cpp.json csharp.json docker.json go.json nodejs.json python.json rust.json typescript.json; do
-            echo "Validating $file..."
-            npx renovate-config-validator "$file"
-          done
+  build-cli:
+    name: Build CLI
+    runs-on: ubuntu-latest
 
-      - name: Validate project presets
-        run: |
-          for file in automerge.json monorepo.json production.json schedule.json security.json precommit.json; do
-            echo "Validating $file..."
-            npx renovate-config-validator "$file"
-          done
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CLI
+        run: npm run build --workspace=@scottlz0310/renovate-config-init
+
+      - name: Test CLI help
+        run: node packages/cli/dist/index.js --help
