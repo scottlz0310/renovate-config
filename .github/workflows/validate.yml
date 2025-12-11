@@ -42,7 +42,7 @@ jobs:
 
       - name: Validate project presets
         run: |
-          for file in automerge.json monorepo.json production.json schedule.json security.json; do
+          for file in automerge.json monorepo.json production.json schedule.json security.json precommit.json; do
             echo "Validating $file..."
             npx renovate-config-validator "$file"
           done
