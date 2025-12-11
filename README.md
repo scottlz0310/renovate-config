@@ -20,6 +20,7 @@ Renovateの設定を一元管理するためのリポジトリ
 - **C++** - Conan, vcpkg, CMake
 - **Rust** - Cargo
 - **Go** - Go modules
+- **Pre-commit** - Pre-commit hooks
 
 **Note:** このリポジトリはモダンなツールチェーンを採用しています。Pythonはuv、Node.js/TypeScriptはpnpmのみをサポートします。
 
@@ -37,6 +38,7 @@ Renovateの設定を一元管理するためのリポジトリ
 | `cpp` | C++ プロジェクト向け設定 | `presets/languages/cpp.json` |
 | `rust` | Rust プロジェクト向け設定 | `presets/languages/rust.json` |
 | `go` | Go プロジェクト向け設定 | `presets/languages/go.json` |
+| `precommit` | Pre-commit hooks 向け設定 | `precommit.json` |
 
 ### プロジェクト別調整プリセット
 
@@ -91,11 +93,23 @@ Renovateの設定を一元管理するためのリポジトリ
 }
 ```
 
+#### 例4: Pre-commit を使用するプロジェクト
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config",
+    "github>scottlz0310/renovate-config:precommit"
+  ]
+}
+```
+
 ### 複数のプリセットを組み合わせる
 
 言語別プリセットとプロジェクト別プリセットを組み合わせることができます。
 
-#### 例4: Python + Docker + セキュリティ重視
+#### 例5: Python + Docker + セキュリティ重視
 
 ```json
 {
@@ -109,7 +123,7 @@ Renovateの設定を一元管理するためのリポジトリ
 }
 ```
 
-#### 例5: Node.js + 自動マージ + スケジュール設定
+#### 例6: Node.js + 自動マージ + スケジュール設定
 
 ```json
 {
@@ -124,7 +138,7 @@ Renovateの設定を一元管理するためのリポジトリ
 }
 ```
 
-#### 例6: Go + Docker + 本番環境向け設定
+#### 例7: Go + Docker + 本番環境向け設定
 
 ```json
 {
@@ -134,6 +148,19 @@ Renovateの設定を一元管理するためのリポジトリ
     "github>scottlz0310/renovate-config:go",
     "github>scottlz0310/renovate-config:docker",
     "github>scottlz0310/renovate-config:production"
+  ]
+}
+```
+
+#### 例8: Python + Pre-commit
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config",
+    "github>scottlz0310/renovate-config:python",
+    "github>scottlz0310/renovate-config:precommit"
   ]
 }
 ```
