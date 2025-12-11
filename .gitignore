@@ -176,3 +176,6 @@ var/
 venv.bak/
 venv/
 wheels/
+
+# Auto-generated entries from templates
+.pyrightcache/
