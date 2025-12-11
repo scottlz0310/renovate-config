@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
+    "tsc:check": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

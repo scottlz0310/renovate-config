@@ -2,23 +2,23 @@
  * Project type detector
  */
 import fg from 'fast-glob';
-import { join, relative, dirname } from 'path';
+import { dirname, join } from 'path';
 
-export interface DetectionRule {
+interface DetectionRule {
   preset: string;
   category: 'languages' | 'tools';
   label: string;
   patterns: string[];
 }
 
-export interface DetectionResult {
+interface DetectionResult {
   preset: string;
   category: 'languages' | 'tools';
   label: string;
   matchedFiles: string[];
 }
 
-export interface PackageLocation {
+interface PackageLocation {
   path: string;
   relativePath: string;
   detectedPresets: DetectionResult[];

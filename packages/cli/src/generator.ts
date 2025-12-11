@@ -1,8 +1,8 @@
 /**
  * Renovate config generator
  */
-import { writeFile } from 'fs/promises';
-import { join, relative } from 'path';
+import { mkdir, writeFile } from 'fs/promises';
+import { dirname, join, relative } from 'path';
 
 const REPO_OWNER = 'scottlz0310';
 const REPO_NAME = 'renovate-config';
@@ -28,30 +28,30 @@ function buildPresetRef(category: string, preset: string): string {
   return `github>${REPO_OWNER}/${REPO_NAME}//${PRESETS_PATH}/${category}/${preset}`;
 }
 
-export function generateRootConfig(options: GenerateOptions): object {
-  const extends_: string[] = [
-    buildPresetRef('default', 'default'),
-  ];
+function generateRootConfig(options: GenerateOptions): object {
+  // Use a Set to avoid duplicate extends while preserving insertion order
+  const extendsSet = new Set<string>();
+  extendsSet.add(buildPresetRef('default', 'default'));
 
   for (const lang of options.languages) {
-    extends_.push(buildPresetRef('languages', lang));
+    extendsSet.add(buildPresetRef('languages', lang));
   }
 
   for (const tool of options.tools) {
-    extends_.push(buildPresetRef('tools', tool));
+    extendsSet.add(buildPresetRef('tools', tool));
   }
 
   for (const opt of options.options) {
-    extends_.push(buildPresetRef('options', opt));
+    extendsSet.add(buildPresetRef('options', opt));
   }
 
   return {
     $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-    extends: extends_,
+    extends: Array.from(extendsSet),
   };
 }
 
-export function generatePackageConfig(rootRelativePath: string): object {
+function generatePackageConfig(rootRelativePath: string): object {
   return {
     $schema: 'https://docs.renovatebot.com/renovate-schema.json',
     extends: [rootRelativePath],
@@ -94,6 +94,9 @@ export function prepareOutputFiles(
 
 export async function writeOutputFiles(files: OutputFile[]): Promise<void> {
   for (const file of files) {
+    // Ensure the target directory exists
+    const dir = dirname(file.path) || '.';
+    await mkdir(dir, { recursive: true });
     await writeFile(file.path, file.content + '\n', 'utf-8');
   }
 }

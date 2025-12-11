@@ -3,22 +3,51 @@
  * Renovate Config Init CLI
  */
 import * as p from '@clack/prompts';
-import { scanProject, getAllDetectedPresets, DETECTION_RULES } from './detector.js';
-import { prepareOutputFiles, writeOutputFiles, GenerateOptions } from './generator.js';
+import { extname, isAbsolute, join } from 'path';
+import { DETECTION_RULES, getAllDetectedPresets, OPTION_PRESETS, scanProject } from './detector.js';
+import { GenerateOptions, prepareOutputFiles, writeOutputFiles } from './generator.js';
 import {
-  displayScanResult,
-  selectPresets,
   confirmOutputLocations,
   displayResults,
+  displayScanResult,
+  selectPresets,
 } from './prompts.js';
 
-function parseArgs(): { yes: boolean; dryRun: boolean; help: boolean } {
+interface ParsedArgs {
+  yes: boolean;
+  dryRun: boolean;
+  help: boolean;
+  presets?: string;
+  output?: string;
+}
+
+function parseArgs(): ParsedArgs {
   const args = process.argv.slice(2);
-  return {
+  const result: ParsedArgs = {
     yes: args.includes('--yes') || args.includes('-y'),
     dryRun: args.includes('--dry-run'),
     help: args.includes('--help') || args.includes('-h'),
   };
+
+  // Support --presets=comma,separated or --presets <value>
+  const presetsArg = args.find((a) => a.startsWith('--presets='));
+  if (presetsArg) {
+    result.presets = presetsArg.split('=')[1] || '';
+  } else {
+    const idx = args.indexOf('--presets');
+    if (idx !== -1 && args.length > idx + 1) result.presets = args[idx + 1];
+  }
+
+  // Support --output=path or --output <path>
+  const outputArg = args.find((a) => a.startsWith('--output='));
+  if (outputArg) {
+    result.output = outputArg.split('=')[1] || '';
+  } else {
+    const idx2 = args.indexOf('--output');
+    if (idx2 !== -1 && args.length > idx2 + 1) result.output = args[idx2 + 1];
+  }
+
+  return result;
 }
 
 function showHelp(): void {
@@ -31,6 +60,9 @@ Usage:
 Options:
   -y, --yes      Accept detected presets without prompting
   --dry-run      Show what would be created without writing files
+  --presets      Comma-separated list of presets to apply (e.g. nodejs,typescript)
+                 (invalid presets cause an error in non-interactive mode)
+  --output       Output path for root renovate.json (file or directory)
   -h, --help     Show this help message
 `);
 }
@@ -59,7 +91,54 @@ async function main(): Promise<void> {
 
   let selected: GenerateOptions;
 
-  if (args.yes) {
+  // If presets passed via CLI, parse and apply
+  if (args.presets) {
+    const list = (args.presets as string).split(',').map((s) => s.trim()).filter(Boolean);
+    const langs: string[] = [];
+    const tools: string[] = [];
+    const opts: string[] = [];
+    const unknown: string[] = [];
+
+    for (const pstr of list) {
+      // Accept both forms: 'nodejs' or 'languages/nodejs'
+      const parts = pstr.split('/');
+      let presetName = parts.length > 1 ? parts[1] : parts[0];
+      let categoryHint = parts.length > 1 ? parts[0] : undefined;
+
+      if (categoryHint === 'languages' || DETECTION_RULES.some((r) => r.preset === presetName && r.category === 'languages')) {
+        langs.push(presetName);
+        continue;
+      }
+
+      if (categoryHint === 'tools' || DETECTION_RULES.some((r) => r.preset === presetName && r.category === 'tools')) {
+        tools.push(presetName);
+        continue;
+      }
+
+      if (OPTION_PRESETS.some((o) => o.preset === presetName)) {
+        opts.push(presetName);
+        continue;
+      }
+
+      unknown.push(pstr);
+    }
+
+    if (unknown.length > 0) {
+      // In non-interactive mode, treat unknown presets as an error to be strict
+      p.log.warn(`Unknown presets ignored: ${unknown.join(', ')}`);
+      if (args.presets) {
+        p.log.error(`Unknown presets specified: ${unknown.join(', ')}`);
+        process.exit(1);
+      }
+    }
+
+    selected = {
+      languages: Array.from(new Set(langs)),
+      tools: Array.from(new Set(tools)),
+      options: Array.from(new Set(opts)),
+    };
+
+  } else if (args.yes) {
     // Auto-select detected presets
     const detectedPresets = getAllDetectedPresets(scanResult);
     selected = {
@@ -72,6 +151,7 @@ async function main(): Promise<void> {
       options: [],
     };
     p.log.info(`Auto-selected: ${[...selected.languages, ...selected.tools].join(', ') || 'none'}`);
+
   } else {
     // Interactive selection
     const result = await selectPresets(scanResult);
@@ -86,6 +166,30 @@ async function main(): Promise<void> {
   // Prepare output files
   const packagePaths = scanResult.packages.map((pkg) => pkg.relativePath);
   const files = prepareOutputFiles(cwd, packagePaths, selected);
+
+  // If user specified an output path, override root file location
+  if (args.output) {
+    const outputRaw = args.output as string;
+    // Determine if this is a filename or directory
+    const isJsonFile = extname(outputRaw) === '.json';
+    const fullPath = isAbsolute(outputRaw) ? outputRaw : join(cwd, outputRaw);
+
+    const rootFile = files.find((f) => f.isRoot);
+    if (rootFile) {
+      if (isJsonFile) {
+        rootFile.path = fullPath;
+        // set relativePath for display
+        const rel = outputRaw.startsWith('.') ? outputRaw : `./${outputRaw}`;
+        rootFile.relativePath = rel;
+      } else {
+        // directory specified
+        const newPath = join(fullPath, 'renovate.json');
+        rootFile.path = newPath;
+        const relDir = outputRaw.startsWith('.') ? outputRaw : `./${outputRaw}`;
+        rootFile.relativePath = `${relDir}/renovate.json`;
+      }
+    }
+  }
 
   if (args.dryRun) {
     p.log.info('Dry run - would create:');
