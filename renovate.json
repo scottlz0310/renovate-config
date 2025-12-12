@@ -1,15 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Renovate configuration for this repository itself",
   "extends": [
     "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/tools/precommit",
+    "github>scottlz0310/renovate-config//presets/options/monorepo",
     "github>scottlz0310/renovate-config//presets/options/automerge",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs"
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": ["renovate"],
-      "groupName": "Renovate"
-    }
+    "github>scottlz0310/renovate-config//presets/options/schedule",
+    "github>scottlz0310/renovate-config//presets/options/security"
   ]
 }
