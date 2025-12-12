@@ -81,6 +81,7 @@ export async function selectPresets(
 
 	const selectedLanguages = await p.multiselect({
 		message: "Select Languages:",
+		// biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
 		options: languageOptions as any,
 		initialValues: languageOptions
 			.filter((o) => detectedPresets.has(o.value))
@@ -91,6 +92,7 @@ export async function selectPresets(
 
 	const selectedTools = await p.multiselect({
 		message: "Select Tools:",
+		// biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
 		options: toolOptions as any,
 		initialValues: toolOptions
 			.filter((o) => detectedPresets.has(o.value))
@@ -101,6 +103,7 @@ export async function selectPresets(
 
 	const selectedOptions = await p.multiselect({
 		message: "Select Options:",
+		// biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
 		options: optionOptions as any,
 		initialValues: [],
 		required: false,

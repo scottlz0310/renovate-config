@@ -2,9 +2,18 @@
 /**
  * Validate all Renovate preset files
  */
-import { execSync } from "child_process";
-import { readdirSync, readFileSync, statSync } from "fs";
-import { join } from "path";
+import { execSync } from "node:child_process";
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
+import { join } from "node:path";
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
 
 const PRESETS_DIR = "presets";
 
@@ -27,9 +36,6 @@ function findJsonFiles(dir) {
 }
 
 // validateFile: implemented below using AJV to perform schema validation
-import Ajv from "ajv";
-import addFormats from "ajv-formats";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 // In-memory caches to avoid repeated network fetches and compilations
 const schemaMemoryCache = new Map();
@@ -40,7 +46,7 @@ const schemaFetchErrors = new Set();
 let externalValidatorAvailable = true;
 try {
 	execSync("npx renovate-config-validator --version", { stdio: "ignore" });
-} catch (e) {
+} catch (_e) {
 	externalValidatorAvailable = false;
 }
 
@@ -54,7 +60,7 @@ async function validateFile(filePath) {
 				stdio: "inherit",
 			});
 			return true;
-		} catch (err) {
+		} catch (_err) {
 			// external validator exists but failed here; fallback to AJV for this file
 			if (!externalValidatorWarned) {
 				console.warn(
@@ -74,13 +80,13 @@ async function validateFile(filePath) {
 	try {
 		const content = JSON.parse(readFileSync(filePath, "utf-8"));
 		const schemaUrl =
-			content["$schema"] || "https://docs.renovatebot.com/renovate-schema.json";
+			content.$schema || "https://docs.renovatebot.com/renovate-schema.json";
 		// Attempt to reuse memory cache first
 		let schema = schemaMemoryCache.get(schemaUrl);
 		if (schema === undefined) {
 			// Try network fetch with disk cache fallback
 			const cacheDir = join(process.cwd(), ".schema-cache");
-			const cacheFile = join(cacheDir, encodeURIComponent(schemaUrl) + ".json");
+			const cacheFile = join(cacheDir, `${encodeURIComponent(schemaUrl)}.json`);
 			try {
 				const res = await fetch(schemaUrl);
 				if (!res.ok)
@@ -143,7 +149,7 @@ async function validateFile(filePath) {
 			);
 			// basic validation: ensure content is an object and has $schema
 			if (!content || typeof content !== "object") return false;
-			if (!content["$schema"]) return false;
+			if (!content.$schema) return false;
 			return true;
 		}
 		const valid = validate(content);

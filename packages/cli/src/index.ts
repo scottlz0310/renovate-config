@@ -1,9 +1,9 @@
 #!/usr/bin/env node
+import { extname, isAbsolute, join } from "node:path";
 /**
  * Renovate Config Init CLI
  */
 import * as p from "@clack/prompts";
-import { extname, isAbsolute, join } from "path";
 import {
 	DETECTION_RULES,
 	getAllDetectedPresets,

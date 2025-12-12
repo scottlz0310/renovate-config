@@ -9,14 +9,18 @@ describe("generator.generateConfig", () => {
 			options: ["automerge"],
 		});
 		const root = files.find((f) => f.isRoot);
-		const config = JSON.parse(root!.content);
+		if (!root) throw new Error("Root file not found");
+		const config = JSON.parse(root.content);
 
+		// biome-ignore lint/suspicious/noExplicitAny: test config object
 		expect((config as any).extends).toContain(
 			"github>scottlz0310/renovate-config//presets/default",
 		);
+		// biome-ignore lint/suspicious/noExplicitAny: test config object
 		expect((config as any).extends).toContain(
 			"github>scottlz0310/renovate-config//presets/languages/nodejs",
 		);
+		// biome-ignore lint/suspicious/noExplicitAny: test config object
 		expect((config as any).extends).toContain(
 			"github>scottlz0310/renovate-config//presets/options/automerge",
 		);

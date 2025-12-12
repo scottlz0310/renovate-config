@@ -5,7 +5,7 @@ vi.mock("@clack/prompts", () => ({
 	multiselect: vi.fn(),
 	select: vi.fn(),
 	confirm: vi.fn(),
-	isCancel: (_v: any) => false,
+	isCancel: (_v: unknown) => false,
 	log: { info: vi.fn(), success: vi.fn(), warn: vi.fn() },
 }));
 
@@ -15,11 +15,15 @@ import { selectPresets } from "../src/prompts";
 
 describe("prompts.selectPresets", () => {
 	it("selects languages, then tools, then options", async () => {
+		// biome-ignore lint/suspicious/noExplicitAny: mocking
 		const multiselect = p.multiselect as unknown as any;
 
+		// biome-ignore lint/suspicious/noExplicitAny: mocking
 		let languageOptions: any[] | undefined;
 
+		// biome-ignore lint/suspicious/noExplicitAny: mocking
 		(multiselect as any)
+			// biome-ignore lint/suspicious/noExplicitAny: mocking
 			.mockImplementationOnce(async (args: any) => {
 				languageOptions = args.options;
 				return ["nodejs"];
@@ -59,7 +63,8 @@ describe("prompts.selectPresets", () => {
 		});
 
 		expect(Array.isArray(languageOptions)).toBe(true);
-		const nodeOption = languageOptions!.find((o: any) => o.value === "nodejs");
+		// biome-ignore lint/suspicious/noExplicitAny: mocking
+		const nodeOption = languageOptions?.find((o: any) => o.value === "nodejs");
 		expect(nodeOption).toBeTruthy();
 		expect(nodeOption.hint).toBe("recommended");
 	});

@@ -1,7 +1,7 @@
 {
-	"title": "JSON schema for Renovate 42.44.0 config files (https://renovatebot.com/)",
+	"title": "JSON schema for Renovate 42.50.0 config files (https://renovatebot.com/)",
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"x-renovate-version": "42.44.0",
+	"x-renovate-version": "42.50.0",
 	"allowComments": true,
 	"type": "object",
 	"properties": {
@@ -72,7 +72,8 @@
 			"description": "Deprecated: This configuration option is only intended to be used with 'global' configuration when self-hosting, not used in a repository configuration file. Renovate likely won't use the configuration, and these fields will be removed from the repository configuration documentation in Renovate v43 (https://github.com/renovatebot/renovate/issues/38728)\n\nList of possibly unsafe executions which are permitted to run. This enables global control over any implicit commands\n        which are run as part of a renovate run. This is similar to `allowedCommands` but is specifically used to control executions\n        which run automatically, and are not explicitly added in `postUpgradeTasks`",
 			"type": "array",
 			"items": {
-				"type": "string"
+				"type": "string",
+				"enum": ["goGenerate"]
 			},
 			"default": []
 		},
@@ -6490,6 +6491,7 @@
 				"enum": [
 					"bundlerConservative",
 					"composerWithAll",
+					"composerNoMinimalChanges",
 					"dotnetWorkloadRestore",
 					"gomodMassage",
 					"gomodTidy",

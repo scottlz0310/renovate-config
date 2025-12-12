@@ -1,7 +1,7 @@
 /**
  * Project type detector
  */
-import { dirname, join } from "path";
+import { dirname, join } from "node:path";
 
 interface DetectionRule {
 	preset: string;
@@ -31,6 +31,7 @@ export interface ScanResult {
 
 type FastGlobFn = (
 	patterns: string | readonly string[],
+	// biome-ignore lint/suspicious/noExplicitAny: fast-glob options
 	options?: any,
 ) => Promise<string[]>;
 let fastGlobFn: FastGlobFn | undefined;
@@ -38,6 +39,7 @@ let fastGlobFn: FastGlobFn | undefined;
 async function getFastGlob(): Promise<FastGlobFn> {
 	if (!fastGlobFn) {
 		const mod = await import("fast-glob");
+		// biome-ignore lint/suspicious/noExplicitAny: fast-glob import hack
 		fastGlobFn = (mod as any).default as FastGlobFn;
 	}
 	return fastGlobFn;

@@ -1,8 +1,8 @@
 /**
  * Renovate config generator
  */
-import { mkdir, writeFile } from "fs/promises";
-import { dirname, join, relative } from "path";
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, join, relative } from "node:path";
 
 const REPO_OWNER = "scottlz0310";
 const REPO_NAME = "renovate-config";
@@ -97,6 +97,6 @@ export async function writeOutputFiles(files: OutputFile[]): Promise<void> {
 		// Ensure the target directory exists
 		const dir = dirname(file.path) || ".";
 		await mkdir(dir, { recursive: true });
-		await writeFile(file.path, file.content + "\n", "utf-8");
+		await writeFile(file.path, `${file.content}\n`, "utf-8");
 	}
 }
