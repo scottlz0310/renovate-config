@@ -9,6 +9,9 @@ Renovateの設定を一元管理するためのリポジトリ
 ### CLI ツールで自動設定（推奨）
 
 ```bash
+# npx で実行（推奨: グローバルに入れない）
+npx -y @scottlz0310/renovate-config-init
+
 # グローバルインストール
 npm install -g @scottlz0310/renovate-config-init
 
@@ -28,10 +31,16 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   ├── tsconfig.json        → TypeScript
   └── Dockerfile           → Docker
 
-◆ Select presets: (↑↓ navigate, space toggle, enter apply)
-  ☑ nodejs      (detected)
-  ☑ typescript  (detected)
-  ☑ docker      (detected)
+◆ Select Languages:
+  ☑ Node.js      (detected)
+  ☑ TypeScript   (detected)
+  ☑ Docker       (detected)
+
+◆ Select Tools:
+  ☑ Pre-commit   (detected)
+
+◆ Select Options:
+  ☑ Auto-merge
 
 ✓ Created ./renovate.json
 ```
@@ -122,6 +131,12 @@ renovate-config-init --yes
 
 # ドライラン（ファイルを作成せずプレビュー）
 renovate-config-init --dry-run
+
+# プリセットを指定（例: nodejs,typescript,automerge）
+renovate-config-init --presets nodejs,typescript,automerge
+
+# 出力先を指定（ファイル or ディレクトリ）
+renovate-config-init --output ./config/renovate.json
 
 # ヘルプ
 renovate-config-init --help
