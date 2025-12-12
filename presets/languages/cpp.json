@@ -1,26 +1,31 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "C++ project configuration for Renovate",
-  "packageRules": [
-    {
-      "matchDatasources": ["conan"],
-      "groupName": "C++ Conan dependencies",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-cpp-conan"
-    },
-    {
-      "matchDatasources": ["conan"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "C++ Conan major updates"
-    },
-    {
-      "matchDatasources": ["conan"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "C++ Conan minor and patch updates"
-    },
-    {
-      "matchFileNames": ["conanfile.txt", "conanfile.py", "vcpkg.json", "CMakeLists.txt"],
-      "groupName": "C++ configuration files"
-    }
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "C++ project configuration for Renovate",
+	"packageRules": [
+		{
+			"matchDatasources": ["conan"],
+			"groupName": "C++ Conan dependencies",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-cpp-conan"
+		},
+		{
+			"matchDatasources": ["conan"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "C++ Conan major updates"
+		},
+		{
+			"matchDatasources": ["conan"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "C++ Conan minor and patch updates"
+		},
+		{
+			"matchFileNames": [
+				"conanfile.txt",
+				"conanfile.py",
+				"vcpkg.json",
+				"CMakeLists.txt"
+			],
+			"groupName": "C++ configuration files"
+		}
+	]
 }

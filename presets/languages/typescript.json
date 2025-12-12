@@ -1,45 +1,31 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "TypeScript project configuration for Renovate",
-  "packageRules": [
-    {
-      "matchDatasources": [
-        "npm"
-      ],
-      "matchPackageNames": [
-        "typescript"
-      ],
-      "groupName": "TypeScript",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-typescript"
-    },
-    {
-      "matchPackageNames": [
-        "@typescript-eslint/**"
-      ],
-      "groupName": "TypeScript ESLint",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-eslint"
-    },
-    {
-      "matchPackageNames": [
-        "@types/**"
-      ],
-      "groupName": "TypeScript type definitions",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-types"
-    },
-    {
-      "matchPackageNames": [
-        "ts-node",
-        "ts-jest",
-        "tsx",
-        "tsup",
-        "vitest"
-      ],
-      "groupName": "TypeScript tools",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-tools"
-    }
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "TypeScript project configuration for Renovate",
+	"packageRules": [
+		{
+			"matchDatasources": ["npm"],
+			"matchPackageNames": ["typescript"],
+			"groupName": "TypeScript",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-typescript"
+		},
+		{
+			"matchPackageNames": ["@typescript-eslint/**"],
+			"groupName": "TypeScript ESLint",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-eslint"
+		},
+		{
+			"matchPackageNames": ["@types/**"],
+			"groupName": "TypeScript type definitions",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-types"
+		},
+		{
+			"matchPackageNames": ["ts-node", "ts-jest", "tsx", "tsup", "vitest"],
+			"groupName": "TypeScript tools",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-tools"
+		}
+	]
 }

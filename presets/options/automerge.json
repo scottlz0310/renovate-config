@@ -1,41 +1,30 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Auto-merge preset for automated dependency updates",
-  "packageRules": [
-    {
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "matchCurrentVersion": "!/^0\\./",
-      "automerge": true,
-      "automergeStrategy": "squash"
-    },
-    {
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "matchCurrentVersion": "!/^0\\./",
-      "automerge": true,
-      "automergeStrategy": "squash",
-      "minimumReleaseAge": "3 days"
-    },
-    {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true,
-      "automergeStrategy": "squash"
-    },
-    {
-      "matchPackageNames": [
-        "@types/**"
-      ],
-      "automerge": true
-    }
-  ],
-  "platformAutomerge": true
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Auto-merge preset for automated dependency updates",
+	"packageRules": [
+		{
+			"matchUpdateTypes": ["patch"],
+			"matchCurrentVersion": "!/^0\\./",
+			"automerge": true,
+			"automergeStrategy": "squash"
+		},
+		{
+			"matchUpdateTypes": ["minor"],
+			"matchCurrentVersion": "!/^0\\./",
+			"automerge": true,
+			"automergeStrategy": "squash",
+			"minimumReleaseAge": "3 days"
+		},
+		{
+			"matchDepTypes": ["devDependencies"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"automerge": true,
+			"automergeStrategy": "squash"
+		},
+		{
+			"matchPackageNames": ["@types/**"],
+			"automerge": true
+		}
+	],
+	"platformAutomerge": true
 }

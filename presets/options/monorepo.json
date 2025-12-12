@@ -1,34 +1,23 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Monorepo preset for handling monorepo dependencies",
-  "extends": [
-    "group:monorepos",
-    "group:recommended"
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": [
-        "@angular/**"
-      ],
-      "groupName": "Angular monorepo"
-    },
-    {
-      "matchPackageNames": [
-        "@nestjs/**"
-      ],
-      "groupName": "NestJS monorepo"
-    },
-    {
-      "matchPackageNames": [
-        "@vue/**"
-      ],
-      "groupName": "Vue monorepo"
-    },
-    {
-      "matchPackageNames": [
-        "@nuxt/**"
-      ],
-      "groupName": "Nuxt monorepo"
-    }
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Monorepo preset for handling monorepo dependencies",
+	"extends": ["group:monorepos", "group:recommended"],
+	"packageRules": [
+		{
+			"matchPackageNames": ["@angular/**"],
+			"groupName": "Angular monorepo"
+		},
+		{
+			"matchPackageNames": ["@nestjs/**"],
+			"groupName": "NestJS monorepo"
+		},
+		{
+			"matchPackageNames": ["@vue/**"],
+			"groupName": "Vue monorepo"
+		},
+		{
+			"matchPackageNames": ["@nuxt/**"],
+			"groupName": "Nuxt monorepo"
+		}
+	]
 }
