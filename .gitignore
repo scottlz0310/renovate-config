@@ -129,6 +129,7 @@ pids
 public
 temp/
 tmp/
+.schema-cache/
 
 # Auto-generated entries from templates
 *$py.class
