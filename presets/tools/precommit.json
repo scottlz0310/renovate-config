@@ -1,31 +1,31 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Pre-commit configuration for Renovate",
-  "packageRules": [
-    {
-      "matchManagers": ["pre-commit"],
-      "groupName": "pre-commit hooks",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "pre-commit"
-    },
-    {
-      "matchManagers": ["pre-commit"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "pre-commit major updates",
-      "labels": ["pre-commit", "major"]
-    },
-    {
-      "matchManagers": ["pre-commit"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "pre-commit minor and patch updates",
-      "automerge": false
-    },
-    {
-      "matchFileNames": [".pre-commit-config.yaml"],
-      "groupName": "pre-commit configuration"
-    }
-  ],
-  "pre-commit": {
-    "enabled": true
-  }
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Pre-commit configuration for Renovate",
+	"packageRules": [
+		{
+			"matchManagers": ["pre-commit"],
+			"groupName": "pre-commit hooks",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "pre-commit"
+		},
+		{
+			"matchManagers": ["pre-commit"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "pre-commit major updates",
+			"labels": ["pre-commit", "major"]
+		},
+		{
+			"matchManagers": ["pre-commit"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "pre-commit minor and patch updates",
+			"automerge": false
+		},
+		{
+			"matchFileNames": [".pre-commit-config.yaml"],
+			"groupName": "pre-commit configuration"
+		}
+	],
+	"pre-commit": {
+		"enabled": true
+	}
 }

@@ -1,41 +1,41 @@
 {
-  "name": "@scottlz0310/renovate-config",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Centralized Renovate configuration for multi-language projects",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/scottlz0310/renovate-config.git"
-  },
-  "keywords": [
-    "renovate",
-    "renovate-config",
-    "shareable-config",
-    "dependencies"
-  ],
-  "author": "scottlz0310",
-  "license": "MIT",
-  "scripts": {
-    "validate": "npm run validate:presets",
-    "validate:presets": "node scripts/validate-presets.js",
-    "test": "npm run validate",
-    "test:cli": "npm run -w @scottlz0310/renovate-config-init test",
-    "lint": "biome check . --ci",
-    "format": "biome format .",
-    "tsc:check": "npm run -w packages/cli tsc:check",
-    "knip": "knip --isolate-workspaces",
-    "check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
-    "prepare": "npx lefthook install"
-  },
-  "devDependencies": {
-    "ajv": "^8.17.1",
-    "ajv-formats": "^2.1.1",
-    "biome": "^0.3.3",
-    "knip": "^5.73.3",
-    "lefthook": "^2.0.11"
-  }
+	"name": "@scottlz0310/renovate-config",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Centralized Renovate configuration for multi-language projects",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/scottlz0310/renovate-config.git"
+	},
+	"keywords": [
+		"renovate",
+		"renovate-config",
+		"shareable-config",
+		"dependencies"
+	],
+	"author": "scottlz0310",
+	"license": "MIT",
+	"scripts": {
+		"validate": "npm run validate:presets",
+		"validate:presets": "node scripts/validate-presets.js",
+		"test": "npm run validate",
+		"test:cli": "npm run -w @scottlz0310/renovate-config-init test",
+		"lint": "biome ci .",
+		"format": "biome format --write .",
+		"tsc:check": "npm run -w packages/cli tsc:check",
+		"knip": "knip --isolate-workspaces",
+		"check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
+		"prepare": "npx lefthook install"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.8",
+		"ajv": "^8.17.1",
+		"ajv-formats": "^2.1.1",
+		"knip": "^5.73.3",
+		"lefthook": "^2.0.11"
+	}
 }

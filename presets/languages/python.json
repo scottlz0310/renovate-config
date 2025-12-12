@@ -1,35 +1,35 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Python project configuration for Renovate (uv only)",
-  "packageRules": [
-    {
-      "matchDatasources": ["pypi"],
-      "groupName": "Python dependencies",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-python"
-    },
-    {
-      "matchDatasources": ["pypi"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "Python major updates"
-    },
-    {
-      "matchDatasources": ["pypi"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "Python minor and patch updates"
-    },
-    {
-      "matchManagers": ["pep621"],
-      "groupName": "Python uv dependencies"
-    },
-    {
-      "matchFileNames": ["pyproject.toml", "uv.lock"],
-      "groupName": "Python uv project files"
-    },
-    {
-      "matchManagers": ["poetry", "pipenv"],
-      "enabled": false,
-      "description": "Disable poetry and pipenv - use uv only"
-    }
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Python project configuration for Renovate (uv only)",
+	"packageRules": [
+		{
+			"matchDatasources": ["pypi"],
+			"groupName": "Python dependencies",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-python"
+		},
+		{
+			"matchDatasources": ["pypi"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "Python major updates"
+		},
+		{
+			"matchDatasources": ["pypi"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "Python minor and patch updates"
+		},
+		{
+			"matchManagers": ["pep621"],
+			"groupName": "Python uv dependencies"
+		},
+		{
+			"matchFileNames": ["pyproject.toml", "uv.lock"],
+			"groupName": "Python uv project files"
+		},
+		{
+			"matchManagers": ["poetry", "pipenv"],
+			"enabled": false,
+			"description": "Disable poetry and pipenv - use uv only"
+		}
+	]
 }

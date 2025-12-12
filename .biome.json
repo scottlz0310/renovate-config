@@ -1,26 +1,31 @@
 {
-  "projectType": "workspace",
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/dist/**",
-    "**/.git/**"
-  ],
-  "env": {
-    "node": true,
-    "es2022": true
-  },
-  "rules": {
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"],
-    "no-unused-vars": "error",
-    "no-empty": "error",
-    "eqeqeq": "error",
-    "prefer-const": "error",
-    "no-var": "error",
-    "no-console": "warn",
-    "no-explicit-any": "error",
-    "consistent-return": "error",
-    "no-implicit-coercion": "error"
-  }
+	"$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+	"files": {
+		"ignore": [
+			".vscode",
+			"node_modules",
+			"dist",
+			"**/dist/**",
+			"packages/cli/dist/**",
+			"**/.git/**",
+			"logs",
+			".schema-cache",
+			"**/.schema-cache/**"
+		]
+	},
+	"formatter": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"semicolons": "always"
+		}
+	}
 }

@@ -179,3 +179,4 @@ wheels/
 
 # Auto-generated entries from templates
 .pyrightcache/
+packages/cli/dist/

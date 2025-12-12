@@ -1,48 +1,31 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Go project configuration for Renovate",
-  "packageRules": [
-    {
-      "matchDatasources": [
-        "go"
-      ],
-      "groupName": "Go dependencies",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-go"
-    },
-    {
-      "matchDatasources": [
-        "go"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "groupName": "Go major updates"
-    },
-    {
-      "matchDatasources": [
-        "go"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "Go minor and patch updates"
-    },
-    {
-      "matchPackageNames": [
-        "golang"
-      ],
-      "groupName": "Go version"
-    },
-    {
-      "matchPackageNames": [
-        "github.com/**"
-      ],
-      "groupName": "GitHub Go packages"
-    }
-  ],
-  "postUpdateOptions": [
-    "gomodTidy"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Go project configuration for Renovate",
+	"packageRules": [
+		{
+			"matchDatasources": ["go"],
+			"groupName": "Go dependencies",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-go"
+		},
+		{
+			"matchDatasources": ["go"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "Go major updates"
+		},
+		{
+			"matchDatasources": ["go"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "Go minor and patch updates"
+		},
+		{
+			"matchPackageNames": ["golang"],
+			"groupName": "Go version"
+		},
+		{
+			"matchPackageNames": ["github.com/**"],
+			"groupName": "GitHub Go packages"
+		}
+	],
+	"postUpdateOptions": ["gomodTidy"]
 }

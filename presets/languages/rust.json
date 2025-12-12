@@ -1,50 +1,34 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Rust project configuration for Renovate",
-  "packageRules": [
-    {
-      "matchDatasources": [
-        "crate"
-      ],
-      "groupName": "Rust dependencies",
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "deps-rust"
-    },
-    {
-      "matchDatasources": [
-        "crate"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "groupName": "Rust major updates"
-    },
-    {
-      "matchDatasources": [
-        "crate"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "Rust minor and patch updates"
-    },
-    {
-      "matchPackageNames": [
-        "serde**",
-        "tokio**"
-      ],
-      "groupName": "Async and serialization libraries",
-      "description": "Group serde* and tokio* ecosystem packages"
-    },
-    {
-      "matchPackageNames": [
-        "tracing**"
-      ],
-      "groupName": "Tracing ecosystem"
-    }
-  ],
-  "lockFileMaintenance": {
-    "enabled": true
-  }
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Rust project configuration for Renovate",
+	"packageRules": [
+		{
+			"matchDatasources": ["crate"],
+			"groupName": "Rust dependencies",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-rust"
+		},
+		{
+			"matchDatasources": ["crate"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "Rust major updates"
+		},
+		{
+			"matchDatasources": ["crate"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "Rust minor and patch updates"
+		},
+		{
+			"matchPackageNames": ["serde**", "tokio**"],
+			"groupName": "Async and serialization libraries",
+			"description": "Group serde* and tokio* ecosystem packages"
+		},
+		{
+			"matchPackageNames": ["tracing**"],
+			"groupName": "Tracing ecosystem"
+		}
+	],
+	"lockFileMaintenance": {
+		"enabled": true
+	}
 }

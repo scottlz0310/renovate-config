@@ -1,24 +1,18 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Base Renovate configuration for centralized dependency management",
-  "extends": [
-    "config:recommended"
-  ],
-  "timezone": "Asia/Tokyo",
-  "labels": [
-    "dependencies"
-  ],
-  "semanticCommits": "enabled",
-  "dependencyDashboard": true,
-  "separateMinorPatch": true,
-  "rangeStrategy": "bump",
-  "prConcurrentLimit": 10,
-  "prHourlyLimit": 0,
-  "rebaseWhen": "behind-base-branch",
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": [
-      "security"
-    ]
-  }
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Base Renovate configuration for centralized dependency management",
+	"extends": ["config:recommended"],
+	"timezone": "Asia/Tokyo",
+	"labels": ["dependencies"],
+	"semanticCommits": "enabled",
+	"dependencyDashboard": true,
+	"separateMinorPatch": true,
+	"rangeStrategy": "bump",
+	"prConcurrentLimit": 10,
+	"prHourlyLimit": 0,
+	"rebaseWhen": "behind-base-branch",
+	"vulnerabilityAlerts": {
+		"enabled": true,
+		"labels": ["security"]
+	}
 }
