@@ -32,10 +32,10 @@
     "prepare": "npx lefthook install"
   },
   "devDependencies": {
-    "ajv": "^8.12.0",
+    "ajv": "^8.17.1",
     "ajv-formats": "^2.1.1",
     "biome": "^0.3.3",
     "knip": "^5.73.3",
-    "lefthook": "^2.0.9"
+    "lefthook": "^2.0.11"
   }
 }
