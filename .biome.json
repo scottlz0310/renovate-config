@@ -9,7 +9,8 @@
 			"packages/cli/dist/**",
 			"**/.git/**",
 			"logs",
-			".schema-cache"
+			".schema-cache",
+			"**/.schema-cache/**"
 		]
 	},
 	"formatter": {
