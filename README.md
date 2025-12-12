@@ -4,205 +4,132 @@ Renovateの設定を一元管理するためのリポジトリ
 
 各言語・環境（Python, Node.js, TypeScript, Docker, C#, C++, Rust, Go）に対応した設定と、プロジェクト毎の部分的な調整設定（プリセット）を提供します。
 
-## 概要
+## クイックスタート
 
-このリポジトリは、Renovate Bot の設定を一元管理し、複数のプロジェクトで再利用可能な設定プリセットを提供します。
+### CLI ツールで自動設定（推奨）
+
+```bash
+# グローバルインストール
+npm install -g @scottlz0310/renovate-config-init
+
+# プロジェクトディレクトリで実行
+cd your-project
+renovate-config-init
+```
+
+CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を生成します。
+
+```
+◆ Renovate Config Initializer
+
+● Detected structure:
+  ./                        (project root)
+  ├── package.json         → Node.js
+  ├── tsconfig.json        → TypeScript
+  └── Dockerfile           → Docker
+
+◆ Select presets: (↑↓ navigate, space toggle, enter apply)
+  ☑ nodejs      (detected)
+  ☑ typescript  (detected)
+  ☑ docker      (detected)
+
+✓ Created ./renovate.json
+```
+
+### 手動設定
+
+プロジェクトのルートディレクトリに `renovate.json` を作成：
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/typescript"
+  ]
+}
+```
 
 ## 対応言語・環境
 
-以下の言語・環境に対応したプリセットを提供しています：
+| 言語/環境 | プリセット | 説明 |
+|----------|-----------|------|
+| Node.js | `languages/nodejs` | npm/pnpm パッケージ |
+| TypeScript | `languages/typescript` | TypeScript 関連 |
+| Python | `languages/python` | uv/pyproject.toml |
+| Docker | `languages/docker` | Dockerfile, docker-compose |
+| Go | `languages/go` | Go modules |
+| Rust | `languages/rust` | Cargo |
+| C# | `languages/csharp` | NuGet, .NET |
+| C++ | `languages/cpp` | Conan, vcpkg, CMake |
 
-- **Python** - uv (modern Python package manager)
-- **Node.js** - pnpm (modern Node.js package manager)
-- **TypeScript** - TypeScript関連の依存関係 (pnpm compatible)
-- **Docker** - Dockerfile, docker-compose
-- **C#** - NuGet, .NET
-- **C++** - Conan, vcpkg, CMake
-- **Rust** - Cargo
-- **Go** - Go modules
-- **Pre-commit** - Pre-commit hooks
+## ツール
 
-**Note:** このリポジトリはモダンなツールチェーンを採用しています。Pythonはuv、Node.js/TypeScriptはpnpmのみをサポートします。
+| ツール | プリセット | 説明 |
+|-------|-----------|------|
+| Pre-commit | `tools/precommit` | Pre-commit hooks |
 
-## プリセット一覧
+## オプション
 
-### 言語別プリセット
+| オプション | プリセット | 説明 |
+|-----------|-----------|------|
+| Automerge | `options/automerge` | minor/patch の自動マージ |
+| Schedule | `options/schedule` | スケジュール更新 (月曜 3am JST) |
+| Security | `options/security` | セキュリティ更新を優先 |
+| Production | `options/production` | 本番環境向け保守的設定 |
+| Monorepo | `options/monorepo` | モノレポ対応設定 |
 
-| プリセット名 | 説明 | 設定ファイル |
-|------------|------|------------|
-| `python` | Python プロジェクト向け設定 | `presets/languages/python.json` |
-| `nodejs` | Node.js プロジェクト向け設定 | `presets/languages/nodejs.json` |
-| `typescript` | TypeScript プロジェクト向け設定 | `presets/languages/typescript.json` |
-| `docker` | Docker プロジェクト向け設定 | `presets/languages/docker.json` |
-| `csharp` | C# (.NET) プロジェクト向け設定 | `presets/languages/csharp.json` |
-| `cpp` | C++ プロジェクト向け設定 | `presets/languages/cpp.json` |
-| `rust` | Rust プロジェクト向け設定 | `presets/languages/rust.json` |
-| `go` | Go プロジェクト向け設定 | `presets/languages/go.json` |
-| `precommit` | Pre-commit hooks 向け設定 | `precommit.json` |
+## 使用例
 
-### プロジェクト別調整プリセット
-
-| プリセット名 | 説明 | 設定ファイル |
-|------------|------|------------|
-| `security` | セキュリティアップデートを優先 | `presets/projects/security.json` |
-| `automerge` | 自動マージを有効化 | `presets/projects/automerge.json` |
-| `schedule` | スケジュールベースの更新 | `presets/projects/schedule.json` |
-| `monorepo` | モノレポ対応設定 | `presets/projects/monorepo.json` |
-| `production` | 本番環境向け安全な設定 | `presets/projects/production.json` |
-
-## 使い方
-
-### 基本的な使い方
-
-プロジェクトのルートディレクトリに `renovate.json` を作成し、使用したいプリセットを指定します。
-
-#### 例1: Python プロジェクト
+### Python + Docker + セキュリティ重視
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:python"
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/python",
+    "github>scottlz0310/renovate-config//presets/languages/docker",
+    "github>scottlz0310/renovate-config//presets/options/security"
   ]
 }
 ```
 
-#### 例2: Node.js + TypeScript プロジェクト
+### Node.js + 自動マージ + スケジュール
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:nodejs",
-    "github>scottlz0310/renovate-config:typescript"
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/options/automerge",
+    "github>scottlz0310/renovate-config//presets/options/schedule"
   ]
 }
 ```
 
-#### 例3: Docker プロジェクト
+## CLI オプション
 
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:docker"
-  ]
-}
+```bash
+# インタラクティブモード（デフォルト）
+renovate-config-init
+
+# 検出されたプリセットを自動適用
+renovate-config-init --yes
+
+# ドライラン（ファイルを作成せずプレビュー）
+renovate-config-init --dry-run
+
+# ヘルプ
+renovate-config-init --help
 ```
-
-#### 例4: Pre-commit を使用するプロジェクト
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:precommit"
-  ]
-}
-```
-
-### 複数のプリセットを組み合わせる
-
-言語別プリセットとプロジェクト別プリセットを組み合わせることができます。
-
-#### 例5: Python + Docker + セキュリティ重視
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:python",
-    "github>scottlz0310/renovate-config:docker",
-    "github>scottlz0310/renovate-config:security"
-  ]
-}
-```
-
-#### 例6: Node.js + 自動マージ + スケジュール設定
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:nodejs",
-    "github>scottlz0310/renovate-config:typescript",
-    "github>scottlz0310/renovate-config:automerge",
-    "github>scottlz0310/renovate-config:schedule"
-  ]
-}
-```
-
-#### 例7: Go + Docker + 本番環境向け設定
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:go",
-    "github>scottlz0310/renovate-config:docker",
-    "github>scottlz0310/renovate-config:production"
-  ]
-}
-```
-
-#### 例8: Python + Pre-commit
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:python",
-    "github>scottlz0310/renovate-config:precommit"
-  ]
-}
-```
-
-### カスタマイズ
-
-プリセットを拡張して、プロジェクト固有の設定を追加することもできます。
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config",
-    "github>scottlz0310/renovate-config:nodejs"
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": ["express"],
-      "enabled": false
-    }
-  ]
-}
-```
-
-## サンプル設定
-
-`examples/` ディレクトリに、様々な言語・環境に対応したサンプル設定ファイルを用意しています。
-
-- `renovate-python.json` - Python プロジェクト
-- `renovate-nodejs-typescript.json` - Node.js + TypeScript プロジェクト
-- `renovate-docker.json` - Docker プロジェクト
-- `renovate-go.json` - Go プロジェクト
-- `renovate-rust.json` - Rust プロジェクト
-- `renovate-csharp.json` - C# プロジェクト
-- `renovate-cpp.json` - C++ プロジェクト
-- `renovate-python-docker-security.json` - 複合例
-- `renovate-nodejs-automerge-schedule.json` - 複合例
-- `renovate-production-go-docker.json` - 本番環境向け例
 
 ## デフォルト設定
 
-基本設定（`default.json`）には以下の設定が含まれています：
+`presets/default.json` には以下が含まれます：
 
 - セマンティックコミットの有効化
 - 依存関係ダッシュボードの有効化

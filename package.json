@@ -1,7 +1,12 @@
 {
   "name": "@scottlz0310/renovate-config",
   "version": "1.0.0",
+  "type": "module",
   "description": "Centralized Renovate configuration for multi-language projects",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/scottlz0310/renovate-config.git"
@@ -15,10 +20,22 @@
   "author": "scottlz0310",
   "license": "MIT",
   "scripts": {
-    "validate": "npx renovate-config-validator default.json && for file in cpp.json csharp.json docker.json go.json nodejs.json python.json rust.json typescript.json automerge.json monorepo.json production.json schedule.json security.json precommit.json; do echo \"Validating $file...\" && npx renovate-config-validator \"$file\"; done",
-    "test": "npm run validate"
+    "validate": "npm run validate:presets",
+    "validate:presets": "node scripts/validate-presets.js",
+    "test": "npm run validate",
+    "test:cli": "npm run -w @scottlz0310/renovate-config-init test",
+    "lint": "biome check . --ci",
+    "format": "biome format .",
+    "tsc:check": "npm run -w packages/cli tsc:check",
+    "knip": "knip --isolate-workspaces",
+    "check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
+    "prepare": "npx lefthook install"
   },
   "devDependencies": {
-    "renovate": "^42.42.5"
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "biome": "^0.2.2",
+    "knip": "^5.73.3",
+    "lefthook": "^2.0.9"
   }
 }
