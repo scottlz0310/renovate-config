@@ -1,7 +1,6 @@
 /**
  * Project type detector
  */
-import fg from 'fast-glob';
 import { dirname, join } from 'path';
 
 interface DetectionRule {
@@ -28,6 +27,17 @@ export interface ScanResult {
   root: PackageLocation;
   packages: PackageLocation[];
   isMonorepo: boolean;
+}
+
+type FastGlobFn = (patterns: string | readonly string[], options?: any) => Promise<string[]>;
+let fastGlobFn: FastGlobFn | undefined;
+
+async function getFastGlob(): Promise<FastGlobFn> {
+  if (!fastGlobFn) {
+    const mod = await import('fast-glob');
+    fastGlobFn = (mod as any).default as FastGlobFn;
+  }
+  return fastGlobFn;
 }
 
 const DETECTION_RULES: DetectionRule[] = [
@@ -99,6 +109,7 @@ export const OPTION_PRESETS = [
 
 async function detectPresetsInDir(cwd: string): Promise<DetectionResult[]> {
   const results: DetectionResult[] = [];
+  const fg = await getFastGlob();
 
   for (const rule of DETECTION_RULES) {
     const matches = await fg(rule.patterns, {
@@ -121,6 +132,7 @@ async function detectPresetsInDir(cwd: string): Promise<DetectionResult[]> {
 }
 
 async function findMonorepoPackages(cwd: string): Promise<string[]> {
+  const fg = await getFastGlob();
   // Check common monorepo patterns
   const patterns = [
     'packages/*/package.json',
