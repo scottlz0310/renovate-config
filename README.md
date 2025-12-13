@@ -147,6 +147,24 @@ renovate-config-init --output ./config/renovate.json
 renovate-config-init --help
 ```
 
+## 開発
+
+### ローカルパスからのインストール（未リリース時のテスト用）
+
+別リポジトリで `renovate-config-init` を試したい場合は、ローカルの CLI をグローバルに入れて動作確認できます。
+
+```bash
+# renovate-config を clone したディレクトリで
+npm install
+
+# CLI をグローバルインストール（絶対パス推奨）
+npm install -g "$(pwd)/packages/cli"
+
+# 別リポジトリで動作確認
+cd /path/to/your-project
+renovate-config-init --help
+```
+
 ## デフォルト設定
 
 `presets/default.json` には以下が含まれます：
