@@ -12,7 +12,12 @@ This repository provides:
 
 ```bash
 # Run via npx (recommended)
+# Note: if you see a 404, the package may be unpublished/private or you may not have access.
 npx -y @scottlz0310/renovate-config-init
+
+# If you're running from this repository (local workspace)
+npm install
+npx renovate-config-init
 
 # Or install globally
 npm install -g @scottlz0310/renovate-config-init

@@ -10,7 +10,12 @@ Renovateの設定を一元管理するためのリポジトリ
 
 ```bash
 # npx で実行（推奨: グローバルに入れない）
+# ※ npm で 404 になる場合: パッケージが未公開/非公開、または権限がありません
 npx -y @scottlz0310/renovate-config-init
+
+# このリポジトリを clone して開発/動作確認する場合（ローカルの workspace 版）
+npm install
+npx renovate-config-init
 
 # グローバルインストール
 npm install -g @scottlz0310/renovate-config-init
