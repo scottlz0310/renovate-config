@@ -108,6 +108,17 @@ const DETECTION_RULES: DetectionRule[] = [
 		label: "Pre-commit",
 		patterns: [".pre-commit-config.yaml"],
 	},
+	{
+		preset: "lefthook",
+		category: "tools",
+		label: "Lefthook",
+		patterns: [
+			".lefthook.yml",
+			".lefthook.yaml",
+			"lefthook.yml",
+			"lefthook.yaml",
+		],
+	},
 ];
 
 export const OPTION_PRESETS = [

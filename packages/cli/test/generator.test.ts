@@ -25,4 +25,20 @@ describe("generator.generateConfig", () => {
 			"github>scottlz0310/renovate-config//presets/options/automerge",
 		);
 	});
+
+	it("includes tool presets in extends", () => {
+		const files = prepareOutputFiles(".", [], {
+			languages: [],
+			tools: ["lefthook"],
+			options: [],
+		});
+		const root = files.find((f) => f.isRoot);
+		if (!root) throw new Error("Root file not found");
+		const config = JSON.parse(root.content);
+
+		// biome-ignore lint/suspicious/noExplicitAny: test config object
+		expect((config as any).extends).toContain(
+			"github>scottlz0310/renovate-config//presets/tools/lefthook",
+		);
+	});
 });

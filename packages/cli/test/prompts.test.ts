@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, type Mock, vi } from "vitest";
 
 // We'll mock @clack/prompts to capture calls
 vi.mock("@clack/prompts", () => ({
@@ -15,20 +15,21 @@ import { selectPresets } from "../src/prompts";
 
 describe("prompts.selectPresets", () => {
 	it("selects languages, then tools, then options", async () => {
-		// biome-ignore lint/suspicious/noExplicitAny: mocking
-		const multiselect = p.multiselect as unknown as any;
+		const multiselect = p.multiselect as unknown as Mock;
 
-		// biome-ignore lint/suspicious/noExplicitAny: mocking
-		let languageOptions: any[] | undefined;
+		type PromptOption = { value: string; hint?: string };
+		let languageOptions: PromptOption[] | undefined;
+		let toolOptions: PromptOption[] | undefined;
 
-		// biome-ignore lint/suspicious/noExplicitAny: mocking
-		(multiselect as any)
-			// biome-ignore lint/suspicious/noExplicitAny: mocking
-			.mockImplementationOnce(async (args: any) => {
+		multiselect
+			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
 				languageOptions = args.options;
 				return ["nodejs"];
 			})
-			.mockImplementationOnce(async () => ["precommit"])
+			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
+				toolOptions = args.options;
+				return ["precommit", "lefthook"];
+			})
 			.mockImplementationOnce(async () => ["automerge"]);
 
 		const mockScanResult: ScanResult = {
@@ -48,6 +49,12 @@ describe("prompts.selectPresets", () => {
 						label: "Pre-commit",
 						matchedFiles: [".pre-commit-config.yaml"],
 					},
+					{
+						preset: "lefthook",
+						category: "tools",
+						label: "Lefthook",
+						matchedFiles: [".lefthook.yml"],
+					},
 				],
 			},
 			packages: [],
@@ -58,14 +65,18 @@ describe("prompts.selectPresets", () => {
 
 		expect(result).toEqual({
 			languages: ["nodejs"],
-			tools: ["precommit"],
+			tools: ["precommit", "lefthook"],
 			options: ["automerge"],
 		});
 
 		expect(Array.isArray(languageOptions)).toBe(true);
-		// biome-ignore lint/suspicious/noExplicitAny: mocking
-		const nodeOption = languageOptions?.find((o: any) => o.value === "nodejs");
+		const nodeOption = languageOptions?.find((o) => o.value === "nodejs");
 		expect(nodeOption).toBeTruthy();
 		expect(nodeOption.hint).toBe("recommended");
+
+		expect(Array.isArray(toolOptions)).toBe(true);
+		const lefthookOption = toolOptions?.find((o) => o.value === "lefthook");
+		expect(lefthookOption).toBeTruthy();
+		expect(lefthookOption.hint).toBe("recommended");
 	});
 });

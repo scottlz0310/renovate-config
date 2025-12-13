@@ -1,0 +1,13 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Lefthook configuration for Renovate",
+	"packageRules": [
+		{
+			"matchPackageNames": ["lefthook"],
+			"groupName": "lefthook",
+			"labels": ["lefthook"],
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "lefthook"
+		}
+	]
+}

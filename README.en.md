@@ -64,6 +64,7 @@ Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 Use: `github>scottlz0310/renovate-config//presets/tools/<name>`
 
 - `precommit`
+- `lefthook`
 
 ### Options
 

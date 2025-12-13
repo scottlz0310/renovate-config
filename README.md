@@ -83,6 +83,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 | ツール | プリセット | 説明 |
 |-------|-----------|------|
 | Pre-commit | `tools/precommit` | Pre-commit hooks |
+| Lefthook | `tools/lefthook` | Lefthook (Git hooks manager) |
 
 ## オプション
 
