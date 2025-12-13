@@ -1,0 +1,129 @@
+---
+name: Release (CLI)
+
+'on':
+  push:
+    tags:
+      # Tag format: cli-vX.Y.Z (must match packages/cli/package.json version)
+      - "cli-v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to release (e.g. cli-v1.2.3)."
+        required: true
+        type: string
+      provenance:
+        description: "Publish with npm provenance (OIDC)."
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine tag
+        id: tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ "$TAG" != cli-v* ]]; then
+            echo "Tag must start with 'cli-v': $TAG"
+            exit 1
+          fi
+
+          TAG_VERSION="${TAG#cli-v}"
+          PKG_VERSION="$(
+            node -e '
+              const fs = require(\"node:fs\");
+              const path = \"packages/cli/package.json\";
+              const pkg = JSON.parse(fs.readFileSync(path, \"utf8\"));
+              process.stdout.write(pkg.version);
+            '
+          )"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "tag_version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
+          echo "pkg_version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
+
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Version mismatch: tag=$TAG_VERSION packages/cli=$PKG_VERSION"
+            echo "Fix packages/cli/package.json version or tag name."
+            exit 1
+          fi
+
+      - name: Run checks
+        run: npm run check:ci
+
+      - name: Build CLI workspace
+        run: npm run build --workspace=@scottlz0310/renovate-config-init
+
+      - name: Publish to npm
+        working-directory: packages/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "Missing secrets.NPM_TOKEN (npm publish token)."
+            exit 1
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PROVENANCE="${{ inputs.provenance }}"
+          else
+            PROVENANCE="true"
+          fi
+
+          if [ "$PROVENANCE" = "true" ]; then
+            npm publish --provenance --access public
+          else
+            npm publish --access public
+          fi
+
+      - name: Create GitHub release (if missing)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.tag.outputs.tag }}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub release already exists: $TAG"
+            exit 0
+          fi
+
+          gh release create "$TAG" --generate-notes
