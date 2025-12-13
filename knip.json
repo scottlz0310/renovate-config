@@ -1,0 +1,14 @@
+{
+	"$schema": "./node_modules/knip/schema.json",
+	"workspaces": {
+		".": {
+			"entry": ["scripts/install-lefthook.js", "scripts/validate-presets.js"],
+			"project": ["scripts/**/*.js"]
+		},
+		"packages/cli": {
+			"entry": ["src/index.ts"],
+			"project": ["src/**/*.ts", "test/**/*.ts"],
+			"ignore": ["dist/**"]
+		}
+	}
+}
