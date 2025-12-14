@@ -1,5 +1,6 @@
 {
 	"$schema": "./node_modules/knip/schema.json",
+	"ignoreDependencies": ["lefthook"],
 	"workspaces": {
 		".": {
 			"entry": ["scripts/install-lefthook.js", "scripts/validate-presets.js"],
