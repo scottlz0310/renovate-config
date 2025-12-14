@@ -3,7 +3,11 @@
 	"ignoreDependencies": ["lefthook"],
 	"workspaces": {
 		".": {
-			"entry": ["scripts/install-lefthook.js", "scripts/validate-presets.js"],
+			"entry": [
+				"scripts/check-lock-consistency.js",
+				"scripts/install-lefthook.js",
+				"scripts/validate-presets.js"
+			],
 			"project": ["scripts/**/*.js"]
 		},
 		"packages/cli": {
