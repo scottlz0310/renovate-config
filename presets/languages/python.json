@@ -30,6 +30,12 @@
 			"matchManagers": ["poetry", "pipenv"],
 			"enabled": false,
 			"description": "Disable poetry and pipenv - use uv only"
+		},
+		{
+			"matchDepNames": ["python"],
+			"matchManagers": ["pep621"],
+			"enabled": false,
+			"description": "Disable requires-python updates - this field specifies minimum supported version, not latest"
 		}
 	]
 }
