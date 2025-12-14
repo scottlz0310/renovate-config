@@ -27,7 +27,7 @@
 		"lint": "biome ci .",
 		"format": "biome format --write .",
 		"tsc:check": "npm run -w packages/cli tsc:check",
-		"knip": "knip --isolate-workspaces",
+		"knip": "knip --isolate-workspaces --no-config-hints",
 		"check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
 		"prepare": "node scripts/install-lefthook.js"
 	},

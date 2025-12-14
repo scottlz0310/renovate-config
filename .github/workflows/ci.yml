@@ -21,7 +21,7 @@ jobs:
                   node-version: "18"
 
             - name: Install Dependencies
-              run: npm ci
+              run: npm ci --include=optional
 
             - name: TypeScript Check (CLI package)
               run: npm run tsc:check
