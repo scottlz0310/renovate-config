@@ -27,7 +27,7 @@
 		"test:cli": "pnpm run -w @scottlz0310/renovate-config-init test",
 		"lint": "biome ci .",
 		"format": "biome format --write .",
-		"tsc:check": "pnpm run -w packages/cli tsc:check",
+		"tsc:check": "pnpm --filter @scottlz0310/renovate-config-init run tsc:check",
 		"knip": "knip --isolate-workspaces --no-config-hints",
 		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm test && pnpm run test:cli",
 		"prepare": "node scripts/install-lefthook.js"
