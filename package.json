@@ -19,7 +19,7 @@
 	],
 	"author": "scottlz0310",
 	"license": "MIT",
-	"packageManager": "pnpm@10.26.0",
+	"packageManager": "pnpm@10.26.1",
 	"scripts": {
 		"validate": "pnpm run validate:presets",
 		"validate:presets": "node scripts/validate-presets.js",
