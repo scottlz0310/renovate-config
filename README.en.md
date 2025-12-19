@@ -11,16 +11,16 @@ This repository provides:
 ### Generate `renovate.json` with the CLI (recommended)
 
 ```bash
-# Run via npx (recommended)
+# Run via pnpm dlx (recommended)
 # Note: if you see a 404, the package may be unpublished/private or you may not have access.
-npx -y @scottlz0310/renovate-config-init
+pnpm dlx @scottlz0310/renovate-config-init
 
 # If you're running from this repository (local workspace)
-npm install
-npx renovate-config-init
+pnpm install
+pnpm exec renovate-config-init
 
 # Or install globally
-npm install -g @scottlz0310/renovate-config-init
+pnpm add -g @scottlz0310/renovate-config-init
 renovate-config-init
 ```
 

@@ -27,8 +27,8 @@ If you want to add support for a new language or improve an existing language pr
    - Group related dependencies
 4. Validate your configuration:
    ```bash
-   npm install
-   npx renovate-config-validator presets/languages/your-file.json
+   pnpm install
+   pnpm exec renovate-config-validator presets/languages/your-file.json
    ```
 5. Add an example in `examples/` directory
 6. Update `package.json` to include your preset in the `renovate-config` section
@@ -60,11 +60,11 @@ All configuration files must pass validation:
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Validate all files
 for file in $(find . -name "*.json" -not -path '*/node_modules/*'); do
-  npx renovate-config-validator "$file"
+  pnpm exec renovate-config-validator "$file"
 done
 ```
 
@@ -106,10 +106,10 @@ git clone https://github.com/scottlz0310/renovate-config.git
 cd renovate-config
 
 # Install dependencies
-npm install
+pnpm install
 
 # Validate configurations
-npm run validate  # (if script is added)
+pnpm run validate
 ```
 
 ## Questions?

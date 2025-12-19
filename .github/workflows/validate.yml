@@ -22,17 +22,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci --include=optional
+        run: pnpm install --frozen-lockfile
 
       - name: Validate presets
-        run: npm run validate:presets
+        run: pnpm run validate:presets
 
   build-cli:
     name: Build CLI
@@ -45,17 +48,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: '24.12.0'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci --include=optional
+        run: pnpm install --frozen-lockfile
 
       - name: Build CLI
-        run: npm run build --workspace=@scottlz0310/renovate-config-init
+        run: pnpm run build --filter=@scottlz0310/renovate-config-init
 
       - name: Test CLI help
         run: node packages/cli/dist/index.js --help

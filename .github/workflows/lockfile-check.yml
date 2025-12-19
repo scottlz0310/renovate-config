@@ -17,7 +17,7 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Check for package.json changes without package-lock.json update
+            - name: Check for package.json changes without pnpm-lock.yaml update
               env:
                   BASE: ${{ github.base_ref }}
               run: |
@@ -26,10 +26,10 @@ jobs:
                   CHANGED=$(git diff --name-only origin/$BASE..HEAD)
                   echo "$CHANGED"
                   if echo "$CHANGED" | grep -q "^package.json$"; then
-                      if echo "$CHANGED" | grep -q "^package-lock.json$"; then
-                          echo "package-lock.json updated alongside package.json"
+                      if echo "$CHANGED" | grep -q "^pnpm-lock.yaml$"; then
+                          echo "pnpm-lock.yaml updated alongside package.json"
                           exit 0
                       fi
-                      echo "package.json changed without package-lock.json; inspecting dependency-related fields..."
+                      echo "package.json changed without pnpm-lock.yaml; inspecting dependency-related fields..."
                       node ./scripts/check-lock-consistency.js "$BASE"
                   fi

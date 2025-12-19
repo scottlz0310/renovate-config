@@ -19,16 +19,17 @@
 	],
 	"author": "scottlz0310",
 	"license": "MIT",
+	"packageManager": "pnpm@9.15.4",
 	"scripts": {
-		"validate": "npm run validate:presets",
+		"validate": "pnpm run validate:presets",
 		"validate:presets": "node scripts/validate-presets.js",
-		"test": "npm run validate",
-		"test:cli": "npm run -w @scottlz0310/renovate-config-init test",
+		"test": "pnpm run validate",
+		"test:cli": "pnpm run -w @scottlz0310/renovate-config-init test",
 		"lint": "biome ci .",
 		"format": "biome format --write .",
-		"tsc:check": "npm run -w packages/cli tsc:check",
+		"tsc:check": "pnpm run -w packages/cli tsc:check",
 		"knip": "knip --isolate-workspaces --no-config-hints",
-		"check:ci": "npm run tsc:check && npm run lint && npm run knip && npm test && npm run test:cli",
+		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm test && pnpm run test:cli",
 		"prepare": "node scripts/install-lefthook.js"
 	},
 	"devDependencies": {

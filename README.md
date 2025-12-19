@@ -9,16 +9,16 @@ Renovateの設定を一元管理するためのリポジトリ
 ### CLI ツールで自動設定（推奨）
 
 ```bash
-# npx で実行（推奨: グローバルに入れない）
+# pnpm dlx で実行（推奨: グローバルに入れない）
 # ※ npm で 404 になる場合: パッケージが未公開/非公開、または権限がありません
-npx -y @scottlz0310/renovate-config-init
+pnpm dlx @scottlz0310/renovate-config-init
 
 # このリポジトリを clone して開発/動作確認する場合（ローカルの workspace 版）
-npm install
-npx renovate-config-init
+pnpm install
+pnpm exec renovate-config-init
 
 # グローバルインストール
-npm install -g @scottlz0310/renovate-config-init
+pnpm add -g @scottlz0310/renovate-config-init
 
 # プロジェクトディレクトリで実行
 cd your-project
@@ -156,10 +156,10 @@ renovate-config-init --help
 
 ```bash
 # renovate-config を clone したディレクトリで
-npm install
+pnpm install
 
 # CLI をグローバルインストール（絶対パス推奨）
-npm install -g "$(pwd)/packages/cli"
+pnpm add -g "$(pwd)/packages/cli"
 
 # 別リポジトリで動作確認
 cd /path/to/your-project

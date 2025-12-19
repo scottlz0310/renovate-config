@@ -35,15 +35,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: "24.12.0"
-          cache: "npm"
+          cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm ci --include=optional
+        run: pnpm install --frozen-lockfile
 
       - name: Determine tag
         id: tag
@@ -65,9 +68,9 @@ jobs:
           TAG_VERSION="${TAG#cli-v}"
           PKG_VERSION="$(
             node -e '
-              const fs = require(\"node:fs\");
-              const path = \"packages/cli/package.json\";
-              const pkg = JSON.parse(fs.readFileSync(path, \"utf8\"));
+              const fs = require("node:fs");
+              const path = "packages/cli/package.json";
+              const pkg = JSON.parse(fs.readFileSync(path, "utf8"));
               process.stdout.write(pkg.version);
             '
           )"
@@ -83,10 +86,10 @@ jobs:
           fi
 
       - name: Run checks
-        run: npm run check:ci
+        run: pnpm run check:ci
 
       - name: Build CLI workspace
-        run: npm run build --workspace=@scottlz0310/renovate-config-init
+        run: pnpm run build --filter=@scottlz0310/renovate-config-init
 
       - name: Publish to npm
         working-directory: packages/cli
@@ -108,9 +111,9 @@ jobs:
           fi
 
           if [ "$PROVENANCE" = "true" ]; then
-            npm publish --provenance --access public
+            pnpm publish --provenance --access public --no-git-checks
           else
-            npm publish --access public
+            pnpm publish --access public --no-git-checks
           fi
 
       - name: Create GitHub release (if missing)
