@@ -17,8 +17,14 @@ pnpm dlx @scottlz0310/renovate-config-init
 pnpm install
 pnpm exec renovate-config-init
 
-# グローバルインストール
+# グローバルインストール（npm レジストリから）
 pnpm add -g @scottlz0310/renovate-config-init
+
+# GitHubから直接インストール
+git clone https://github.com/scottlz0310/renovate-config.git
+cd renovate-config
+pnpm install
+pnpm add -g "$(pwd)/packages/cli"
 
 # プロジェクトディレクトリで実行
 cd your-project

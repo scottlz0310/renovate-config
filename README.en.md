@@ -19,8 +19,17 @@ pnpm dlx @scottlz0310/renovate-config-init
 pnpm install
 pnpm exec renovate-config-init
 
-# Or install globally
+# Install globally (from npm registry)
 pnpm add -g @scottlz0310/renovate-config-init
+
+# Install directly from GitHub
+git clone https://github.com/scottlz0310/renovate-config.git
+cd renovate-config
+pnpm install
+pnpm add -g "$(pwd)/packages/cli"
+
+# Then run in your project
+cd your-project
 renovate-config-init
 ```
 
