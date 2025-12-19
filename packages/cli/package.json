@@ -14,7 +14,7 @@
 		"dev": "tsx src/index.ts",
 		"tsc:check": "tsc --noEmit",
 		"test": "vitest run --root ./ --dir ./test --maxWorkers 1 --no-file-parallelism",
-		"prepare": "npm run build"
+		"prepare": "pnpm run build"
 	},
 	"keywords": [
 		"renovate",
@@ -43,6 +43,6 @@
 		"vitest": "^4.0.16"
 	},
 	"engines": {
-		"node": ">=24.12.0"
+		"node": ">=24.11.0"
 	}
 }
