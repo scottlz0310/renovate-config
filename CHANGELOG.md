@@ -56,11 +56,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MIT License
 
 #### Development Infrastructure
+- **pnpm** - Package manager (migrated from npm)
 - Biome for linting and formatting
 - Lefthook for Git hooks
 - Knip for dead code detection
 - GitHub Actions for CI/CD
 - Automated preset validation
 - Renovate self-hosting configuration
+
+### Changed
+- Migrated package manager from npm to pnpm
+- Updated all documentation to reflect pnpm usage
+- Updated GitHub Actions workflows to use pnpm
 
 [1.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v1.0.0
