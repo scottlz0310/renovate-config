@@ -61,7 +61,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build CLI
-        run: pnpm run build --filter=@scottlz0310/renovate-config-init
+        run: pnpm --filter @scottlz0310/renovate-config-init run build
 
       - name: Test CLI help
         run: node packages/cli/dist/index.js --help

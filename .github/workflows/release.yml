@@ -89,7 +89,7 @@ jobs:
         run: pnpm run check:ci
 
       - name: Build CLI workspace
-        run: pnpm run build --filter=@scottlz0310/renovate-config-init
+        run: pnpm --filter @scottlz0310/renovate-config-init run build
 
       - name: Publish to npm
         working-directory: packages/cli
