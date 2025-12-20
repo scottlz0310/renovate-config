@@ -13,15 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CLI source moved to root directory (`src/` instead of `packages/cli/src/`)
 - Package name changed to `@scottlz0310/renovate-config-init` (at root level)
 - Removed workspace configuration (`pnpm-workspace.yaml`)
+- Removed `prepare` script to enable git-based installation
+- lefthook installation is now manual (see CONTRIBUTING.md)
 
 ### Added
 
 - Direct installation from GitHub now supported: `pnpm add -g git+https://github.com/scottlz0310/renovate-config.git`
+- GitHub Actions workflow to automatically build and commit `dist/` directory
 
 ### Migration Guide
 
 - **npm registry users**: No changes required - package name and functionality remain the same
-- **Local developers**: Re-clone the repository and run `pnpm install`
+- **Local developers**: Re-clone the repository, run `pnpm install`, then `pnpm exec lefthook install`
 - **GitHub preset users**: No changes required - preset paths remain unchanged (`github>scottlz0310/renovate-config//presets/...`)
 
 ## [1.0.0] - 2025-01-19
