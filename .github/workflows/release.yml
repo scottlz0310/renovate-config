@@ -1,15 +1,15 @@
 ---
-name: Release (CLI)
+name: Release
 
 'on':
   push:
     tags:
-      # Tag format: cli-vX.Y.Z (must match package.json version)
-      - "cli-v*"
+      # Tag format: vX.Y.Z (must match package.json version)
+      - "v*"
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to release (e.g. cli-v1.2.3)."
+        description: "Tag to release (e.g. v2.0.0)."
         required: true
         type: string
       provenance:
@@ -60,12 +60,12 @@ jobs:
             TAG="${GITHUB_REF_NAME}"
           fi
 
-          if [[ "$TAG" != cli-v* ]]; then
-            echo "Tag must start with 'cli-v': $TAG"
+          if [[ "$TAG" != v* ]]; then
+            echo "Tag must start with 'v': $TAG"
             exit 1
           fi
 
-          TAG_VERSION="${TAG#cli-v}"
+          TAG_VERSION="${TAG#v}"
           PKG_VERSION="$(
             node -e '
               const fs = require("node:fs");
