@@ -12,7 +12,7 @@ if (!initCwd || initCwd !== cwd) process.exit(0);
 if (process.env.CI || process.env.SKIP_LEFTHOOK === "1") process.exit(0);
 
 try {
-	execSync("npx lefthook install", { stdio: "inherit" });
+	execSync("pnpm exec lefthook install", { stdio: "inherit" });
 } catch {
 	// Don't fail installs just because git hooks couldn't be installed.
 	console.warn("Warning: lefthook install failed; skipping.");

@@ -121,7 +121,7 @@ PATCHES/
 bower_components
 build/Release
 coverage/
-# dist - NOT ignored, needed for git-based installation
+# dist - NOT ignored, needed for git-based installation (built by CI)
 jspm_packages/
 lerna-debug.log*
 out/

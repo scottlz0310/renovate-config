@@ -1,0 +1,56 @@
+name: Build and Commit dist
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "tsconfig.json"
+            - "package.json"
+
+permissions:
+    contents: write
+
+jobs:
+    build-dist:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "24.12.0"
+                  cache: "pnpm"
+
+            - name: Install Dependencies
+              run: pnpm install --frozen-lockfile
+              env:
+                  SKIP_LEFTHOOK: "1"
+
+            - name: Build
+              run: pnpm run build
+
+            - name: Check for changes
+              id: check
+              run: |
+                  git add dist/
+                  if git diff --staged --quiet; then
+                    echo "changed=false" >> $GITHUB_OUTPUT
+                  else
+                    echo "changed=true" >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Commit and push
+              if: steps.check.outputs.changed == 'true'
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git commit -m "chore: update dist [skip ci]"
+                  git push
