@@ -121,7 +121,7 @@ PATCHES/
 bower_components
 build/Release
 coverage/
-dist
+# dist - NOT ignored, needed for git-based installation
 jspm_packages/
 lerna-debug.log*
 out/
@@ -161,7 +161,6 @@ build/
 coverage.xml
 cython_debug/
 develop-eggs/
-dist/
 dmypy.json
 downloads/
 eggs/
