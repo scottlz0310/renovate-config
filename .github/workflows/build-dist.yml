@@ -7,6 +7,8 @@ on:
             - "src/**"
             - "tsconfig.json"
             - "package.json"
+            - ".github/workflows/build-dist.yml"
+    workflow_dispatch: # Allow manual trigger
 
 permissions:
     contents: write
