@@ -2,12 +2,12 @@ pre-commit:
   parallel: true
   commands:
     biome-check:
-      run: npm run lint
+      run: pnpm run lint
     tsc-check:
-      run: npm run tsc:check
+      run: pnpm run tsc:check
 
 pre-push:
   parallel: true
   commands:
     knip-check:
-      run: npm run knip
+      run: pnpm run knip

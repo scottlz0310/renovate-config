@@ -13,18 +13,15 @@ Renovateの設定を一元管理するためのリポジトリ
 # ※ npm で 404 になる場合: パッケージが未公開/非公開、または権限がありません
 pnpm dlx @scottlz0310/renovate-config-init
 
-# このリポジトリを clone して開発/動作確認する場合（ローカルの workspace 版）
+# このリポジトリを clone して開発/動作確認する場合
 pnpm install
-pnpm exec renovate-config-init
+pnpm run dev
 
 # グローバルインストール（npm レジストリから）
 pnpm add -g @scottlz0310/renovate-config-init
 
 # GitHubから直接インストール
-git clone https://github.com/scottlz0310/renovate-config.git
-cd renovate-config
-pnpm install
-pnpm add -g "$(pwd)/packages/cli"
+pnpm add -g git+https://github.com/scottlz0310/renovate-config.git
 
 # プロジェクトディレクトリで実行
 cd your-project
@@ -165,7 +162,7 @@ renovate-config-init --help
 pnpm install
 
 # CLI をグローバルインストール（絶対パス推奨）
-pnpm add -g "$(pwd)/packages/cli"
+pnpm add -g "$(pwd)"
 
 # 別リポジトリで動作確認
 cd /path/to/your-project

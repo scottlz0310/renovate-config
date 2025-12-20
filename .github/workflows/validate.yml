@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Validate presets
-        run: pnpm run validate:presets
+        run: pnpm run validate
 
   build-cli:
     name: Build CLI
@@ -61,7 +61,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build CLI
-        run: pnpm --filter @scottlz0310/renovate-config-init run build
+        run: pnpm run build
 
       - name: Test CLI help
-        run: node packages/cli/dist/index.js --help
+        run: node dist/index.js --help

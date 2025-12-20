@@ -37,7 +37,7 @@ jobs:
               run: pnpm run knip
 
             - name: Run Preset Validations
-              run: pnpm test
+              run: pnpm run validate
 
             - name: Run CLI unit tests (Vitest)
-              run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test:cli
+              run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test
