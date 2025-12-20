@@ -19,8 +19,7 @@
 		"lint": "biome ci .",
 		"format": "biome format --write .",
 		"knip": "knip --no-config-hints",
-		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm run validate && pnpm run test",
-		"prepare": "node scripts/install-lefthook.js"
+		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm run validate && pnpm run test"
 	},
 	"keywords": [
 		"renovate",

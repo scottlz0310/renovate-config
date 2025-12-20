@@ -4,7 +4,6 @@
 	"entry": [
 		"src/index.ts",
 		"scripts/check-lock-consistency.js",
-		"scripts/install-lefthook.js",
 		"scripts/validate-presets.js"
 	],
 	"project": ["src/**/*.ts", "test/**/*.ts", "scripts/**/*.js"],

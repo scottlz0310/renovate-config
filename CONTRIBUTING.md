@@ -108,6 +108,9 @@ cd renovate-config
 # Install dependencies
 pnpm install
 
+# Install git hooks (optional but recommended)
+pnpm exec lefthook install
+
 # Validate configurations
 pnpm run validate
 ```
