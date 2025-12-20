@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-12-20
+
+### Changed
+
+- **Breaking Change**: Simplified repository structure from monorepo to single-package structure
+- CLI source moved to root directory (`src/` instead of `packages/cli/src/`)
+- Package name changed to `@scottlz0310/renovate-config-init` (at root level)
+- Removed workspace configuration (`pnpm-workspace.yaml`)
+
+### Added
+
+- Direct installation from GitHub now supported: `pnpm add -g git+https://github.com/scottlz0310/renovate-config.git`
+
+### Migration Guide
+
+- **npm registry users**: No changes required - package name and functionality remain the same
+- **Local developers**: Re-clone the repository and run `pnpm install`
+- **GitHub preset users**: No changes required - preset paths remain unchanged (`github>scottlz0310/renovate-config//presets/...`)
+
 ## [1.0.0] - 2025-01-19
 
 ### Added

@@ -180,4 +180,6 @@ wheels/
 
 # Auto-generated entries from templates
 .pyrightcache/
-packages/cli/dist/
+
+# Claude Code local settings
+.claude/

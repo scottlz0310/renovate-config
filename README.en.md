@@ -15,18 +15,15 @@ This repository provides:
 # Note: if you see a 404, the package may be unpublished/private or you may not have access.
 pnpm dlx @scottlz0310/renovate-config-init
 
-# If you're running from this repository (local workspace)
+# If you're running from this repository (local development)
 pnpm install
-pnpm exec renovate-config-init
+pnpm run dev
 
 # Install globally (from npm registry)
 pnpm add -g @scottlz0310/renovate-config-init
 
 # Install directly from GitHub
-git clone https://github.com/scottlz0310/renovate-config.git
-cd renovate-config
-pnpm install
-pnpm add -g "$(pwd)/packages/cli"
+pnpm add -g git+https://github.com/scottlz0310/renovate-config.git
 
 # Then run in your project
 cd your-project

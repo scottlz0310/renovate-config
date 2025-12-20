@@ -1,42 +1,61 @@
 {
-	"name": "@scottlz0310/renovate-config",
-	"version": "1.0.0",
+	"name": "@scottlz0310/renovate-config-init",
+	"version": "2.0.0",
+	"description": "CLI tool to initialize Renovate configuration with auto-detection",
 	"type": "module",
-	"description": "Centralized Renovate configuration for multi-language projects",
-	"private": true,
-	"workspaces": [
-		"packages/*"
+	"bin": {
+		"renovate-config-init": "./dist/index.js"
+	},
+	"files": [
+		"dist",
+		"presets"
 	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/scottlz0310/renovate-config.git"
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsx src/index.ts",
+		"tsc:check": "tsc --noEmit",
+		"test": "vitest run --root ./ --dir ./test --maxWorkers 1 --no-file-parallelism",
+		"validate": "node scripts/validate-presets.js",
+		"lint": "biome ci .",
+		"format": "biome format --write .",
+		"knip": "knip --no-config-hints",
+		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm run validate && pnpm run test",
+		"prepare": "node scripts/install-lefthook.js && pnpm run build"
 	},
 	"keywords": [
 		"renovate",
 		"renovate-config",
 		"shareable-config",
-		"dependencies"
+		"dependencies",
+		"cli",
+		"init"
 	],
 	"author": "scottlz0310",
 	"license": "MIT",
-	"packageManager": "pnpm@10.26.1",
-	"scripts": {
-		"validate": "pnpm run validate:presets",
-		"validate:presets": "node scripts/validate-presets.js",
-		"test": "pnpm run validate",
-		"test:cli": "pnpm --filter @scottlz0310/renovate-config-init test",
-		"lint": "biome ci .",
-		"format": "biome format --write .",
-		"tsc:check": "pnpm --filter @scottlz0310/renovate-config-init run tsc:check",
-		"knip": "knip --isolate-workspaces --no-config-hints",
-		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm test && pnpm run test:cli",
-		"prepare": "node scripts/install-lefthook.js"
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/scottlz0310/renovate-config.git"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@clack/prompts": "^0.11.0",
+		"fast-glob": "^3.3.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.10",
+		"@types/node": "^24.10.4",
 		"ajv": "^8.17.1",
 		"ajv-formats": "^3.0.1",
 		"knip": "^5.75.2",
-		"lefthook": "^2.0.12"
+		"lefthook": "^2.0.12",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	},
+	"packageManager": "pnpm@10.26.1",
+	"engines": {
+		"node": ">=24.12.0"
 	}
 }
