@@ -182,3 +182,6 @@ wheels/
 
 # Claude Code local settings
 .claude/
+
+# Auto-generated entries from templates
+dist
