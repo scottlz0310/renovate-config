@@ -185,3 +185,4 @@ wheels/
 
 # Auto-generated entries from templates
 dist
+!dist/
