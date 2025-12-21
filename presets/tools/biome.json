@@ -1,0 +1,22 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Biome configuration for Renovate",
+	"packageRules": [
+		{
+			"matchPackageNames": ["@biomejs/biome"],
+			"groupName": "Biome",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "biome"
+		}
+	],
+	"regexManagers": [
+		{
+			"fileMatch": ["(^|/)biome\\.jsonc?$"],
+			"matchStrings": [
+				"\"\\$schema\":\\s*\"https://biomejs\\.dev/schemas/(?<currentValue>\\d+\\.\\d+\\.\\d+)/schema\\.json\""
+			],
+			"depNameTemplate": "@biomejs/biome",
+			"datasourceTemplate": "npm"
+		}
+	]
+}
