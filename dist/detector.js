@@ -69,6 +69,12 @@ const DETECTION_RULES = [
     },
     // Tools
     {
+        preset: "biome",
+        category: "tools",
+        label: "Biome",
+        patterns: ["biome.json", "biome.jsonc"],
+    },
+    {
         preset: "precommit",
         category: "tools",
         label: "Pre-commit",

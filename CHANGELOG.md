@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-12-21
+
+### Added
+
+- **Biome preset** - New `tools/biome` preset for Biome formatter/linter support
+  - Automatic synchronization of `biome.json`/`biome.jsonc` `$schema` version with `@biomejs/biome` package version
+  - Uses `regexManagers` to keep schema URLs up-to-date automatically
+  - Groups Biome updates with semantic commits (`chore(biome):`)
+- **CLI detection** - Biome detection added to `renovate-config-init` CLI
+  - Auto-detects `biome.json` and `biome.jsonc` configuration files
+  - Suggests `tools/biome` preset when Biome is detected
+
+### Fixed
+
+- Excluded `presets/` directory from Biome checking to prevent false validation errors
+
 ## [2.0.0] - 2025-12-20
 
 ### Changed
@@ -91,4 +107,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all documentation to reflect pnpm usage
 - Updated GitHub Actions workflows to use pnpm
 
+[2.1.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.1.0
+[2.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.0.0
 [1.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v1.0.0
