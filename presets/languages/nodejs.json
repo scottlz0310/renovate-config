@@ -1,7 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"description": "Node.js project configuration for Renovate",
-	"allowedCommands": ["^pnpm install --lockfile-only --ignore-scripts$"],
 	"packageRules": [
 		{
 			"matchDatasources": ["npm"],
@@ -31,11 +30,7 @@
 		{
 			"matchDepTypes": ["packageManager"],
 			"matchPackageNames": ["pnpm"],
-			"groupName": "pnpm packageManager",
-			"postUpgradeTasks": {
-				"commands": ["pnpm install --lockfile-only --ignore-scripts"],
-				"fileFilters": ["pnpm-lock.yaml"]
-			}
+			"enabled": false
 		}
 	],
 	"lockFileMaintenance": {
