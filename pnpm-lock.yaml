@@ -28,8 +28,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
       knip:
-        specifier: ^5.79.0
-        version: 5.79.0(@types/node@24.10.4)(typescript@5.9.3)
+        specifier: ^5.80.0
+        version: 5.80.0(@types/node@24.10.4)(typescript@5.9.3)
       lefthook:
         specifier: ^2.0.13
         version: 2.0.13
@@ -654,8 +654,8 @@ packages:
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
-  knip@5.79.0:
-    resolution: {integrity: sha512-rcg+mNdqm6UiTuRVyy6UuuHw1n4ABMpNXDtrfGaCeUtJoRBAvAENIebr8YMtOz6XE7iVHZ8+rY7skgEtosczhQ==}
+  knip@5.80.0:
+    resolution: {integrity: sha512-K/Ga2f/SHEUXXriVdaw2GfeIUJ5muwdqusHGkCtaG/1qeMmQJiuwZj9KnPxaDbnYPAu8RWjYYh8Nyb+qlJ3d8A==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -1393,7 +1393,7 @@ snapshots:
 
   json-schema-traverse@1.0.0: {}
 
-  knip@5.79.0(@types/node@24.10.4)(typescript@5.9.3):
+  knip@5.80.0(@types/node@24.10.4)(typescript@5.9.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 24.10.4
