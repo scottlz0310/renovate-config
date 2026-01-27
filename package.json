@@ -48,7 +48,7 @@
 		"ajv": "^8.17.1",
 		"ajv-formats": "^3.0.1",
 		"knip": "^5.82.1",
-		"lefthook": "^2.0.15",
+		"lefthook": "^2.0.16",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
