@@ -39,7 +39,7 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.0.0",
+		"@clack/prompts": "^1.0.1",
 		"fast-glob": "^3.3.3"
 	},
 	"devDependencies": {
