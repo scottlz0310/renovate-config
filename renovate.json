@@ -7,6 +7,7 @@
 		"github>scottlz0310/renovate-config//presets/tools/biome",
 		"github>scottlz0310/renovate-config//presets/tools/lefthook",
 		"github>scottlz0310/renovate-config//presets/options/automerge",
+		"github>scottlz0310/renovate-config//presets/options/schedule",
 		"github>scottlz0310/renovate-config//presets/options/security"
 	]
 }
