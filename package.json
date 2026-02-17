@@ -45,7 +45,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.15",
 		"@types/node": "^24.10.13",
-		"ajv": "^8.17.1",
+		"ajv": "^8.18.0",
 		"ajv-formats": "^3.0.1",
 		"knip": "^5.83.1",
 		"lefthook": "^2.1.1",

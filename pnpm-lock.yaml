@@ -22,7 +22,7 @@ importers:
         specifier: ^24.10.13
         version: 24.10.13
       ajv:
-        specifier: ^8.17.1
+        specifier: ^8.18.0
         version: 8.18.0
       ajv-formats:
         specifier: ^3.0.1
