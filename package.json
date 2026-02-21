@@ -1,6 +1,6 @@
 {
 	"name": "@scottlz0310/renovate-config-init",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "CLI tool to initialize Renovate configuration with auto-detection",
 	"type": "module",
 	"bin": {

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-02-21
+
 ### Added
 
 - **Android preset** - New `languages/android` preset for general Android app development (Kotlin/Java, Gradle)
@@ -117,6 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all documentation to reflect pnpm usage
 - Updated GitHub Actions workflows to use pnpm
 
+[2.2.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.2.0
 [2.1.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.1.0
 [2.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.0.0
 [1.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v1.0.0
