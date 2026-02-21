@@ -26,6 +26,12 @@ const DETECTION_RULES = [
         patterns: ["tsconfig.json"],
     },
     {
+        preset: "android",
+        category: "languages",
+        label: "Android",
+        patterns: ["app/build.gradle", "app/build.gradle.kts"],
+    },
+    {
         preset: "python",
         category: "languages",
         label: "Python",

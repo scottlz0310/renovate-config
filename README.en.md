@@ -58,6 +58,7 @@ Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 
 - `nodejs`
 - `typescript`
+- `android`
 - `python`
 - `docker`
 - `go`

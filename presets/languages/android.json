@@ -1,0 +1,42 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Android project configuration for Renovate (Kotlin/Java + Gradle)",
+	"packageRules": [
+		{
+			"matchDatasources": ["maven"],
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-android"
+		},
+		{
+			"matchDatasources": ["maven"],
+			"matchUpdateTypes": ["major"],
+			"groupName": "Android major updates"
+		},
+		{
+			"matchDatasources": ["maven"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "Android minor and patch updates"
+		},
+		{
+			"matchPackageNames": ["androidx.**"],
+			"groupName": "AndroidX libraries"
+		},
+		{
+			"matchPackageNames": [
+				"com.android.tools.**",
+				"com.google.android.**",
+				"com.google.firebase.**",
+				"com.google.gms.**"
+			],
+			"groupName": "Android Google ecosystem"
+		},
+		{
+			"matchPackageNames": ["org.jetbrains.kotlin.**"],
+			"groupName": "Kotlin libraries and plugins"
+		},
+		{
+			"matchManagers": ["gradle-wrapper"],
+			"groupName": "Gradle wrapper"
+		}
+	]
+}

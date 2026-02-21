@@ -2,7 +2,7 @@
 
 Renovateの設定を一元管理するためのリポジトリ
 
-各言語・環境（Python, Node.js, TypeScript, Docker, C#, C++, Rust, Go）に対応した設定と、プロジェクト毎の部分的な調整設定（プリセット）を提供します。
+各言語・環境（Python, Node.js, TypeScript, Android, Docker, C#, C++, Rust, Go）に対応した設定と、プロジェクト毎の部分的な調整設定（プリセット）を提供します。
 
 ## クイックスタート
 
@@ -74,6 +74,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 |----------|-----------|------|
 | Node.js | `languages/nodejs` | npm/pnpm パッケージ |
 | TypeScript | `languages/typescript` | TypeScript 関連 |
+| Android | `languages/android` | Android (Kotlin/Java, Gradle) |
 | Python | `languages/python` | uv/pyproject.toml |
 | Docker | `languages/docker` | Dockerfile, docker-compose |
 | Go | `languages/go` | Go modules |
