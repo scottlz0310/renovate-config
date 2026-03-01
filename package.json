@@ -44,11 +44,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4",
-		"@types/node": "^24.10.13",
+		"@types/node": "^24.10.15",
 		"ajv": "^8.18.0",
 		"ajv-formats": "^3.0.1",
 		"knip": "^5.85.0",
-		"lefthook": "^2.1.1",
+		"lefthook": "^2.1.2",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
