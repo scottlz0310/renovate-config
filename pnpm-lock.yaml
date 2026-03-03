@@ -19,7 +19,7 @@ importers:
         specifier: ^2.4.5
         version: 2.4.5
       '@types/node':
-        specifier: ^24.10.15
+        specifier: ^24.11.0
         version: 24.11.0
       ajv:
         specifier: ^8.18.0
