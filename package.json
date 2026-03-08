@@ -39,7 +39,7 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.0.1",
+		"@clack/prompts": "^1.1.0",
 		"fast-glob": "^3.3.3"
 	},
 	"devDependencies": {
@@ -55,6 +55,6 @@
 	},
 	"packageManager": "pnpm@10.28.2",
 	"engines": {
-		"node": ">=24.13.1"
+		"node": ">=24.14.0"
 	}
 }
