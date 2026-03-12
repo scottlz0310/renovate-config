@@ -19,7 +19,7 @@ importers:
         specifier: ^2.4.6
         version: 2.4.6
       '@types/node':
-        specifier: ^24.11.2
+        specifier: ^24.12.0
         version: 24.12.0
       ajv:
         specifier: ^8.18.0
@@ -28,7 +28,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.18.0)
       knip:
-        specifier: ^5.85.0
+        specifier: ^5.86.0
         version: 5.86.0(@types/node@24.12.0)(typescript@5.9.3)
       lefthook:
         specifier: ^2.1.3
