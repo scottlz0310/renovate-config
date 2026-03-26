@@ -24,7 +24,6 @@ const keys = [
 	"resolutions",
 	"workspaces",
 	"packageManager",
-	"engines",
 ];
 
 const changedKeys = keys.filter(
