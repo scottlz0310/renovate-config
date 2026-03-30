@@ -11,6 +11,8 @@ on:
 jobs:
     build-and-check:
         runs-on: ubuntu-latest
+        env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         steps:
             - name: Checkout
               uses: actions/checkout@v6
@@ -43,8 +45,9 @@ jobs:
               run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test:coverage
 
             - name: Upload coverage to Codecov
+              if: env.CODECOV_TOKEN != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
               uses: codecov/codecov-action@v5
               with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
+                  token: ${{ env.CODECOV_TOKEN }}
                   files: ./coverage/lcov.info
                   fail_ci_if_error: true
