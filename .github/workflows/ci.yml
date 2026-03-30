@@ -39,5 +39,12 @@ jobs:
             - name: Run Preset Validations
               run: pnpm run validate
 
-            - name: Run CLI unit tests (Vitest)
-              run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test
+            - name: Run CLI unit tests with coverage (Vitest)
+              run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test:coverage
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: ./coverage/lcov.info
+                  fail_ci_if_error: true
