@@ -45,7 +45,7 @@
 	},
 	"devDependencies": {
 		"@vitest/coverage-v8": "^4.1.4",
-		"@biomejs/biome": "^2.4.10",
+		"@biomejs/biome": "^2.4.11",
 		"@types/node": "^24.12.2",
 		"ajv": "^8.18.0",
 		"ajv-formats": "^3.0.1",
