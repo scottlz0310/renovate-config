@@ -23,7 +23,6 @@ const keys = [
 	"overrides",
 	"resolutions",
 	"workspaces",
-	"packageManager",
 ];
 
 const changedKeys = keys.filter(
