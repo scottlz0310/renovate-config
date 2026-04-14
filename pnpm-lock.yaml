@@ -31,7 +31,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.18.0)
       knip:
-        specifier: ^6.3.1
+        specifier: ^6.4.0
         version: 6.4.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
       lefthook:
         specifier: ^2.1.5
