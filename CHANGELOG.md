@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Internal
+
+- Add `.gitattributes` to enforce LF line endings, preventing spurious "modified" status for `dist/` files on Windows checkouts (`core.autocrlf=true`)
+
 ## [2.2.0] - 2026-02-21
 
 ### Added
