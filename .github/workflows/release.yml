@@ -12,11 +12,6 @@ name: Release
         description: "Tag to release (e.g. v2.0.0)."
         required: true
         type: string
-      provenance:
-        description: "Publish with npm provenance (OIDC)."
-        required: false
-        type: boolean
-        default: true
 
 permissions:
   contents: write
@@ -92,28 +87,11 @@ jobs:
         run: pnpm run build
 
       - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
 
-          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "Missing secrets.NPM_TOKEN (npm publish token)."
-            exit 1
-          fi
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            PROVENANCE="${{ inputs.provenance }}"
-          else
-            PROVENANCE="true"
-          fi
-
-          if [ "$PROVENANCE" = "true" ]; then
-            pnpm publish --provenance --access public --no-git-checks
-          else
-            pnpm publish --access public --no-git-checks
-          fi
+          npm publish --access public --no-git-checks
 
       - name: Create GitHub release (if missing)
         env:
