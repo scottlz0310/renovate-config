@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.1] - 2026-05-29
+
 ### Changed
 
 - `languages/nodejs` プリセットで npm パッケージ更新に 1 日の minimum release age を適用し、pnpm 11 の supply-chain policy と Renovate PR 作成タイミングを揃えるようにした
@@ -127,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all documentation to reflect pnpm usage
 - Updated GitHub Actions workflows to use pnpm
 
+[2.2.1]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.2.1
 [2.2.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.2.0
 [2.1.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.1.0
 [2.0.0]: https://github.com/scottlz0310/renovate-config/releases/tag/v2.0.0
