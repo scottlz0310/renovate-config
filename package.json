@@ -4,7 +4,7 @@
 	"description": "CLI tool to initialize Renovate configuration with auto-detection",
 	"type": "module",
 	"bin": {
-		"renovate-config-init": "./dist/index.js"
+		"renovate-config-init": "dist/index.js"
 	},
 	"files": [
 		"dist",
@@ -34,7 +34,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/scottlz0310/renovate-config.git"
+		"url": "git+https://github.com/scottlz0310/renovate-config.git"
 	},
 	"publishConfig": {
 		"access": "public"
