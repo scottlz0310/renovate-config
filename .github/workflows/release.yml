@@ -38,7 +38,6 @@ jobs:
         with:
           node-version: "24.16.0"
           cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -91,7 +90,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          npm publish --access public --no-git-checks
+          unset NODE_AUTH_TOKEN
+          unset NPM_CONFIG_USERCONFIG
+
+          npm publish --access public
 
       - name: Create GitHub release (if missing)
         env:
