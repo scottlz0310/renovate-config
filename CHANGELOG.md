@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `languages/nodejs` プリセットで npm パッケージ更新に 1 日の minimum release age を適用し、pnpm 11 の supply-chain policy と Renovate PR 作成タイミングを揃えるようにした
+
 ### Internal
 
 - Add `.gitattributes` to enforce LF line endings, preventing spurious "modified" status for `dist/` files on Windows checkouts (`core.autocrlf=true`)

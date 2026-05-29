@@ -72,7 +72,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 
 | 言語/環境 | プリセット | 説明 |
 |----------|-----------|------|
-| Node.js | `languages/nodejs` | npm/pnpm パッケージ |
+| Node.js | `languages/nodejs` | npm/pnpm パッケージ。npm 更新は公開後 1 日待機 |
 | TypeScript | `languages/typescript` | TypeScript 関連 |
 | Android | `languages/android` | Android (Kotlin/Java, Gradle) |
 | Python | `languages/python` | uv/pyproject.toml |
@@ -179,6 +179,8 @@ renovate-config-init --help
 - マイナー・パッチ更新の分離
 - 脆弱性アラートの有効化
 - タイムゾーン: Asia/Tokyo
+
+`presets/languages/nodejs.json` では npm パッケージ更新に `minimumReleaseAge: "1 day"` と `internalChecksFilter: "strict"` を適用します。pnpm 11 の minimum release age policy と Renovate の PR 作成タイミングを揃え、公開直後のパッケージを含む lockfile で CI が失敗することを抑制します。
 
 ## ライセンス
 
