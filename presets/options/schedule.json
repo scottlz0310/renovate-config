@@ -1,7 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"description": "Schedule-based preset for controlled update timing",
-	"schedule": ["before 3am on Monday"],
 	"timezone": "Asia/Tokyo",
 	"packageRules": [
 		{
