@@ -1,0 +1,22 @@
+# lefthook: renovate-config (TypeScript/pnpm)
+# pre-commit: Biome で format / lint をステージ済みファイルに適用
+# pre-push: 型チェック + テスト + knip で CI と同等のゲートを設ける
+pre-commit:
+  parallel: true
+  commands:
+    biome-format:
+      glob: "*.{ts,js,json,jsonc}"
+      run: pnpm exec biome format --write {staged_files}
+      stage_fixed: true
+    biome-lint:
+      glob: "*.{ts,js}"
+      run: pnpm exec biome lint {staged_files}
+
+pre-push:
+  commands:
+    typecheck:
+      run: pnpm run tsc:check
+    test:
+      run: pnpm test
+    knip:
+      run: pnpm run knip
