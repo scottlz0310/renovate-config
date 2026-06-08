@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2026-06-08
+
+### Fixed
+
+- `tools/biome` プリセットの `regexManagers` を `customManagers` に移行し、Renovate v36+ の新 API に対応 (#104)
+  - `fileMatch` → `managerFilePatterns`（パターンを `/pattern/` 形式に変更）
+
 ## [2.2.1] - 2026-05-29
 
 ### Changed
