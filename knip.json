@@ -1,6 +1,6 @@
 {
 	"$schema": "./node_modules/knip/schema.json",
-	"ignoreDependencies": ["lefthook"],
+	"ignoreDependencies": ["lefthook", "renovate"],
 	"entry": [
 		"src/index.ts",
 		"scripts/check-lock-consistency.js",
