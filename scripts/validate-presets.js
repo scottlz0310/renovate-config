@@ -42,12 +42,23 @@ const schemaMemoryCache = new Map();
 const validatorCache = new Map();
 const schemaFetchErrors = new Set();
 
+const isCI = Boolean(process.env.CI);
+
 // Check whether external validator is available once
 let externalValidatorAvailable = true;
 try {
-	execSync("npx renovate-config-validator --version", { stdio: "ignore" });
+	execSync("pnpm exec renovate-config-validator --version", {
+		stdio: "ignore",
+	});
 } catch (_e) {
 	externalValidatorAvailable = false;
+}
+
+if (!externalValidatorAvailable && isCI) {
+	console.error(
+		"renovate-config-validator is not available. Install renovate as a devDependency.",
+	);
+	process.exit(1);
 }
 
 let externalValidatorWarned = false;
@@ -56,12 +67,17 @@ async function validateFile(filePath) {
 	console.log(`Validating ${filePath}...`);
 	if (externalValidatorAvailable) {
 		try {
-			execSync(`npx renovate-config-validator "${filePath}"`, {
+			execSync(`pnpm exec renovate-config-validator "${filePath}"`, {
 				stdio: "inherit",
 			});
 			return true;
 		} catch (_err) {
-			// external validator exists but failed here; fallback to AJV for this file
+			if (isCI) {
+				console.error(
+					`renovate-config-validator failed for ${filePath}. AJV fallback is disabled in CI.`,
+				);
+				return false;
+			}
 			if (!externalValidatorWarned) {
 				console.warn(
 					"renovate-config-validator failed for a file; falling back to AJV schema validation.",
