@@ -9,9 +9,10 @@
 			"semanticCommitScope": "biome"
 		}
 	],
-	"regexManagers": [
+	"customManagers": [
 		{
-			"fileMatch": ["(^|/)biome\\.jsonc?$"],
+			"customType": "regex",
+			"managerFilePatterns": ["/(^|/)biome\\.jsonc?$/"],
 			"matchStrings": [
 				"\"\\$schema\":\\s*\"https://biomejs\\.dev/schemas/(?<currentValue>\\d+\\.\\d+\\.\\d+)/schema\\.json\""
 			],
