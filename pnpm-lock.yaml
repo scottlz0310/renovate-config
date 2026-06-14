@@ -31,14 +31,14 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.20.0)
       knip:
-        specifier: ^6.15.0
-        version: 6.15.0
+        specifier: ^6.16.1
+        version: 6.16.1
       lefthook:
         specifier: ^2.1.9
         version: 2.1.9
       renovate:
-        specifier: ^43.214.6
-        version: 43.214.6(typanion@3.14.0)
+        specifier: ^43.220.0
+        version: 43.220.0(typanion@3.14.0)
       tsx:
         specifier: ^4.22.4
         version: 4.22.4
@@ -1236,9 +1236,6 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/node@24.13.1':
-    resolution: {integrity: sha512-RSpUJGmvsJ1ZeBehQZFhIdpsz+bIpES0nIQXko4Ybq+N+kX6XvOq3Jo+iJ82FWLdblFq85AsMikd3m35jgezYg==}
-
   '@types/node@24.13.2':
     resolution: {integrity: sha512-fRa09kZTgu8o71KFcDjUFuc7F+dEbZYZmkI0mg5YBTRs0yMKjYHsq/c0urDKeDb+D5qVgXOdFcuu+DZPKOITwA==}
 
@@ -2205,8 +2202,8 @@ packages:
     resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
     engines: {node: '>= 8'}
 
-  knip@6.15.0:
-    resolution: {integrity: sha512-uBaKFEGcu/HG4EY2gWFBMr+fBF43Jftoc2riJX51TKME1Z46C8UQIbNEusenYbEWihphxe2PY0Kns0yPvPYz4A==}
+  knip@6.16.1:
+    resolution: {integrity: sha512-TKMn1rxgH6h9vXR9Y0B+Cq7AdPTr9EI02IwoT65NzqYUkvoDQAaJ/aPybiFpAhZ1px6cNYYwXf86iHkBgzCo9w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -2871,8 +2868,8 @@ packages:
   remark@15.0.1:
     resolution: {integrity: sha512-Eht5w30ruCXgFmxVUSlNWQ9iiimq07URKeFS3hNc8cUWy1llX4KDWfyEDZRycMc+znsN9Ux5/tJ/BFdgdOwA3A==}
 
-  renovate@43.214.6:
-    resolution: {integrity: sha512-35M2gs8Mhzh4D/tMr0SyIN1pEcTsJWpYNteRykLxfEux9d/iBy2qQmDj6ovPel8vXGw9jhZHVymk1zgrthRmaA==}
+  renovate@43.220.0:
+    resolution: {integrity: sha512-q3bkIyhnAV+oPirFeiI6jKIjN5IE1sbO7DHiAZgkfjCX68enwNsvm9N9dKYUBqo/GLdPhca9dERm4X0QP7LmvA==}
     engines: {node: ^24.11.0, pnpm: ^10.0.0}
     hasBin: true
 
@@ -4573,13 +4570,13 @@ snapshots:
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 24.13.1
+      '@types/node': 24.13.2
 
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.2.0
       '@types/keyv': 3.1.4
-      '@types/node': 24.13.1
+      '@types/node': 24.13.2
       '@types/responselike': 1.0.3
 
   '@types/chai@5.2.3':
@@ -4601,7 +4598,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 24.13.1
+      '@types/node': 24.13.2
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -4610,10 +4607,6 @@ snapshots:
   '@types/moo@0.5.10': {}
 
   '@types/ms@2.1.0': {}
-
-  '@types/node@24.13.1':
-    dependencies:
-      undici-types: 7.18.2
 
   '@types/node@24.13.2':
     dependencies:
@@ -4625,7 +4618,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 24.13.1
+      '@types/node': 24.13.2
 
   '@types/semver@7.7.1': {}
 
@@ -5672,13 +5665,12 @@ snapshots:
 
   klona@2.0.6: {}
 
-  knip@6.15.0:
+  knip@6.16.1:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       formatly: 0.3.0
       get-tsconfig: 4.14.0
       jiti: 2.7.0
-      minimist: 1.2.8
       oxc-parser: 0.133.0
       oxc-resolver: 11.20.0
       picomatch: 4.0.4
@@ -6510,7 +6502,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  renovate@43.214.6(typanion@3.14.0):
+  renovate@43.220.0(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.1053.0
       '@aws-sdk/client-ec2': 3.1053.0
