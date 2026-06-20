@@ -31,8 +31,11 @@
 			"groupName": "Android Google ecosystem"
 		},
 		{
-			"matchPackageNames": ["org.jetbrains.kotlin.**"],
-			"groupName": "Kotlin libraries and plugins"
+			"matchPackageNames": [
+				"org.jetbrains.kotlin.**",
+				"com.google.devtools.ksp**"
+			],
+			"groupName": "Android Kotlin toolchain"
 		},
 		{
 			"matchManagers": ["gradle-wrapper"],

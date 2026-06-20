@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `languages/android` プリセットで Kotlin / KSP の更新を `Android Kotlin toolchain` グループに分離し、通常の Android ライブラリ更新（`Android minor and patch updates`）と切り離すようにした (#113)
+  - 対象: `org.jetbrains.kotlin.**`（Kotlin plugins・serialization 等）と `com.google.devtools.ksp:**`（KSP）
+  - 旧グループ名 `Kotlin libraries and plugins` を廃止
+
 ## [2.2.2] - 2026-06-08
 
 ### Fixed
