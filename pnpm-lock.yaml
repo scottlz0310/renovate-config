@@ -37,7 +37,7 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9
       renovate:
-        specifier: ^43.228.0
+        specifier: ^43.228.1
         version: 43.231.2(typanion@3.14.0)
       tsx:
         specifier: ^4.22.4
