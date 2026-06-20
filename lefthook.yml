@@ -6,7 +6,7 @@ pre-commit:
   commands:
     biome-format:
       glob: "*.{ts,js,json,jsonc}"
-      exclude: "presets/**"
+      exclude: "{presets,dist}/**"
       run: pnpm exec biome format --write {staged_files}
       stage_fixed: true
     biome-lint:

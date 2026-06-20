@@ -33,7 +33,7 @@
 		{
 			"matchPackageNames": [
 				"org.jetbrains.kotlin.**",
-				"com.google.devtools.ksp:**"
+				"com.google.devtools.ksp**"
 			],
 			"groupName": "Android Kotlin toolchain"
 		},
