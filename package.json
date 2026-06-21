@@ -49,7 +49,7 @@
 		"@vitest/coverage-v8": "^4.1.9",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
-		"knip": "^6.16.1",
+		"knip": "^6.17.1",
 		"lefthook": "^2.1.9",
 		"renovate": "^43.231.4",
 		"tsx": "^4.22.4",
@@ -58,6 +58,6 @@
 	},
 	"packageManager": "pnpm@11.0.8+sha512.4c4097e1dd2d42372c4e7fa5a791ff28fc75a484c7ac192e64b1df0fdef17594ba982f9b4fed9adfb3c757846f565b799b2763fb3733d1de1bcb82cf46684912",
 	"engines": {
-		"node": ">=24.16.0"
+		"node": ">=24.17.0"
 	}
 }
