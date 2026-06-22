@@ -37,7 +37,7 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9
       renovate:
-        specifier: ^43.231.4
+        specifier: ^43.232.0
         version: 43.233.4(typanion@3.14.0)
       tsx:
         specifier: ^4.22.4
@@ -4059,7 +4059,7 @@ snapshots:
 
   '@npmcli/fs@5.0.0':
     dependencies:
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@one-ini/wasm@0.2.1': {}
 
@@ -4749,7 +4749,7 @@ snapshots:
       hpagent: 1.2.0
       micromatch: 4.0.8
       p-limit: 2.3.0
-      semver: 7.8.4
+      semver: 7.8.5
       strip-ansi: 6.0.1
       tar: 7.5.16
       tinylogic: 2.0.0
@@ -4895,7 +4895,7 @@ snapshots:
 
   builtins@5.1.0:
     dependencies:
-      semver: 7.8.4
+      semver: 7.8.5
 
   bunyan@1.8.15:
     optionalDependencies:
@@ -5120,7 +5120,7 @@ snapshots:
       '@one-ini/wasm': 0.2.1
       commander: 14.0.3
       minimatch: 10.2.5
-      semver: 7.8.4
+      semver: 7.8.5
 
   email-addresses@5.0.0: {}
 
@@ -5440,7 +5440,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.8.4
+      semver: 7.8.5
       serialize-error: 7.0.1
 
   globalthis@1.0.4:
@@ -6277,7 +6277,7 @@ snapshots:
       graceful-fs: 4.2.11
       nopt: 9.0.0
       proc-log: 6.1.0
-      semver: 7.8.4
+      semver: 7.8.5
       tar: 7.5.16
       tinyglobby: 0.2.17
       undici: 6.27.0
