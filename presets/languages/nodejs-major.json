@@ -6,7 +6,6 @@
 			"description": "Enable Node.js major updates in package.json engines field",
 			"matchDepNames": ["node"],
 			"matchUpdateTypes": ["major"],
-			"rangeStrategy": "bump",
 			"enabled": true
 		},
 		{
