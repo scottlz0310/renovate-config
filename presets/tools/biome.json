@@ -3,7 +3,7 @@
 	"description": "Biome configuration for Renovate",
 	"packageRules": [
 		{
-			"matchPackageNames": ["@biomejs/biome"],
+			"matchDepNames": ["@biomejs/biome"],
 			"groupName": "Biome",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "biome"

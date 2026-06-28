@@ -19,15 +19,15 @@
 			"groupName": "C# minor and patch updates"
 		},
 		{
-			"matchPackageNames": ["Microsoft.**"],
+			"matchDepNames": ["Microsoft.**"],
 			"groupName": "Microsoft packages"
 		},
 		{
-			"matchPackageNames": ["System.**"],
+			"matchDepNames": ["System.**"],
 			"groupName": "System packages"
 		},
 		{
-			"matchPackageNames": ["dotnet-sdk", "Microsoft.NET.Sdk"],
+			"matchDepNames": ["dotnet-sdk", "Microsoft.NET.Sdk"],
 			"groupName": ".NET SDK"
 		}
 	]

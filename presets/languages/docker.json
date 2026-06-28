@@ -20,12 +20,12 @@
 		},
 		{
 			"matchDatasources": ["docker"],
-			"matchPackageNames": ["alpine", "debian", "ubuntu"],
+			"matchDepNames": ["alpine", "debian", "ubuntu"],
 			"groupName": "Base OS images"
 		},
 		{
 			"matchDatasources": ["docker"],
-			"matchPackageNames": ["node", "python", "golang", "rust"],
+			"matchDepNames": ["node", "python", "golang", "rust"],
 			"groupName": "Language runtime images"
 		}
 	]

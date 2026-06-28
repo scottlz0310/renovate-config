@@ -18,11 +18,11 @@
 			"groupName": "Android minor and patch updates"
 		},
 		{
-			"matchPackageNames": ["androidx.**"],
+			"matchDepNames": ["androidx.**"],
 			"groupName": "AndroidX libraries"
 		},
 		{
-			"matchPackageNames": [
+			"matchDepNames": [
 				"com.android.tools.**",
 				"com.google.android.**",
 				"com.google.firebase.**",
@@ -31,7 +31,7 @@
 			"groupName": "Android Google ecosystem"
 		},
 		{
-			"matchPackageNames": [
+			"matchDepNames": [
 				"org.jetbrains.kotlin.**",
 				"com.google.devtools.ksp**"
 			],
