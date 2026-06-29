@@ -73,6 +73,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 | 言語/環境 | プリセット | 説明 |
 |----------|-----------|------|
 | Node.js | `languages/nodejs` | npm/pnpm パッケージ。npm 更新は公開後 1 日待機 |
+| Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）|
 | TypeScript | `languages/typescript` | TypeScript 関連 |
 | Android | `languages/android` | Android (Kotlin/Java, Gradle) |
 | Python | `languages/python` | uv/pyproject.toml |
@@ -126,6 +127,25 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
     "github>scottlz0310/renovate-config//presets/languages/typescript",
     "github>scottlz0310/renovate-config//presets/options/automerge",
     "github>scottlz0310/renovate-config//presets/options/schedule"
+  ]
+}
+```
+
+## Node.js メジャーバージョン更新（opt-in）
+
+`languages/nodejs-major` は、デフォルトで無効化されている Node.js メジャーバージョン更新を有効にするオプトインプリセットです。
+
+- `package.json` の `engines.node` フィールドのバージョン範囲を bump（例: `>=22` → `>=24`）
+- `.nvmrc` / `.node-version` のメジャー更新
+- Docker ベースイメージ（`node`, `library/node`）のメジャー更新
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs-major"
   ]
 }
 ```

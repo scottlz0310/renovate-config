@@ -1,0 +1,31 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Opt-in preset to enable Node.js major version updates across npm engines, nvm/nodenv, and Docker",
+	"packageRules": [
+		{
+			"description": "Bump engines.node range on major updates so the new version range is actually generated",
+			"matchDepTypes": ["engines"],
+			"matchDepNames": ["node"],
+			"rangeStrategy": "bump"
+		},
+		{
+			"description": "Enable Node.js major updates in package.json engines field",
+			"matchDepNames": ["node"],
+			"matchUpdateTypes": ["major"],
+			"enabled": true
+		},
+		{
+			"description": "Enable Node.js major updates in .nvmrc and .node-version",
+			"matchManagers": ["nvm", "nodenv"],
+			"matchUpdateTypes": ["major"],
+			"enabled": true
+		},
+		{
+			"description": "Enable Node.js major updates for Docker base images",
+			"matchDatasources": ["docker"],
+			"matchDepNames": ["node", "library/node"],
+			"matchUpdateTypes": ["major"],
+			"enabled": true
+		}
+	]
+}
