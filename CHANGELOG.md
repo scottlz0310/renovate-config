@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`languages/nodejs` preset**: pnpm `packageManager` 更新を有効化 (#151)
+  - `enabled: false` を削除し、通常の Renovate 更新フローに委ねる
+  - `groupName: "pnpm"` を付与（`options/schedule` を後段に `extends` する場合は schedule 側のグループに統合される）
+  - `options/automerge` を使うリポジトリでは patch/minor が自動マージされる
+  - major は引き続き手動レビュー対象
+
 - `languages/android` プリセットで Kotlin / KSP の更新を `Android Kotlin toolchain` グループに分離し、通常の Android ライブラリ更新（`Android minor and patch updates`）と切り離すようにした (#113)
   - 対象: `org.jetbrains.kotlin.**`（Kotlin plugins・serialization 等）と `com.google.devtools.ksp:**`（KSP）
   - 旧グループ名 `Kotlin libraries and plugins` を廃止
