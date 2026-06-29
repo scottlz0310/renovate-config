@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`languages/nodejs` preset**: pnpm `packageManager` 更新を有効化 (#151)
   - `enabled: false` を削除し、通常の Renovate 更新フローに委ねる
-  - `groupName: "pnpm"` を付与して更新 PR を明確にラベリング
+  - `groupName: "pnpm"` を付与（`options/schedule` を後段に `extends` する場合は schedule 側のグループに統合される）
   - `options/automerge` を使うリポジトリでは patch/minor が自動マージされる
   - major は引き続き手動レビュー対象
 
