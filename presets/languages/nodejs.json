@@ -36,7 +36,9 @@
 		{
 			"matchDepTypes": ["packageManager"],
 			"matchPackageNames": ["pnpm"],
-			"enabled": false
+			"groupName": "pnpm",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-node"
 		},
 		{
 			"description": "Do not require minimum release age for package-manager controlled lockfile maintenance",
