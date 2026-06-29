@@ -4,19 +4,19 @@
 	"extends": ["group:monorepos", "group:recommended"],
 	"packageRules": [
 		{
-			"matchDepNames": ["@angular/**"],
+			"matchPackageNames": ["@angular/**"],
 			"groupName": "Angular monorepo"
 		},
 		{
-			"matchDepNames": ["@nestjs/**"],
+			"matchPackageNames": ["@nestjs/**"],
 			"groupName": "NestJS monorepo"
 		},
 		{
-			"matchDepNames": ["@vue/**"],
+			"matchPackageNames": ["@vue/**"],
 			"groupName": "Vue monorepo"
 		},
 		{
-			"matchDepNames": ["@nuxt/**"],
+			"matchPackageNames": ["@nuxt/**"],
 			"groupName": "Nuxt monorepo"
 		}
 	]

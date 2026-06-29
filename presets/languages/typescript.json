@@ -4,25 +4,25 @@
 	"packageRules": [
 		{
 			"matchDatasources": ["npm"],
-			"matchDepNames": ["typescript"],
+			"matchPackageNames": ["typescript"],
 			"groupName": "TypeScript",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "deps-typescript"
 		},
 		{
-			"matchDepNames": ["@typescript-eslint/**"],
+			"matchPackageNames": ["@typescript-eslint/**"],
 			"groupName": "TypeScript ESLint",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "deps-eslint"
 		},
 		{
-			"matchDepNames": ["@types/**"],
+			"matchPackageNames": ["@types/**"],
 			"groupName": "TypeScript type definitions",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "deps-types"
 		},
 		{
-			"matchDepNames": ["ts-node", "ts-jest", "tsx", "tsup", "vitest"],
+			"matchPackageNames": ["ts-node", "ts-jest", "tsx", "tsup", "vitest"],
 			"groupName": "TypeScript tools",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "deps-tools"

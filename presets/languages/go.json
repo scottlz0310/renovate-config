@@ -19,11 +19,11 @@
 			"groupName": "Go minor and patch updates"
 		},
 		{
-			"matchDepNames": ["golang"],
+			"matchPackageNames": ["golang"],
 			"groupName": "Go version"
 		},
 		{
-			"matchDepNames": ["github.com/**"],
+			"matchPackageNames": ["github.com/**"],
 			"groupName": "GitHub Go packages"
 		}
 	],

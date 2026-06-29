@@ -22,7 +22,7 @@
 			"automergeStrategy": "squash"
 		},
 		{
-			"matchDepNames": ["@types/**"],
+			"matchPackageNames": ["@types/**"],
 			"automerge": true
 		}
 	],

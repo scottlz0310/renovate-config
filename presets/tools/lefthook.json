@@ -3,7 +3,7 @@
 	"description": "Lefthook configuration for Renovate",
 	"packageRules": [
 		{
-			"matchDepNames": ["lefthook"],
+			"matchPackageNames": ["lefthook"],
 			"groupName": "lefthook",
 			"labels": ["lefthook"],
 			"semanticCommitType": "chore",

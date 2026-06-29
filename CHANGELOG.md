@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`languages/nodejs-major` preset** — opt-in preset to enable Node.js major version updates (#146, #150)
+  - `package.json` の `engines.node` 範囲を `rangeStrategy: "bump"` でバンプ（例: `>=22` → `>=24`）
+  - `.nvmrc` / `.node-version` のメジャーバージョン更新を有効化
+  - Docker ベースイメージ（`node`, `library/node`）のメジャー更新を有効化
+  - デフォルト設定と分離したオプトインプリセットとして提供
+
 ### Changed
 
 - `languages/android` プリセットで Kotlin / KSP の更新を `Android Kotlin toolchain` グループに分離し、通常の Android ライブラリ更新（`Android minor and patch updates`）と切り離すようにした (#113)

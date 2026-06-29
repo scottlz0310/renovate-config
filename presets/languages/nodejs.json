@@ -30,12 +30,12 @@
 			"groupName": "Node.js dev dependencies"
 		},
 		{
-			"matchDepNames": ["@types/**"],
+			"matchPackageNames": ["@types/**"],
 			"groupName": "Type definitions"
 		},
 		{
 			"matchDepTypes": ["packageManager"],
-			"matchDepNames": ["pnpm"],
+			"matchPackageNames": ["pnpm"],
 			"enabled": false
 		},
 		{

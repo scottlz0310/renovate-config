@@ -57,6 +57,7 @@ Create `renovate.json` in your project root:
 Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 
 - `nodejs`
+- `nodejs-major` — opt-in preset to enable Node.js major version updates (engines/nvm/nodenv/Docker)
 - `typescript`
 - `android`
 - `python`
@@ -82,6 +83,25 @@ Use: `github>scottlz0310/renovate-config//presets/options/<name>`
 - `security`
 - `production`
 - `monorepo`
+
+## Node.js Major Version Updates (opt-in)
+
+The `languages/nodejs-major` preset enables Node.js major version updates, which are disabled by default in Renovate.
+
+- Bumps the `engines.node` range in `package.json` (e.g. `>=22` → `>=24`)
+- Enables major updates in `.nvmrc` and `.node-version`
+- Enables major updates for Docker base images (`node`, `library/node`)
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs-major"
+  ]
+}
+```
 
 ## CLI Options
 
