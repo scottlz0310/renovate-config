@@ -31,13 +31,13 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.20.0)
       knip:
-        specifier: ^6.21.0
+        specifier: ^6.22.0
         version: 6.22.0
       lefthook:
         specifier: ^2.1.9
         version: 2.1.9
       renovate:
-        specifier: ^43.244.4
+        specifier: ^43.245.0
         version: 43.245.0(typanion@3.14.0)
       tsx:
         specifier: ^4.22.4
