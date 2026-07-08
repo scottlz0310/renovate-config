@@ -37,7 +37,7 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9
       renovate:
-        specifier: ^43.252.1
+        specifier: ^43.252.8
         version: 43.255.0(typanion@3.14.0)
       tsx:
         specifier: ^4.23.0
@@ -2707,10 +2707,6 @@ packages:
     resolution: {integrity: sha512-T8BatKGY+k5rU+Q/GTYgrEf2r4xRMevAN5mtXc2aPc4rS1j3s+vWTaO2Wag94neXuCAUAs8cxBL9EeB5EA6diw==}
     engines: {node: '>=16'}
 
-  p-map@7.0.4:
-    resolution: {integrity: sha512-tkAQEw8ysMzmkhgw8k+1U/iPhWNhykKnSk4Rd5zLoPJCuJaGRPo6YposrZgaxHKzDHdDWWZvE/Sk7hsL2X/CpQ==}
-    engines: {node: '>=18'}
-
   p-map@7.0.5:
     resolution: {integrity: sha512-e8vJF4XdVkzqqSHguEMz41mQO1wKwxKm5ENrUJQUu9kLDCtn83cxbyHZcszr4QC5zEA7WffRRC4gsTecC7J9oA==}
     engines: {node: '>=18'}
@@ -4323,7 +4319,7 @@ snapshots:
 
   '@renovatebot/detect-tools@4.0.8':
     dependencies:
-      fs-extra: 11.3.5
+      fs-extra: 11.3.6
       toml-eslint-parser: 1.0.3
       upath: 3.0.7
       zod: 4.4.3
@@ -4812,7 +4808,7 @@ snapshots:
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
       minipass-pipeline: 1.2.4
-      p-map: 7.0.4
+      p-map: 7.0.5
       ssri: 13.0.1
 
   cacheable-lookup@5.0.4: {}
@@ -6286,8 +6282,6 @@ snapshots:
   p-map@2.1.0: {}
 
   p-map@6.0.0: {}
-
-  p-map@7.0.4: {}
 
   p-map@7.0.5: {}
 
