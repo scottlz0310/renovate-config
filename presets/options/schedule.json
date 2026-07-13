@@ -20,7 +20,9 @@
 		}
 	],
 	"lockFileMaintenance": {
+		"description": "Reset minimumReleaseAge: lockFileMaintenance upgrades have no releaseTimestamp, so an inherited minimumReleaseAge leaves the stability-days status pending forever",
 		"enabled": true,
-		"schedule": ["before 3am on Monday"]
+		"schedule": ["before 3am on Monday"],
+		"minimumReleaseAge": null
 	}
 }
