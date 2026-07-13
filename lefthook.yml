@@ -6,7 +6,10 @@ pre-commit:
   commands:
     biome-format:
       glob: "*.{ts,js,json,jsonc}"
-      exclude: "{presets,dist}/**"
+      # 文字列の exclude は正規表現として解釈されるため、glob はリスト形式で指定する
+      exclude:
+        - "presets/**"
+        - "dist/**"
       run: pnpm exec biome format --write {staged_files}
       stage_fixed: true
     biome-lint:

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `options/schedule` プリセットの `lockFileMaintenance` で `minimumReleaseAge` を `null` にリセット (#176)
+  - 利用側リポジトリがトップレベルに `minimumReleaseAge` を設定していると、lockFileMaintenance PR の `renovate/stability-days` が永遠に pending になる問題を修正
+  - lockFileMaintenance の更新は `releaseTimestamp` を持たないため、Renovate v42+ ではタイムスタンプ不明の更新が「未達」扱いとなり続けることが原因
+
 ## [2.3.0] - 2026-06-29
 
 ### Added
