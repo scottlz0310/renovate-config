@@ -2,7 +2,7 @@
 
 Renovateの設定を一元管理するためのリポジトリ
 
-各言語・環境（Python, Node.js, TypeScript, Android, Docker, C#, C++, Rust, Go）に対応した設定と、プロジェクト毎の部分的な調整設定（プリセット）を提供します。
+各言語・環境（Python, Node.js, TypeScript, Android, Docker, C#, C++, Rust, Go）とパッケージマネージャ（npm, pnpm, Bun）に対応した設定、およびプロジェクト毎の部分的な調整設定（プリセット）を提供します。
 
 ## クイックスタート
 
@@ -37,12 +37,16 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   ./                        (project root)
   ├── package.json         → Node.js
   ├── tsconfig.json        → TypeScript
-  └── Dockerfile           → Docker
+  ├── Dockerfile           → Docker
+  └── pnpm-lock.yaml       → pnpm
 
 ◆ Select Languages:
   ☑ Node.js      (detected)
   ☑ TypeScript   (detected)
   ☑ Docker       (detected)
+
+◆ Select Package Managers:
+  ☑ pnpm         (detected)
 
 ◆ Select Tools:
   ☑ Pre-commit   (detected)
@@ -63,7 +67,8 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   "extends": [
     "github>scottlz0310/renovate-config//presets/default",
     "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript"
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/package-managers/npm"
   ]
 }
 ```
@@ -72,7 +77,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 
 | 言語/環境 | プリセット | 説明 |
 |----------|-----------|------|
-| Node.js | `languages/nodejs` | npm/pnpm パッケージ。npm 更新は公開後 1 日待機 |
+| Node.js | `languages/nodejs` | npm datasource の依存パッケージ。公開後 1 日待機 |
 | Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）|
 | TypeScript | `languages/typescript` | TypeScript 関連 |
 | Android | `languages/android` | Android (Kotlin/Java, Gradle) |
@@ -82,6 +87,16 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 | Rust | `languages/rust` | Cargo |
 | C# | `languages/csharp` | NuGet, .NET |
 | C++ | `languages/cpp` | Conan, vcpkg, CMake |
+
+## パッケージマネージャ
+
+| パッケージマネージャ | プリセット | 検出ファイル |
+|-------------------|-----------|-------------|
+| npm | `package-managers/npm` | `package-lock.json` |
+| pnpm | `package-managers/pnpm` | `pnpm-lock.yaml` |
+| Bun | `package-managers/bun` | `bun.lock`, `bun.lockb` |
+
+`package-managers/bun` は `.bun-version` の Bun ランタイム更新にも対応します。`package.json` の `packageManager` フィールドによる Bun バージョン更新は Corepack と Renovate が対応していないため対象外です。新規プロジェクトではテキスト形式の `bun.lock` を推奨します。
 
 ## ツール
 
@@ -116,7 +131,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 }
 ```
 
-### Node.js + 自動マージ + スケジュール
+### Node.js + pnpm + 自動マージ + スケジュール
 
 ```json
 {
@@ -125,6 +140,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
     "github>scottlz0310/renovate-config//presets/default",
     "github>scottlz0310/renovate-config//presets/languages/nodejs",
     "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/package-managers/pnpm",
     "github>scottlz0310/renovate-config//presets/options/automerge",
     "github>scottlz0310/renovate-config//presets/options/schedule"
   ]
@@ -162,8 +178,8 @@ renovate-config-init --yes
 # ドライラン（ファイルを作成せずプレビュー）
 renovate-config-init --dry-run
 
-# プリセットを指定（例: nodejs,typescript,automerge）
-renovate-config-init --presets nodejs,typescript,automerge
+# プリセットを指定（例: nodejs,pnpm,typescript,automerge）
+renovate-config-init --presets nodejs,pnpm,typescript,automerge
 
 # 出力先を指定（ファイル or ディレクトリ）
 renovate-config-init --output ./config/renovate.json

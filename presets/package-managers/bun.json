@@ -1,0 +1,22 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Bun package-manager configuration for bun.lock and legacy bun.lockb projects. Migrate bun.lockb to the text-based bun.lock format when possible.",
+	"packageRules": [
+		{
+			"matchManagers": ["bun"],
+			"groupName": "Bun dependencies",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-node"
+		},
+		{
+			"matchManagers": ["bun-version"],
+			"matchPackageNames": ["bun"],
+			"groupName": "Bun runtime",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "deps-node"
+		}
+	],
+	"lockFileMaintenance": {
+		"enabled": true
+	}
+}

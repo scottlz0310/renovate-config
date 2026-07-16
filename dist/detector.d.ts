@@ -1,12 +1,13 @@
+type PresetCategory = "languages" | "package-managers" | "tools";
 interface DetectionRule {
     preset: string;
-    category: "languages" | "tools";
+    category: PresetCategory;
     label: string;
     patterns: string[];
 }
 interface DetectionResult {
     preset: string;
-    category: "languages" | "tools";
+    category: PresetCategory;
     label: string;
     matchedFiles: string[];
 }

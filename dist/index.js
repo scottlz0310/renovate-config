@@ -46,7 +46,7 @@ Usage:
 Options:
   -y, --yes      Accept detected presets without prompting
   --dry-run      Show what would be created without writing files
-  --presets      Comma-separated list of presets to apply (e.g. nodejs,typescript)
+  --presets      Comma-separated list of presets to apply (e.g. nodejs,pnpm,typescript)
                  (invalid presets cause an error in non-interactive mode)
   --output       Output path for root renovate.json (file or directory)
   -h, --help     Show this help message
@@ -75,6 +75,7 @@ async function main() {
             .map((s) => s.trim())
             .filter(Boolean);
         const langs = [];
+        const packageManagers = [];
         const tools = [];
         const opts = [];
         const unknown = [];
@@ -86,6 +87,11 @@ async function main() {
             if (categoryHint === "languages" ||
                 DETECTION_RULES.some((r) => r.preset === presetName && r.category === "languages")) {
                 langs.push(presetName);
+                continue;
+            }
+            if (categoryHint === "package-managers" ||
+                DETECTION_RULES.some((r) => r.preset === presetName && r.category === "package-managers")) {
+                packageManagers.push(presetName);
                 continue;
             }
             if (categoryHint === "tools" ||
@@ -109,6 +115,7 @@ async function main() {
         }
         selected = {
             languages: Array.from(new Set(langs)),
+            packageManagers: Array.from(new Set(packageManagers)),
             tools: Array.from(new Set(tools)),
             options: Array.from(new Set(opts)),
         };
@@ -118,10 +125,15 @@ async function main() {
         const detectedPresets = getAllDetectedPresets(scanResult);
         selected = {
             languages: Array.from(detectedPresets).filter((preset) => DETECTION_RULES.some((r) => r.preset === preset && r.category === "languages")),
+            packageManagers: Array.from(detectedPresets).filter((preset) => DETECTION_RULES.some((r) => r.preset === preset && r.category === "package-managers")),
             tools: Array.from(detectedPresets).filter((preset) => DETECTION_RULES.some((r) => r.preset === preset && r.category === "tools")),
             options: [],
         };
-        p.log.info(`Auto-selected: ${[...selected.languages, ...selected.tools].join(", ") || "none"}`);
+        p.log.info(`Auto-selected: ${[
+            ...selected.languages,
+            ...selected.packageManagers,
+            ...selected.tools,
+        ].join(", ") || "none"}`);
     }
     else {
         // Interactive selection

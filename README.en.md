@@ -3,7 +3,8 @@
 Centralized Renovate configuration presets for multi-language projects.
 
 This repository provides:
-- Reusable presets under `presets/` (languages/tools/options)
+
+- Reusable presets under `presets/` (languages/package-managers/tools/options)
 - A CLI to generate `renovate.json` automatically
 
 ## Quick Start
@@ -32,8 +33,9 @@ renovate-config-init
 
 The CLI detects your project structure and guides you through:
 1) Languages
-2) Tools
-3) Options
+2) Package managers
+3) Tools
+4) Options
 
 ### Manual setup
 
@@ -45,7 +47,8 @@ Create `renovate.json` in your project root:
   "extends": [
     "github>scottlz0310/renovate-config//presets/default",
     "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript"
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/package-managers/npm"
   ]
 }
 ```
@@ -66,6 +69,16 @@ Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 - `rust`
 - `csharp`
 - `cpp`
+
+### Package managers
+
+Use: `github>scottlz0310/renovate-config//presets/package-managers/<name>`
+
+- `npm` — detected from `package-lock.json`
+- `pnpm` — detected from `pnpm-lock.yaml`
+- `bun` — detected from `bun.lock` or legacy `bun.lockb`; also updates `.bun-version`
+
+Corepack and Renovate do not support updating Bun through the `package.json` `packageManager` field. Use `.bun-version` with the `package-managers/bun` preset instead. Prefer the text-based `bun.lock` format for new projects.
 
 ### Tools
 
@@ -115,8 +128,8 @@ renovate-config-init --yes
 # Dry run (preview without writing files)
 renovate-config-init --dry-run
 
-# Specify presets (e.g. nodejs,typescript,automerge)
-renovate-config-init --presets nodejs,typescript,automerge
+# Specify presets (e.g. nodejs,pnpm,typescript,automerge)
+renovate-config-init --presets nodejs,pnpm,typescript,automerge
 
 # Specify output path (file or directory)
 renovate-config-init --output ./config/renovate.json

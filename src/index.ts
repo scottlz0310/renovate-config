@@ -69,7 +69,7 @@ Usage:
 Options:
   -y, --yes      Accept detected presets without prompting
   --dry-run      Show what would be created without writing files
-  --presets      Comma-separated list of presets to apply (e.g. nodejs,typescript)
+  --presets      Comma-separated list of presets to apply (e.g. nodejs,pnpm,typescript)
                  (invalid presets cause an error in non-interactive mode)
   --output       Output path for root renovate.json (file or directory)
   -h, --help     Show this help message
@@ -107,6 +107,7 @@ async function main(): Promise<void> {
 			.map((s) => s.trim())
 			.filter(Boolean);
 		const langs: string[] = [];
+		const packageManagers: string[] = [];
 		const tools: string[] = [];
 		const opts: string[] = [];
 		const unknown: string[] = [];
@@ -124,6 +125,16 @@ async function main(): Promise<void> {
 				)
 			) {
 				langs.push(presetName);
+				continue;
+			}
+
+			if (
+				categoryHint === "package-managers" ||
+				DETECTION_RULES.some(
+					(r) => r.preset === presetName && r.category === "package-managers",
+				)
+			) {
+				packageManagers.push(presetName);
 				continue;
 			}
 
@@ -156,6 +167,7 @@ async function main(): Promise<void> {
 
 		selected = {
 			languages: Array.from(new Set(langs)),
+			packageManagers: Array.from(new Set(packageManagers)),
 			tools: Array.from(new Set(tools)),
 			options: Array.from(new Set(opts)),
 		};
@@ -168,6 +180,11 @@ async function main(): Promise<void> {
 					(r) => r.preset === preset && r.category === "languages",
 				),
 			),
+			packageManagers: Array.from(detectedPresets).filter((preset) =>
+				DETECTION_RULES.some(
+					(r) => r.preset === preset && r.category === "package-managers",
+				),
+			),
 			tools: Array.from(detectedPresets).filter((preset) =>
 				DETECTION_RULES.some(
 					(r) => r.preset === preset && r.category === "tools",
@@ -176,7 +193,13 @@ async function main(): Promise<void> {
 			options: [],
 		};
 		p.log.info(
-			`Auto-selected: ${[...selected.languages, ...selected.tools].join(", ") || "none"}`,
+			`Auto-selected: ${
+				[
+					...selected.languages,
+					...selected.packageManagers,
+					...selected.tools,
+				].join(", ") || "none"
+			}`,
 		);
 	} else {
 		// Interactive selection

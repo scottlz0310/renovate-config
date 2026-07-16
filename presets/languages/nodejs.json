@@ -1,6 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Node.js project configuration for Renovate",
+	"description": "Node.js project configuration for Renovate. Bun versions cannot be updated through package.json packageManager because Corepack and Renovate do not support Bun there; use .bun-version with package-managers/bun instead.",
 	"packageRules": [
 		{
 			"description": "Wait for npm releases to mature before raising update branches",
@@ -32,13 +32,6 @@
 		{
 			"matchPackageNames": ["@types/**"],
 			"groupName": "Type definitions"
-		},
-		{
-			"matchDepTypes": ["packageManager"],
-			"matchPackageNames": ["pnpm"],
-			"groupName": "pnpm",
-			"semanticCommitType": "chore",
-			"semanticCommitScope": "deps-node"
 		},
 		{
 			"description": "Do not require minimum release age for package-manager controlled lockfile maintenance",

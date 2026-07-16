@@ -19,6 +19,9 @@ function generateRootConfig(options) {
     for (const lang of options.languages) {
         extendsSet.add(buildPresetRef("languages", lang));
     }
+    for (const packageManager of options.packageManagers) {
+        extendsSet.add(buildPresetRef("package-managers", packageManager));
+    }
     for (const tool of options.tools) {
         extendsSet.add(buildPresetRef("tools", tool));
     }

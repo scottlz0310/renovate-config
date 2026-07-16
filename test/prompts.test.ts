@@ -14,17 +14,22 @@ import type { ScanResult } from "../src/detector.js";
 import { selectPresets } from "../src/prompts";
 
 describe("prompts.selectPresets", () => {
-	it("selects languages, then tools, then options", async () => {
+	it("selects languages, package managers, tools, then options", async () => {
 		const multiselect = p.multiselect as unknown as Mock;
 
 		type PromptOption = { value: string; hint?: string };
 		let languageOptions: PromptOption[] | undefined;
+		let packageManagerOptions: PromptOption[] | undefined;
 		let toolOptions: PromptOption[] | undefined;
 
 		multiselect
 			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
 				languageOptions = args.options;
 				return ["nodejs"];
+			})
+			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
+				packageManagerOptions = args.options;
+				return ["pnpm"];
 			})
 			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
 				toolOptions = args.options;
@@ -42,6 +47,12 @@ describe("prompts.selectPresets", () => {
 						category: "languages",
 						label: "Node.js",
 						matchedFiles: ["package.json"],
+					},
+					{
+						preset: "pnpm",
+						category: "package-managers",
+						label: "pnpm",
+						matchedFiles: ["pnpm-lock.yaml"],
 					},
 					{
 						preset: "precommit",
@@ -65,6 +76,7 @@ describe("prompts.selectPresets", () => {
 
 		expect(result).toEqual({
 			languages: ["nodejs"],
+			packageManagers: ["pnpm"],
 			tools: ["precommit", "lefthook"],
 			options: ["automerge"],
 		});
@@ -73,6 +85,11 @@ describe("prompts.selectPresets", () => {
 		const nodeOption = languageOptions?.find((o) => o.value === "nodejs");
 		expect(nodeOption).toBeTruthy();
 		expect(nodeOption.hint).toBe("recommended");
+
+		expect(Array.isArray(packageManagerOptions)).toBe(true);
+		const pnpmOption = packageManagerOptions?.find((o) => o.value === "pnpm");
+		expect(pnpmOption).toBeTruthy();
+		expect(pnpmOption.hint).toBe("recommended");
 
 		expect(Array.isArray(toolOptions)).toBe(true);
 		const lefthookOption = toolOptions?.find((o) => o.value === "lefthook");
