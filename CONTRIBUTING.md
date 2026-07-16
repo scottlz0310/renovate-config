@@ -27,8 +27,8 @@ If you want to add support for a new language or improve an existing language pr
    - Group related dependencies
 4. Validate your configuration:
    ```bash
-   pnpm install
-   pnpm exec renovate-config-validator presets/languages/your-file.json
+   bun install
+   bunx renovate-config-validator presets/languages/your-file.json
    ```
 5. Add an example in `examples/` directory
 6. Update `package.json` to include your preset in the `renovate-config` section
@@ -60,11 +60,11 @@ All configuration files must pass validation:
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Validate all files
 for file in $(find . -name "*.json" -not -path '*/node_modules/*'); do
-  pnpm exec renovate-config-validator "$file"
+  bunx renovate-config-validator "$file"
 done
 ```
 
@@ -106,13 +106,13 @@ git clone https://github.com/scottlz0310/renovate-config.git
 cd renovate-config
 
 # Install dependencies
-pnpm install
+bun install
 
 # Install git hooks (optional but recommended)
-pnpm exec lefthook install
+bunx lefthook install
 
 # Validate configurations
-pnpm run validate
+bun run validate
 ```
 
 ## Questions?

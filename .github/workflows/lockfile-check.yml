@@ -17,7 +17,12 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Check for package.json changes without pnpm-lock.yaml update
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version-file: ".bun-version"
+
+            - name: Check for package.json changes without bun.lock update
               env:
                   BASE: ${{ github.base_ref }}
               run: |
@@ -26,10 +31,10 @@ jobs:
                   CHANGED=$(git diff --name-only origin/$BASE..HEAD)
                   echo "$CHANGED"
                   if echo "$CHANGED" | grep -q "^package.json$"; then
-                      if echo "$CHANGED" | grep -q "^pnpm-lock.yaml$"; then
-                          echo "pnpm-lock.yaml updated alongside package.json"
+                      if echo "$CHANGED" | grep -q "^bun.lock$"; then
+                          echo "bun.lock updated alongside package.json"
                           exit 0
                       fi
-                      echo "package.json changed without pnpm-lock.yaml; inspecting dependency-related fields..."
-                      node ./scripts/check-lock-consistency.js "$BASE"
+                      echo "package.json changed without bun.lock; inspecting dependency-related fields..."
+                      bun ./scripts/check-lock-consistency.js "$BASE"
                   fi

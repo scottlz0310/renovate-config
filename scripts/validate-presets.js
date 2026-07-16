@@ -2,7 +2,7 @@
 /**
  * Validate all Renovate preset files
  */
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import {
 	existsSync,
 	mkdirSync,
@@ -47,7 +47,7 @@ const isCI = Boolean(process.env.CI);
 // Check whether external validator is available once
 let externalValidatorAvailable = true;
 try {
-	execSync("pnpm exec renovate-config-validator --version", {
+	execFileSync("bun", ["x", "renovate-config-validator", "--version"], {
 		stdio: "ignore",
 	});
 } catch (_e) {
@@ -67,7 +67,7 @@ async function validateFile(filePath) {
 	console.log(`Validating ${filePath}...`);
 	if (externalValidatorAvailable) {
 		try {
-			execSync(`pnpm exec renovate-config-validator "${filePath}"`, {
+			execFileSync("bun", ["x", "renovate-config-validator", filePath], {
 				stdio: "inherit",
 			});
 			return true;

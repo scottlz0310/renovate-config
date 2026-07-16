@@ -22,20 +22,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '24.18.0'
-          cache: 'pnpm'
+          bun-version-file: ".bun-version"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Validate presets
-        run: pnpm run validate
+        run: bun run validate
 
   build-cli:
     name: Build CLI
@@ -48,20 +44,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '24.18.0'
-          cache: 'pnpm'
+          bun-version-file: ".bun-version"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Build CLI
-        run: pnpm run build
+        run: bun run build
 
       - name: Test CLI help
-        run: node dist/index.js --help
+        run: bun dist/index.js --help

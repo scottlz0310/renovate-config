@@ -9,19 +9,19 @@ Renovateの設定を一元管理するためのリポジトリ
 ### CLI ツールで自動設定（推奨）
 
 ```bash
-# pnpm dlx で実行（推奨: グローバルに入れない）
+# bunx で実行（推奨: グローバルに入れない）
 # ※ npm で 404 になる場合: パッケージが未公開/非公開、または権限がありません
-pnpm dlx @scottlz0310/renovate-config-init
+bunx @scottlz0310/renovate-config-init
 
 # このリポジトリを clone して開発/動作確認する場合
-pnpm install
-pnpm run dev
+bun install
+bun run dev
 
 # グローバルインストール（npm レジストリから）
-pnpm add -g @scottlz0310/renovate-config-init
+bun add --global @scottlz0310/renovate-config-init
 
 # GitHubから直接インストール
-pnpm add -g git+https://github.com/scottlz0310/renovate-config.git
+bun add --global git+https://github.com/scottlz0310/renovate-config.git
 
 # プロジェクトディレクトリで実行
 cd your-project
@@ -38,7 +38,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   ├── package.json         → Node.js
   ├── tsconfig.json        → TypeScript
   ├── Dockerfile           → Docker
-  └── pnpm-lock.yaml       → pnpm
+  └── bun.lock             → Bun
 
 ◆ Select Languages:
   ☑ Node.js      (detected)
@@ -46,7 +46,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   ☑ Docker       (detected)
 
 ◆ Select Package Managers:
-  ☑ pnpm         (detected)
+  ☑ Bun          (detected)
 
 ◆ Select Tools:
   ☑ Pre-commit   (detected)
@@ -147,6 +147,22 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 }
 ```
 
+### Node.js + TypeScript + Bun
+
+Bunを使うリポジトリでは、言語プリセットに加えて `package-managers/bun` を `extends` します。`bun.lock` と `.bun-version` をコミットし、Bunのバージョンは `package.json` の `packageManager` ではなく `.bun-version` で管理してください。
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/package-managers/bun"
+  ]
+}
+```
+
 ## Node.js メジャーバージョン更新（opt-in）
 
 `languages/nodejs-major` は、デフォルトで無効化されている Node.js メジャーバージョン更新を有効にするオプトインプリセットです。
@@ -196,10 +212,10 @@ renovate-config-init --help
 
 ```bash
 # renovate-config を clone したディレクトリで
-pnpm install
+bun install
 
 # CLI をグローバルインストール（絶対パス推奨）
-pnpm add -g "$(pwd)"
+bun add --global "$(pwd)"
 
 # 別リポジトリで動作確認
 cd /path/to/your-project
@@ -216,7 +232,7 @@ renovate-config-init --help
 - 脆弱性アラートの有効化
 - タイムゾーン: Asia/Tokyo
 
-`presets/languages/nodejs.json` では npm パッケージ更新に `minimumReleaseAge: "1 day"` と `internalChecksFilter: "strict"` を適用します。pnpm 11 の minimum release age policy と Renovate の PR 作成タイミングを揃え、公開直後のパッケージを含む lockfile で CI が失敗することを抑制します。
+`presets/languages/nodejs.json` では npm パッケージ更新に `minimumReleaseAge: "1 day"` と `internalChecksFilter: "strict"` を適用し、公開直後のパッケージを含む lockfile で CI が失敗することを抑制します。
 
 ## ライセンス
 
