@@ -5,6 +5,53 @@ import { describe, expect, it } from "vitest";
 import { getAllDetectedPresets, scanProject } from "../src/detector.js";
 
 describe("detector.scanProject", () => {
+	it.each([
+		["npm", ["package-lock.json"]],
+		["pnpm", ["pnpm-lock.yaml"]],
+		["bun", ["bun.lock"]],
+		["bun", ["bun.lockb"]],
+	] as const)("detects the %s package manager from its lockfile", async (expectedPreset, lockfiles) => {
+		const dir = await mkdtemp(join(tmpdir(), "renovate-config-init-"));
+		try {
+			for (const lockfile of lockfiles) {
+				await writeFile(join(dir, lockfile), "");
+			}
+
+			const scanResult = await scanProject(dir);
+			const packageManagers = scanResult.root.detectedPresets.filter(
+				(preset) => preset.category === "package-managers",
+			);
+
+			expect(packageManagers).toHaveLength(1);
+			expect(packageManagers[0]?.preset).toBe(expectedPreset);
+			expect(packageManagers[0]?.matchedFiles).toEqual([...lockfiles]);
+		} finally {
+			await rm(dir, { recursive: true, force: true });
+		}
+	});
+
+	it("detects each package manager when multiple lockfiles coexist", async () => {
+		const dir = await mkdtemp(join(tmpdir(), "renovate-config-init-"));
+		try {
+			for (const lockfile of [
+				"package-lock.json",
+				"pnpm-lock.yaml",
+				"bun.lock",
+			]) {
+				await writeFile(join(dir, lockfile), "");
+			}
+
+			const scanResult = await scanProject(dir);
+			const packageManagers = scanResult.root.detectedPresets
+				.filter((preset) => preset.category === "package-managers")
+				.map((preset) => preset.preset);
+
+			expect(packageManagers).toEqual(["npm", "pnpm", "bun"]);
+		} finally {
+			await rm(dir, { recursive: true, force: true });
+		}
+	});
+
 	it("detects Android projects from app Gradle module files", async () => {
 		const dir = await mkdtemp(join(tmpdir(), "renovate-config-init-"));
 		try {

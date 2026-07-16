@@ -3,16 +3,18 @@
  */
 import { dirname, join } from "node:path";
 
+type PresetCategory = "languages" | "package-managers" | "tools";
+
 interface DetectionRule {
 	preset: string;
-	category: "languages" | "tools";
+	category: PresetCategory;
 	label: string;
 	patterns: string[];
 }
 
 interface DetectionResult {
 	preset: string;
-	category: "languages" | "tools";
+	category: PresetCategory;
 	label: string;
 	matchedFiles: string[];
 }
@@ -106,6 +108,25 @@ const DETECTION_RULES: DetectionRule[] = [
 		category: "languages",
 		label: "C++",
 		patterns: ["CMakeLists.txt", "conanfile.txt", "vcpkg.json"],
+	},
+	// Package managers
+	{
+		preset: "npm",
+		category: "package-managers",
+		label: "npm",
+		patterns: ["package-lock.json"],
+	},
+	{
+		preset: "pnpm",
+		category: "package-managers",
+		label: "pnpm",
+		patterns: ["pnpm-lock.yaml"],
+	},
+	{
+		preset: "bun",
+		category: "package-managers",
+		label: "Bun",
+		patterns: ["bun.lock", "bun.lockb"],
 	},
 	// Tools
 	{

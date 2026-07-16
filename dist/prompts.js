@@ -40,6 +40,11 @@ export async function selectPresets(scanResult) {
         label: `${r.label}${detectedPresets.has(r.preset) ? " (detected)" : ""}`,
         hint: detectedPresets.has(r.preset) ? "recommended" : undefined,
     }));
+    const packageManagerOptions = DETECTION_RULES.filter((r) => r.category === "package-managers").map((r) => ({
+        value: r.preset,
+        label: `${r.label}${detectedPresets.has(r.preset) ? " (detected)" : ""}`,
+        hint: detectedPresets.has(r.preset) ? "recommended" : undefined,
+    }));
     const optionOptions = OPTION_PRESETS.map((o) => ({
         value: o.preset,
         label: o.label,
@@ -56,6 +61,17 @@ export async function selectPresets(scanResult) {
     });
     if (p.isCancel(selectedLanguages))
         return selectedLanguages;
+    const selectedPackageManagers = await p.multiselect({
+        message: "Select Package Managers:",
+        // biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
+        options: packageManagerOptions,
+        initialValues: packageManagerOptions
+            .filter((o) => detectedPresets.has(o.value))
+            .map((o) => o.value),
+        required: false,
+    });
+    if (p.isCancel(selectedPackageManagers))
+        return selectedPackageManagers;
     const selectedTools = await p.multiselect({
         message: "Select Tools:",
         // biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
@@ -78,6 +94,7 @@ export async function selectPresets(scanResult) {
         return selectedOptions;
     return {
         languages: selectedLanguages,
+        packageManagers: selectedPackageManagers,
         tools: selectedTools,
         options: selectedOptions,
     };

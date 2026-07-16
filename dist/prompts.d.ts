@@ -2,6 +2,7 @@ import type { ScanResult } from "./detector.js";
 import type { OutputFile } from "./generator.js";
 interface SelectedPresets {
     languages: string[];
+    packageManagers: string[];
     tools: string[];
     options: string[];
 }

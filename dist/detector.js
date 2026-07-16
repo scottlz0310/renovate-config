@@ -73,6 +73,25 @@ const DETECTION_RULES = [
         label: "C++",
         patterns: ["CMakeLists.txt", "conanfile.txt", "vcpkg.json"],
     },
+    // Package managers
+    {
+        preset: "npm",
+        category: "package-managers",
+        label: "npm",
+        patterns: ["package-lock.json"],
+    },
+    {
+        preset: "pnpm",
+        category: "package-managers",
+        label: "pnpm",
+        patterns: ["pnpm-lock.yaml"],
+    },
+    {
+        preset: "bun",
+        category: "package-managers",
+        label: "Bun",
+        patterns: ["bun.lock", "bun.lockb"],
+    },
     // Tools
     {
         preset: "biome",

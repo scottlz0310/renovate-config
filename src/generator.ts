@@ -10,6 +10,7 @@ const PRESETS_PATH = "presets";
 
 export interface GenerateOptions {
 	languages: string[];
+	packageManagers: string[];
 	tools: string[];
 	options: string[];
 }
@@ -35,6 +36,10 @@ function generateRootConfig(options: GenerateOptions): object {
 
 	for (const lang of options.languages) {
 		extendsSet.add(buildPresetRef("languages", lang));
+	}
+
+	for (const packageManager of options.packageManagers) {
+		extendsSet.add(buildPresetRef("package-managers", packageManager));
 	}
 
 	for (const tool of options.tools) {

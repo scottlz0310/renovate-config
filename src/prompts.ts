@@ -12,6 +12,7 @@ import type { OutputFile } from "./generator.js";
 
 interface SelectedPresets {
 	languages: string[];
+	packageManagers: string[];
 	tools: string[];
 	options: string[];
 }
@@ -72,6 +73,13 @@ export async function selectPresets(
 			hint: detectedPresets.has(r.preset) ? "recommended" : undefined,
 		}),
 	);
+	const packageManagerOptions = DETECTION_RULES.filter(
+		(r) => r.category === "package-managers",
+	).map((r) => ({
+		value: r.preset,
+		label: `${r.label}${detectedPresets.has(r.preset) ? " (detected)" : ""}`,
+		hint: detectedPresets.has(r.preset) ? "recommended" : undefined,
+	}));
 
 	const optionOptions = OPTION_PRESETS.map((o) => ({
 		value: o.preset,
@@ -89,6 +97,17 @@ export async function selectPresets(
 		required: false,
 	});
 	if (p.isCancel(selectedLanguages)) return selectedLanguages;
+
+	const selectedPackageManagers = await p.multiselect({
+		message: "Select Package Managers:",
+		// biome-ignore lint/suspicious/noExplicitAny: clack types hard to satisfy
+		options: packageManagerOptions as any,
+		initialValues: packageManagerOptions
+			.filter((o) => detectedPresets.has(o.value))
+			.map((o) => o.value),
+		required: false,
+	});
+	if (p.isCancel(selectedPackageManagers)) return selectedPackageManagers;
 
 	const selectedTools = await p.multiselect({
 		message: "Select Tools:",
@@ -112,6 +131,7 @@ export async function selectPresets(
 
 	return {
 		languages: selectedLanguages as string[],
+		packageManagers: selectedPackageManagers as string[],
 		tools: selectedTools as string[],
 		options: selectedOptions as string[],
 	};

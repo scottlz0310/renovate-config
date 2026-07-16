@@ -1,11 +1,11 @@
-import { describe, expect, it, type Mock, vi } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 
 // We'll mock @clack/prompts to capture calls
 vi.mock("@clack/prompts", () => ({
 	multiselect: vi.fn(),
 	select: vi.fn(),
 	confirm: vi.fn(),
-	isCancel: (_v: unknown) => false,
+	isCancel: vi.fn((_v: unknown) => false),
 	log: { info: vi.fn(), success: vi.fn(), warn: vi.fn() },
 }));
 
@@ -14,17 +14,27 @@ import type { ScanResult } from "../src/detector.js";
 import { selectPresets } from "../src/prompts";
 
 describe("prompts.selectPresets", () => {
-	it("selects languages, then tools, then options", async () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+		(p.isCancel as unknown as Mock).mockReturnValue(false);
+	});
+
+	it("selects languages, package managers, tools, then options", async () => {
 		const multiselect = p.multiselect as unknown as Mock;
 
 		type PromptOption = { value: string; hint?: string };
 		let languageOptions: PromptOption[] | undefined;
+		let packageManagerOptions: PromptOption[] | undefined;
 		let toolOptions: PromptOption[] | undefined;
 
 		multiselect
 			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
 				languageOptions = args.options;
 				return ["nodejs"];
+			})
+			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
+				packageManagerOptions = args.options;
+				return ["pnpm"];
 			})
 			.mockImplementationOnce(async (args: { options: PromptOption[] }) => {
 				toolOptions = args.options;
@@ -42,6 +52,12 @@ describe("prompts.selectPresets", () => {
 						category: "languages",
 						label: "Node.js",
 						matchedFiles: ["package.json"],
+					},
+					{
+						preset: "pnpm",
+						category: "package-managers",
+						label: "pnpm",
+						matchedFiles: ["pnpm-lock.yaml"],
 					},
 					{
 						preset: "precommit",
@@ -65,6 +81,7 @@ describe("prompts.selectPresets", () => {
 
 		expect(result).toEqual({
 			languages: ["nodejs"],
+			packageManagers: ["pnpm"],
 			tools: ["precommit", "lefthook"],
 			options: ["automerge"],
 		});
@@ -74,9 +91,36 @@ describe("prompts.selectPresets", () => {
 		expect(nodeOption).toBeTruthy();
 		expect(nodeOption.hint).toBe("recommended");
 
+		expect(Array.isArray(packageManagerOptions)).toBe(true);
+		const pnpmOption = packageManagerOptions?.find((o) => o.value === "pnpm");
+		expect(pnpmOption).toBeTruthy();
+		expect(pnpmOption.hint).toBe("recommended");
+
 		expect(Array.isArray(toolOptions)).toBe(true);
 		const lefthookOption = toolOptions?.find((o) => o.value === "lefthook");
 		expect(lefthookOption).toBeTruthy();
 		expect(lefthookOption.hint).toBe("recommended");
+	});
+
+	it("returns cancellation from the package-manager prompt", async () => {
+		const cancel = Symbol("cancel");
+		const multiselect = p.multiselect as unknown as Mock;
+		const isCancel = p.isCancel as unknown as Mock;
+
+		multiselect.mockResolvedValueOnce([]).mockResolvedValueOnce(cancel);
+		isCancel.mockImplementation((value: unknown) => value === cancel);
+
+		const result = await selectPresets({
+			root: {
+				path: ".",
+				relativePath: ".",
+				detectedPresets: [],
+			},
+			packages: [],
+			isMonorepo: false,
+		});
+
+		expect(result).toBe(cancel);
+		expect(multiselect).toHaveBeenCalledTimes(2);
 	});
 });

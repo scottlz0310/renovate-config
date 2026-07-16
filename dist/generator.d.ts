@@ -1,5 +1,6 @@
 export interface GenerateOptions {
     languages: string[];
+    packageManagers: string[];
     tools: string[];
     options: string[];
 }
