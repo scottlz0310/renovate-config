@@ -17,32 +17,28 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v7
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v6
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v2
               with:
-                  node-version: "24.18.0"
-                  cache: "pnpm"
+                  bun-version-file: ".bun-version"
 
             - name: Install Dependencies
-              run: pnpm install --frozen-lockfile
+              run: bun install --frozen-lockfile
 
             - name: TypeScript Check (CLI package)
-              run: pnpm run tsc:check
+              run: bun run tsc:check
 
             - name: Lint (biome)
-              run: pnpm run lint
+              run: bun run lint
 
             - name: Dependency Check (knip)
-              run: pnpm run knip
+              run: bun run knip
 
             - name: Run Preset Validations
-              run: pnpm run validate
+              run: bun run validate
 
             - name: Run CLI unit tests with coverage (Vitest)
-              run: NODE_OPTIONS=--max-old-space-size=4096 pnpm run test:coverage
+              run: NODE_OPTIONS=--max-old-space-size=4096 bun run test:coverage
 
             - name: Upload coverage to Codecov
               if: env.CODECOV_TOKEN != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)

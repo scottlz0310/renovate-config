@@ -30,17 +30,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "24.18.0"
-          cache: "pnpm"
+          bun-version-file: ".bun-version"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Determine tag
         id: tag
@@ -60,14 +56,7 @@ jobs:
           fi
 
           TAG_VERSION="${TAG#v}"
-          PKG_VERSION="$(
-            node -e '
-              const fs = require("node:fs");
-              const path = "package.json";
-              const pkg = JSON.parse(fs.readFileSync(path, "utf8"));
-              process.stdout.write(pkg.version);
-            '
-          )"
+          PKG_VERSION="$(bun -e 'process.stdout.write((await Bun.file("package.json").json()).version)')"
 
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "tag_version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
@@ -80,10 +69,10 @@ jobs:
           fi
 
       - name: Run checks
-        run: pnpm run check:ci
+        run: bun run check:ci
 
       - name: Build CLI
-        run: pnpm run build
+        run: bun run build
 
       - name: Publish to npm
         shell: bash

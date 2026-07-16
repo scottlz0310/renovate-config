@@ -12,19 +12,19 @@ This repository provides:
 ### Generate `renovate.json` with the CLI (recommended)
 
 ```bash
-# Run via pnpm dlx (recommended)
+# Run via bunx (recommended)
 # Note: if you see a 404, the package may be unpublished/private or you may not have access.
-pnpm dlx @scottlz0310/renovate-config-init
+bunx @scottlz0310/renovate-config-init
 
 # If you're running from this repository (local development)
-pnpm install
-pnpm run dev
+bun install
+bun run dev
 
 # Install globally (from npm registry)
-pnpm add -g @scottlz0310/renovate-config-init
+bun add --global @scottlz0310/renovate-config-init
 
 # Install directly from GitHub
-pnpm add -g git+https://github.com/scottlz0310/renovate-config.git
+bun add --global git+https://github.com/scottlz0310/renovate-config.git
 
 # Then run in your project
 cd your-project
@@ -79,6 +79,20 @@ Use: `github>scottlz0310/renovate-config//presets/package-managers/<name>`
 - `bun` — detected from `bun.lock` or legacy `bun.lockb`; also updates `.bun-version`
 
 Corepack and Renovate do not support updating Bun through the `package.json` `packageManager` field. Use `.bun-version` with the `package-managers/bun` preset instead. Prefer the text-based `bun.lock` format for new projects.
+
+For a Node.js and TypeScript repository using Bun, commit `bun.lock` and `.bun-version`, then extend all four presets:
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/nodejs",
+    "github>scottlz0310/renovate-config//presets/languages/typescript",
+    "github>scottlz0310/renovate-config//presets/package-managers/bun"
+  ]
+}
+```
 
 ### Tools
 

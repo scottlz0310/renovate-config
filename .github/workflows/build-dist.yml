@@ -22,22 +22,18 @@ jobs:
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v6
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
+            - name: Setup Bun
+              uses: oven-sh/setup-bun@v2
               with:
-                  node-version: "24.18.0"
-                  cache: "pnpm"
+                  bun-version-file: ".bun-version"
 
             - name: Install Dependencies
-              run: pnpm install --frozen-lockfile
+              run: bun install --frozen-lockfile
               env:
                   SKIP_LEFTHOOK: "1"
 
             - name: Build
-              run: pnpm run build
+              run: bun run build
 
             - name: Check for changes
               id: check

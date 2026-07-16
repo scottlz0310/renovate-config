@@ -16,11 +16,11 @@
 		"tsc:check": "tsc --noEmit",
 		"test": "vitest run --root ./ --dir ./test --maxWorkers 1 --no-file-parallelism",
 		"test:coverage": "vitest run --root ./ --dir ./test --maxWorkers 1 --no-file-parallelism --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=lcov",
-		"validate": "node scripts/validate-presets.js",
+		"validate": "bun scripts/validate-presets.js",
 		"lint": "biome ci .",
 		"format": "biome format --write .",
 		"knip": "knip --no-config-hints",
-		"check:ci": "pnpm run tsc:check && pnpm run lint && pnpm run knip && pnpm run validate && pnpm run test"
+		"check:ci": "bun run tsc:check && bun run lint && bun run knip && bun run validate && bun run test"
 	},
 	"keywords": [
 		"renovate",
@@ -56,7 +56,14 @@
 		"typescript": "^6.0.3",
 		"vitest": "^4.1.10"
 	},
-	"packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8",
+	"trustedDependencies": [
+		"core-js-pure",
+		"dtrace-provider",
+		"esbuild",
+		"lefthook",
+		"protobufjs",
+		"re2"
+	],
 	"engines": {
 		"node": ">=24.18.0"
 	}

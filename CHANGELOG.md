@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- npm・pnpm・Bun向けのパッケージマネージャプリセットとCLI自動検出を追加 (#185, #187)
+- Bun利用リポジトリ向けに `package-managers/bun` の導入手順を追加 (#185)
+
+### Changed
+
+- 開発環境とGitHub ActionsをpnpmからBun 1.3.14へ移行し、`bun.lock` と `.bun-version` で依存関係・ランタイムバージョンを管理 (#185)
+- install scriptの許可設定を `pnpm-workspace.yaml` から `package.json` の `trustedDependencies` へ移行 (#185)
+
 ### Fixed
 
 - `options/schedule` プリセットの `lockFileMaintenance` で `minimumReleaseAge` を `null` にリセット (#176)

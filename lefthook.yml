@@ -1,4 +1,4 @@
-# lefthook: renovate-config (TypeScript/pnpm)
+# lefthook: renovate-config (TypeScript/Bun)
 # pre-commit: Biome で format / lint をステージ済みファイルに適用
 # pre-push: 型チェック + テスト + knip で CI と同等のゲートを設ける
 pre-commit:
@@ -10,17 +10,17 @@ pre-commit:
       exclude:
         - "presets/**"
         - "dist/**"
-      run: pnpm exec biome format --write {staged_files}
+      run: bunx biome format --write {staged_files}
       stage_fixed: true
     biome-lint:
       glob: "*.{ts,js}"
-      run: pnpm exec biome lint {staged_files}
+      run: bunx biome lint {staged_files}
 
 pre-push:
   commands:
     typecheck:
-      run: pnpm run tsc:check
+      run: bun run tsc:check
     test:
-      run: pnpm test
+      run: bun run test
     knip:
-      run: pnpm run knip
+      run: bun run knip
