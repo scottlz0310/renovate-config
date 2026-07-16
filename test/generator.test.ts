@@ -44,23 +44,22 @@ describe("generator.generateConfig", () => {
 		);
 	});
 
-	it.each([
-		"npm",
-		"pnpm",
-		"bun",
-	])("includes the %s package-manager preset in extends", (packageManager) => {
-		const files = prepareOutputFiles(".", [], {
-			languages: [],
-			packageManagers: [packageManager],
-			tools: [],
-			options: [],
-		});
-		const root = files.find((file) => file.isRoot);
-		if (!root) throw new Error("Root file not found");
-		const config = JSON.parse(root.content) as { extends: string[] };
+	it.each(["npm", "pnpm", "bun"])(
+		"includes the %s package-manager preset in extends",
+		(packageManager) => {
+			const files = prepareOutputFiles(".", [], {
+				languages: [],
+				packageManagers: [packageManager],
+				tools: [],
+				options: [],
+			});
+			const root = files.find((file) => file.isRoot);
+			if (!root) throw new Error("Root file not found");
+			const config = JSON.parse(root.content) as { extends: string[] };
 
-		expect(config.extends).toContain(
-			`github>scottlz0310/renovate-config//presets/package-managers/${packageManager}`,
-		);
-	});
+			expect(config.extends).toContain(
+				`github>scottlz0310/renovate-config//presets/package-managers/${packageManager}`,
+			);
+		},
+	);
 });
