@@ -1,11 +1,11 @@
-import { describe, expect, it, type Mock, vi } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 
 // We'll mock @clack/prompts to capture calls
 vi.mock("@clack/prompts", () => ({
 	multiselect: vi.fn(),
 	select: vi.fn(),
 	confirm: vi.fn(),
-	isCancel: (_v: unknown) => false,
+	isCancel: vi.fn((_v: unknown) => false),
 	log: { info: vi.fn(), success: vi.fn(), warn: vi.fn() },
 }));
 
@@ -14,6 +14,11 @@ import type { ScanResult } from "../src/detector.js";
 import { selectPresets } from "../src/prompts";
 
 describe("prompts.selectPresets", () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+		(p.isCancel as unknown as Mock).mockReturnValue(false);
+	});
+
 	it("selects languages, package managers, tools, then options", async () => {
 		const multiselect = p.multiselect as unknown as Mock;
 
@@ -95,5 +100,27 @@ describe("prompts.selectPresets", () => {
 		const lefthookOption = toolOptions?.find((o) => o.value === "lefthook");
 		expect(lefthookOption).toBeTruthy();
 		expect(lefthookOption.hint).toBe("recommended");
+	});
+
+	it("returns cancellation from the package-manager prompt", async () => {
+		const cancel = Symbol("cancel");
+		const multiselect = p.multiselect as unknown as Mock;
+		const isCancel = p.isCancel as unknown as Mock;
+
+		multiselect.mockResolvedValueOnce([]).mockResolvedValueOnce(cancel);
+		isCancel.mockImplementation((value: unknown) => value === cancel);
+
+		const result = await selectPresets({
+			root: {
+				path: ".",
+				relativePath: ".",
+				detectedPresets: [],
+			},
+			packages: [],
+			isMonorepo: false,
+		});
+
+		expect(result).toBe(cancel);
+		expect(multiselect).toHaveBeenCalledTimes(2);
 	});
 });
