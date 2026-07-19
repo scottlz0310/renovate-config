@@ -16,7 +16,7 @@
         "ajv-formats": "^3.0.1",
         "knip": "^6.27.0",
         "lefthook": "^2.1.10",
-        "renovate": "^43.265.3",
+        "renovate": "^43.265.5",
         "tsx": "^4.23.1",
         "typescript": "^7.0.2",
         "vitest": "^4.1.10",
