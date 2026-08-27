@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `languages/nodejs` で Node ランタイム本体（`node-version` datasource）の更新に `minimumReleaseAge: "5 days"` と `internalChecksFilter: "strict"` を適用 (#230)
+  - 従来 `minimumReleaseAge` は `matchDatasources: ["npm"]` にのみ掛かっており、`.node-version` / `.nvmrc` / `engines.node` の更新は**リリース当日に PR が立っていた**
+  - 待機の対象がパッケージ自体ではなく**他ベンダーの追随**（Cloudflare Pages・`node-build` の定義追加、Docker 公式イメージ、`actions/setup-node` のマニフェスト）であり数日遅れるため、npm の 1 日より長く取る
+  - 実例: Node 26.8.0 リリース当日（2026-08-26）の更新 PR で Cloudflare Pages のビルドが `node-build: definition not found: 26.8.0` で失敗した
+
 ## [2.4.0] - 2026-07-16
 
 ### Added

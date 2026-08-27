@@ -9,6 +9,12 @@
 			"internalChecksFilter": "strict"
 		},
 		{
+			"description": "Wait longer for Node.js runtime releases than for npm packages. What has to catch up here is other vendors' build images (Cloudflare Pages and node-build definitions, Docker official images, actions/setup-node manifests), not the package itself, and they lag the release by days. Raising the branch on release day makes builds fail with errors such as 'node-build: definition not found'.",
+			"matchDatasources": ["node-version"],
+			"minimumReleaseAge": "5 days",
+			"internalChecksFilter": "strict"
+		},
+		{
 			"matchDatasources": ["npm"],
 			"groupName": "Node.js dependencies",
 			"semanticCommitType": "chore",
