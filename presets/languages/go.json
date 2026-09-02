@@ -27,5 +27,15 @@
 			"groupName": "GitHub Go packages"
 		}
 	],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"],
+			"matchStrings": [
+				"(?:^|\\r?\\n)[\\t ]*(?:-[\\t ]+)?(?:run:[\\t ]*)?[\"']?go[\\t ]+install[\\t ]+(?<depName>[^\\s@\"']+)@(?<currentValue>v\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)(?:[\\t \\r\\n\"']|$)"
+			],
+			"datasourceTemplate": "go"
+		}
+	],
 	"postUpdateOptions": ["gomodTidy"]
 }

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `languages/go` で GitHub Actions workflow 内の `go install <package>@vX.Y.Z` 固定版を Renovate の更新対象として検出する regex custom manager を追加 (#240)
+
 ### Changed
 
 - Node.js を 26.8.1 に更新（`package.json` の `engines.node` を `>=24.20.0` → `>=26.8.1`、`release.yml` の `actions/setup-node` の pin を `24.20.0` → `26.8.1`）
