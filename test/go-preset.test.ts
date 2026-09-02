@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 
 interface RegexCustomManager {
 	customType: "regex";
+	matchStringsStrategy: "recursive";
 	managerFilePatterns: string[];
 	matchStrings: string[];
 	datasourceTemplate: string;
@@ -124,5 +125,66 @@ describe("languages/go preset", () => {
 			currentValue: "v1.7.0",
 			datasource: "go",
 		});
+	});
+
+	it("extracts and updates adjacent go install commands", () => {
+		const content = [
+			"      run: |",
+			"        go install golang.org/x/vuln/cmd/govulncheck@v1.1.4",
+			"        go install honnef.co/go/tools/cmd/staticcheck@v0.6.1",
+			"",
+		].join("\n");
+		const result = extract(content);
+
+		expect(result?.deps).toHaveLength(2);
+		expect(result?.deps).toMatchObject([
+			{
+				depName: "golang.org/x/vuln/cmd/govulncheck",
+				currentValue: "v1.1.4",
+				datasource: "go",
+			},
+			{
+				depName: "honnef.co/go/tools/cmd/staticcheck",
+				currentValue: "v0.6.1",
+				datasource: "go",
+			},
+		]);
+
+		const replacements = new Map([
+			["v1.1.4", "v1.7.0"],
+			["v0.6.1", "v0.7.0"],
+		]);
+		const updatedContent = result?.deps.reduce((current, dependency) => {
+			if (!dependency.replaceString || !dependency.currentValue) {
+				throw new Error("go install dependency was not extracted");
+			}
+
+			const nextValue = replacements.get(dependency.currentValue);
+			if (!nextValue) {
+				throw new Error(`replacement not found for ${dependency.currentValue}`);
+			}
+
+			return current.replace(
+				dependency.replaceString,
+				dependency.replaceString.replace(dependency.currentValue, nextValue),
+			);
+		}, content);
+
+		expect(updatedContent).toContain(
+			"go install golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+		);
+		expect(updatedContent).toContain(
+			"go install honnef.co/go/tools/cmd/staticcheck@v0.7.0",
+		);
+		expect(extract(updatedContent ?? "")?.deps).toMatchObject([
+			{
+				depName: "golang.org/x/vuln/cmd/govulncheck",
+				currentValue: "v1.7.0",
+			},
+			{
+				depName: "honnef.co/go/tools/cmd/staticcheck",
+				currentValue: "v0.7.0",
+			},
+		]);
 	});
 });

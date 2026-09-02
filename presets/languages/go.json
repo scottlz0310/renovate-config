@@ -30,9 +30,11 @@
 	"customManagers": [
 		{
 			"customType": "regex",
+			"matchStringsStrategy": "recursive",
 			"managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"],
 			"matchStrings": [
-				"(?:^|\\r?\\n)[\\t ]*(?:-[\\t ]+)?(?:run:[\\t ]*)?[\"']?go[\\t ]+install[\\t ]+(?<depName>[^\\s@\"']+)@(?<currentValue>v\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)(?:[\\t \\r\\n\"']|$)"
+				"(?:^|\\r?\\n)[\\t ]*(?:-[\\t ]+)?(?:run:[\\t ]*)?[\"']?go[\\t ]+install[^\\r\\n]*",
+				"go[\\t ]+install[\\t ]+(?<depName>[^\\s@\"']+)@(?<currentValue>v\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)(?:[\\t \"']|$)"
 			],
 			"datasourceTemplate": "go"
 		}
