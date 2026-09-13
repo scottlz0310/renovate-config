@@ -40,18 +40,18 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.7.0",
+		"@clack/prompts": "^1.8.0",
 		"fast-glob": "^3.3.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.13",
-		"@types/node": "^26.4.1",
+		"@types/node": "^26.5.1",
 		"@vitest/coverage-v8": "^5.0.0",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
-		"knip": "^6.34.0",
+		"knip": "^6.35.1",
 		"lefthook": "^2.1.12",
-		"renovate": "^44.61.6",
+		"renovate": "^44.79.3",
 		"tsx": "^4.23.13",
 		"typescript": "^7.0.2",
 		"vitest": "^5.0.0"

@@ -53,7 +53,7 @@ export function displayScanResult(scanResult: ScanResult): void {
 
 export async function selectPresets(
 	scanResult: ScanResult,
-): Promise<SelectedPresets | symbol> {
+): Promise<SelectedPresets | typeof p.CANCEL_SYMBOL> {
 	const detectedPresets = getAllDetectedPresets(scanResult);
 
 	p.log.info("Use Space to toggle selection, Enter to confirm");
@@ -139,7 +139,7 @@ export async function selectPresets(
 
 export async function confirmOutputLocations(
 	files: OutputFile[],
-): Promise<boolean | symbol> {
+): Promise<boolean | typeof p.CANCEL_SYMBOL> {
 	p.log.info("Output locations:");
 
 	for (const file of files) {
