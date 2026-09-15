@@ -50,7 +50,7 @@
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
 		"knip": "^6.35.1",
-		"lefthook": "^2.1.12",
+		"lefthook": "^2.1.14",
 		"renovate": "^44.79.6",
 		"tsx": "^4.23.13",
 		"typescript": "^7.0.2",
