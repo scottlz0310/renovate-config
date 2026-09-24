@@ -95,4 +95,19 @@ describe("detector.scanProject", () => {
 			await rm(dir, { recursive: true, force: true });
 		}
 	});
+
+	it.each(["install.ps1", "module.psm1", "module.psd1", "scripts/install.ps1"])(
+		"detects PowerShell from %s",
+		async (fileName) => {
+			const dir = await mkdtemp(join(tmpdir(), "renovate-config-init-"));
+			try {
+				if (fileName.includes("/")) await mkdir(join(dir, "scripts"));
+				await writeFile(join(dir, fileName), "");
+				const scanResult = await scanProject(dir);
+				expect(getAllDetectedPresets(scanResult).has("powershell")).toBe(true);
+			} finally {
+				await rm(dir, { recursive: true, force: true });
+			}
+		},
+	);
 });

@@ -9,10 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `languages/powershell` で PowerShell Gallery の固定バージョンを追跡し、CLI の PowerShell 検出を追加 (#264)
 - `languages/go` で GitHub Actions workflow 内の `go install <package>@vX.Y.Z` 固定版を Renovate の更新対象として検出する regex custom manager を追加 (#240)
 
 ### Changed
 
+- `languages/csharp` の NuGet グループから regex custom manager の依存関係を除外 (#264)
 - Node.js を 26.8.1 に更新（`package.json` の `engines.node` を `>=24.20.0` → `>=26.8.1`、`release.yml` の `actions/setup-node` の pin を `24.20.0` → `26.8.1`）
   - Node 26 は 2026-10 に LTS 化予定の Current 系列。同梱 npm は 11.19.0 で Trusted Publishing の要件（npm >= 11.16）を満たす
 - `languages/nodejs` で Node ランタイム本体（`node-version` datasource）の更新に `minimumReleaseAge: "5 days"` と `internalChecksFilter: "strict"` を適用 (#230)

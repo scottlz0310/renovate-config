@@ -62,4 +62,19 @@ describe("generator.generateConfig", () => {
 			);
 		},
 	);
+
+	it("includes the PowerShell language preset", () => {
+		const files = prepareOutputFiles(".", [], {
+			languages: ["powershell"],
+			packageManagers: [],
+			tools: [],
+			options: [],
+		});
+		const root = files.find((file) => file.isRoot);
+		if (!root) throw new Error("Root file not found");
+		const config = JSON.parse(root.content) as { extends: string[] };
+		expect(config.extends).toContain(
+			"github>scottlz0310/renovate-config//presets/languages/powershell",
+		);
+	});
 });

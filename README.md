@@ -86,7 +86,15 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 | Go | `languages/go` | Go modules |
 | Rust | `languages/rust` | Cargo |
 | C# | `languages/csharp` | NuGet, .NET |
+| PowerShell | `languages/powershell` | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き） |
 | C++ | `languages/cpp` | Conan, vcpkg, CMake |
+
+PowerShell Gallery のモジュールを更新するには、workflow（`.github/workflows/*.yml` / `*.yaml`）または PowerShell スクリプト内で、インストール行の直前に注釈を置きます。
+
+```powershell
+# renovate: datasource=nuget registryUrl=https://www.powershellgallery.com/api/v2 depName=Pester
+Install-Module Pester -RequiredVersion 5.7.1 -Force -Scope CurrentUser
+```
 
 ## パッケージマネージャ
 
