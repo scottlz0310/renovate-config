@@ -9,7 +9,7 @@
 				"/\\.ps[dm]?1$/"
 			],
 			"matchStrings": [
-				"#[ \\t]*renovate:[ \\t]+datasource=nuget[ \\t]+registryUrl=https://www\\.powershellgallery\\.com/api/v2[ \\t]+depName=(?<depName>[A-Za-z][A-Za-z0-9._-]*)[ \\t]*\\r?\\n[ \\t]*(?:run:[ \\t]*)?Install-Module[ \\t]+(?:-Name[ \\t]+)?[A-Za-z][A-Za-z0-9._-]*[ \\t]+-RequiredVersion[ \\t]+[\"']?(?<currentValue>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9.-]+)?)[\"']?"
+				"#[ \\t]*renovate:[ \\t]+datasource=nuget[ \\t]+registryUrl=https://www\\.powershellgallery\\.com/api/v2[ \\t]+depName=[A-Za-z][A-Za-z0-9._-]*[ \\t]*\\r?\\n[ \\t]*(?:run:[ \\t]*)?Install-Module[ \\t]+(?:-Name[ \\t]+)?(?<depName>[A-Za-z][A-Za-z0-9._-]*)[ \\t]+-RequiredVersion[ \\t]+[\"']?(?<currentValue>\\d+(?:\\.\\d+){0,3}(?:-[A-Za-z0-9.-]+)?)(?:[\\t \\r\\n\"']|$)"
 			],
 			"datasourceTemplate": "nuget",
 			"registryUrlTemplate": "https://www.powershellgallery.com/api/v2"

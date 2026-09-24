@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 待機の対象がパッケージ自体ではなく**他ベンダーの追随**（Cloudflare Pages・`node-build` の定義追加、Docker 公式イメージ、`actions/setup-node` のマニフェスト）であり数日遅れるため、npm の 1 日より長く取る
   - 実例: Node 26.8.0 リリース当日（2026-08-26）の更新 PR で Cloudflare Pages のビルドが `node-build: definition not found: 26.8.0` で失敗した
 
+### Fixed
+
+- `languages/powershell` で 1～4 要素のバージョンを完全に抽出し、依存名を `Install-Module` の引数から取得するよう修正 (#264)
+
 ## [2.4.0] - 2026-07-16
 
 ### Added

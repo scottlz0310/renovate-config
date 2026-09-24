@@ -81,29 +81,56 @@ describe("languages/powershell preset", () => {
 		]);
 	});
 
-	it("updates only the captured version", () => {
-		const content = `${annotation}\nInstall-Module Pester -RequiredVersion 5.7.1 -Force`;
-		const dependency = extractPackageFile(
-			content,
-			"scripts/install.ps1",
-			manager,
-		)?.deps[0];
-		if (!dependency?.replaceString || !dependency.currentValue) {
-			throw new Error("Pester dependency was not extracted");
-		}
-		const updated = content.replace(
-			dependency.replaceString,
-			dependency.replaceString.replace(dependency.currentValue, "6.0.0"),
-		);
-		expect(updated).toBe(
-			`${annotation}\nInstall-Module Pester -RequiredVersion 6.0.0 -Force`,
-		);
+	it.each(["5", "5.7", "5.7.1", "5.7.1.0"])(
+		"extracts the complete version %s",
+		(version) => {
+			const content = `${annotation}\nInstall-Module Pester -RequiredVersion ${version} -Force`;
+			expect(
+				extractPackageFile(content, "scripts/install.ps1", manager)?.deps[0],
+			).toMatchObject({
+				depName: "Pester",
+				currentValue: version,
+			});
+		},
+	);
+
+	it.each(["5.7.1", "5.7.1.0"])(
+		"updates only the captured version %s",
+		(version) => {
+			const content = `${annotation}\nInstall-Module Pester -RequiredVersion ${version} -Force`;
+			const dependency = extractPackageFile(
+				content,
+				"scripts/install.ps1",
+				manager,
+			)?.deps[0];
+			if (!dependency?.replaceString || !dependency.currentValue) {
+				throw new Error("Pester dependency was not extracted");
+			}
+			const updated = content.replace(
+				dependency.replaceString,
+				dependency.replaceString.replace(dependency.currentValue, "6.0.0"),
+			);
+			expect(updated).toBe(
+				`${annotation}\nInstall-Module Pester -RequiredVersion 6.0.0 -Force`,
+			);
+		},
+	);
+
+	it("uses the module name in the command when the annotation is stale", () => {
+		const content = `${annotation}\nInstall-Module OtherModule -RequiredVersion 5.7.1 -Force`;
+		expect(
+			extractPackageFile(content, "scripts/install.ps1", manager)?.deps[0],
+		).toMatchObject({
+			depName: "OtherModule",
+			currentValue: "5.7.1",
+		});
 	});
 
 	it.each([
 		"Install-Module Pester -RequiredVersion 5.7.1 -Force",
 		`${annotation}\nInstall-Module Pester -MinimumVersion 5.7.1 -Force`,
 		`${annotation}\n# Install-Module Pester -RequiredVersion 5.7.1`,
+		`${annotation}\nInstall-Module Pester -RequiredVersion 5.7.1.0.2 -Force`,
 	])("ignores command without a matching annotation: %s", (content) => {
 		expect(
 			extractPackageFile(content, "scripts/install.ps1", manager),
