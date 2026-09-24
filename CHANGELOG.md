@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-09-24
+
 ### Added
 
 - `languages/powershell` で PowerShell Gallery の固定バージョンを追跡し、CLI の PowerShell 検出を追加 (#264)
