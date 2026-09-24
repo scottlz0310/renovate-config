@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-09-24
+
 ### Added
 
 - `languages/powershell` で PowerShell Gallery の固定バージョンを追跡し、CLI の PowerShell 検出を追加 (#264)
@@ -195,7 +197,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all documentation to reflect pnpm usage
 - Updated GitHub Actions workflows to use pnpm
 
-[Unreleased]: https://github.com/scottlz0310/renovate-config/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/scottlz0310/renovate-config/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/scottlz0310/renovate-config/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/scottlz0310/renovate-config/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/scottlz0310/renovate-config/compare/v2.2.2...v2.3.0
 [2.2.2]: https://github.com/scottlz0310/renovate-config/compare/v2.2.1...v2.2.2
