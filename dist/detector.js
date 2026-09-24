@@ -68,6 +68,12 @@ const DETECTION_RULES = [
         patterns: ["*.csproj", "*.sln"],
     },
     {
+        preset: "powershell",
+        category: "languages",
+        label: "PowerShell",
+        patterns: ["**/*.ps1", "**/*.psm1", "**/*.psd1"],
+    },
+    {
         preset: "cpp",
         category: "languages",
         label: "C++",
@@ -151,7 +157,9 @@ async function detectPresetsInDir(cwd) {
         const matches = await fg(rule.patterns, {
             cwd,
             onlyFiles: true,
-            deep: 1,
+            ...(rule.preset === "powershell"
+                ? { ignore: ["**/node_modules/**", "**/.git/**"] }
+                : { deep: 1 }),
         });
         if (matches.length > 0) {
             results.push({

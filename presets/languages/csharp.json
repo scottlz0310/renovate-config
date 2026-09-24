@@ -4,17 +4,20 @@
 	"packageRules": [
 		{
 			"matchDatasources": ["nuget"],
+			"matchManagers": ["!custom.regex"],
 			"groupName": "C# dependencies",
 			"semanticCommitType": "chore",
 			"semanticCommitScope": "deps-csharp"
 		},
 		{
 			"matchDatasources": ["nuget"],
+			"matchManagers": ["!custom.regex"],
 			"matchUpdateTypes": ["major"],
 			"groupName": "C# major updates"
 		},
 		{
 			"matchDatasources": ["nuget"],
+			"matchManagers": ["!custom.regex"],
 			"matchUpdateTypes": ["minor", "patch"],
 			"groupName": "C# minor and patch updates"
 		},
