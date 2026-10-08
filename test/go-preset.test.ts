@@ -78,6 +78,20 @@ describe("languages/go preset", () => {
 			depName: "example.com/tool",
 			currentValue: "v0.0.0-20260902071350-abcdef123456",
 		},
+		{
+			name: "inline go run command",
+			content:
+				"      run: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.14.0 run ./...\n",
+			depName: "github.com/golangci/golangci-lint/v2/cmd/golangci-lint",
+			currentValue: "v2.14.0",
+		},
+		{
+			name: "block go run command",
+			content:
+				"      run: |\n        go run golang.org/x/vuln/cmd/govulncheck@v1.1.4 ./...\n",
+			depName: "golang.org/x/vuln/cmd/govulncheck",
+			currentValue: "v1.1.4",
+		},
 	])("extracts $name", ({ content, depName, currentValue }) => {
 		const result = extract(content);
 
@@ -94,6 +108,9 @@ describe("languages/go preset", () => {
 		"      # go install golang.org/x/vuln/cmd/govulncheck@v1.1.4\n",
 		"      run: echo go install golang.org/x/vuln/cmd/govulncheck@v1.1.4\n",
 		"      run: go install golang.org/x/vuln/cmd/govulncheck@v1.1\n",
+		"      run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...\n",
+		"      run: go run ./cmd/tool\n",
+		"      # go run golang.org/x/vuln/cmd/govulncheck@v1.1.4 ./...\n",
 	])("ignores non-fixed or inactive command %#", (content) => {
 		expect(extract(content)).toBeNull();
 	});
@@ -125,6 +142,46 @@ describe("languages/go preset", () => {
 			currentValue: "v1.7.0",
 			datasource: "go",
 		});
+	});
+
+	it("extracts adjacent go run and go install commands", () => {
+		const content = [
+			"      run: |",
+			"        go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.14.0 run ./...",
+			"        go install golang.org/x/vuln/cmd/govulncheck@v1.1.4",
+			"",
+		].join("\n");
+		const result = extract(content);
+
+		expect(result?.deps).toMatchObject([
+			{
+				depName: "github.com/golangci/golangci-lint/v2/cmd/golangci-lint",
+				currentValue: "v2.14.0",
+				datasource: "go",
+			},
+			{
+				depName: "golang.org/x/vuln/cmd/govulncheck",
+				currentValue: "v1.1.4",
+				datasource: "go",
+			},
+		]);
+
+		const updatedContent = content
+			.replace("@v2.14.0", "@v2.15.0")
+			.replace("@v1.1.4", "@v1.7.0");
+
+		expect(extract(updatedContent)?.deps).toMatchObject([
+			{
+				depName: "github.com/golangci/golangci-lint/v2/cmd/golangci-lint",
+				currentValue: "v2.15.0",
+				datasource: "go",
+			},
+			{
+				depName: "golang.org/x/vuln/cmd/govulncheck",
+				currentValue: "v1.7.0",
+				datasource: "go",
+			},
+		]);
 	});
 
 	it("extracts and updates adjacent go install commands", () => {
