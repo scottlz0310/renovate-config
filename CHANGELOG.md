@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `languages/go` の GitHub Actions workflow 向け regex custom manager で、`go install` に加えて `go run <package>@vX.Y.Z` 形式の固定版も Renovate の更新対象に含める (#273)
+  - `go run` で直接実行する CLI ツールが依存追従から漏れ、Go ランタイム更新後に古いツールが CI で失敗する問題を防ぐ
+
 ## [2.5.0] - 2026-09-24
 
 ### Added
