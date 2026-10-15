@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-10-15
+
 ### Added
 
 - 任意選択の `options/android-sdk` を追加し、安定版 API の `compileSdk` / `targetSdk` 更新 PR を手動マージ前提で作成する (#280)
