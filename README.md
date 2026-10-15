@@ -89,6 +89,8 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 | PowerShell | `languages/powershell` | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き） |
 | C++ | `languages/cpp` | Conan, vcpkg, CMake |
 
+`languages/android` は、リポジトリ内の `.ktlint-version`（`1.8.0` のように `x.y.z` だけを書いたファイル）から ktlint の版を検出し、[ktlint/ktlint](https://github.com/ktlint/ktlint) の GitHub Releases で更新を提案します。CI・lefthook・インストールスクリプトがこのファイルを読む構成にすると、版の定義を 1 か所にできます。
+
 PowerShell Gallery のモジュールを更新するには、workflow（`.github/workflows/*.yml` / `*.yaml`）または PowerShell スクリプト内で、インストール行の直前に注釈を置きます。
 
 ```powershell

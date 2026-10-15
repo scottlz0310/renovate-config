@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `languages/android` に、`.ktlint-version`（`x.y.z` だけを書いたファイル）から ktlint の版を検出して GitHub Releases で更新する regex custom manager を追加 (#283)
+  - ktlint の版を 1 つのファイルに集約し、CI・lefthook・インストールスクリプトで共有する構成の更新漏れを防ぐ
+  - `.ktlint-version` が無いリポジトリでは何も検出しない
+
 ## [2.6.0] - 2026-10-15
 
 ### Added

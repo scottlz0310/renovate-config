@@ -62,7 +62,7 @@ Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 - `nodejs` — npm packages wait 1 day after publish; the Node.js runtime itself (`node-version` datasource) waits 5 days, because what has to catch up there is other vendors' build images rather than the package itself
 - `nodejs-major` — opt-in preset to enable Node.js major version updates (engines/nvm/nodenv/Docker)
 - `typescript`
-- `android`
+- `android` — also detects the ktlint version from a `.ktlint-version` file (containing only `x.y.z`, e.g. `1.8.0`) and proposes updates from the [ktlint/ktlint](https://github.com/ktlint/ktlint) GitHub Releases
 - `python`
 - `docker`
 - `go`
