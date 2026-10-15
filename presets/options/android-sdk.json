@@ -1,0 +1,70 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Android SDK の安定版更新を提案する任意選択プリセット。automerge・schedule 等の共通プリセットより後に指定する。",
+	"customManagers": [
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["/(^|/)build\\.gradle\\.kts$/"],
+			"matchStringsStrategy": "recursive",
+			"matchStrings": [
+				"(?:^|\\r?\\n)android[\\t ]*\\{[\\s\\S]*?\\r?\\n\\}",
+				"(?:^|\\r?\\n)[\\t ]*compileSdk[\\t ]*=[\\t ]*(?<currentValue>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)"
+			],
+			"depNameTemplate": "android-compile-sdk",
+			"depTypeTemplate": "compileSdk",
+			"packageNameTemplate": "latest",
+			"datasourceTemplate": "custom.android-sdk",
+			"versioningTemplate": "loose"
+		},
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["/(^|/)build\\.gradle\\.kts$/"],
+			"matchStringsStrategy": "recursive",
+			"matchStrings": [
+				"(?:^|\\r?\\n)android[\\t ]*\\{[\\s\\S]*?\\r?\\n\\}",
+				"(?:^|\\r?\\n)[\\t ]*compileSdk[\\t ]*=[\\t ]*(?<compileSdk>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)[\\s\\S]*",
+				"(?:^|\\r?\\n)[\\t ]*targetSdk[\\t ]*=[\\t ]*(?<currentValue>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)"
+			],
+			"depNameTemplate": "android-target-sdk",
+			"depTypeTemplate": "targetSdk",
+			"packageNameTemplate": "{{{compileSdk}}}",
+			"datasourceTemplate": "custom.android-sdk",
+			"versioningTemplate": "loose"
+		}
+	],
+	"customDatasources": {
+		"android-sdk": {
+			"defaultRegistryUrlTemplate": "https://endoflife.date/api/v1/products/android",
+			"format": "json",
+			"transformTemplates": [
+				"{\"releases\": [result.releases[$exists($match(name, /^\\d+(\\.\\d+)?$/)) and $exists($match(custom.apiVersion, /^\\d+$/)) and releaseDate <= $substring($now(), 0, 10)][('{{{packageName}}}' = 'latest') ? true : $number(custom.apiVersion) <= $number('{{{packageName}}}')].{\"version\": custom.apiVersion, \"releaseTimestamp\": releaseDate & 'T00:00:00Z', \"isStable\": true}], \"homepage\": \"https://developer.android.com/about/versions\"}"
+			]
+		}
+	},
+	"packageRules": [
+		{
+			"matchDatasources": ["custom.android-sdk"],
+			"groupName": null,
+			"automerge": false,
+			"autoReplaceGlobalMatch": false,
+			"dependencyDashboardApproval": false,
+			"prCreation": "immediate",
+			"semanticCommitType": "chore",
+			"semanticCommitScope": "android-sdk"
+		},
+		{
+			"matchDatasources": ["custom.android-sdk"],
+			"matchDepTypes": ["compileSdk"],
+			"prBodyNotes": ["compileSdk の更新です。ビルド・Android Lint・既存テストを実行してください。targetSdk は現在の compileSdk 以下まで別 PR で提案します。"]
+		},
+		{
+			"matchDatasources": ["custom.android-sdk"],
+			"matchDepTypes": ["targetSdk"],
+			"addLabels": ["manual-verification-required"],
+			"prBodyNotes": [
+				"この PR は Android SDK 設定を更新します。特に targetSdk の引き上げは、アプリの実行時動作を変更します。",
+				"CI が成功しても、テスト端末の API レベルやテスト範囲によっては、edge-to-edge・WindowInsets に関する表示崩れや動作変更を検出できません。マージ前に、対象 API の公式の動作変更を確認し、更新後の target API に対応する Android バージョンの実機またはエミュレータで、主要画面・画面遷移・システムバーとの重なりを手動確認してください。既存の UI テストも実行してください。"
+			]
+		}
+	]
+}

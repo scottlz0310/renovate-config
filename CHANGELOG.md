@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 任意選択の `options/android-sdk` を追加し、安定版 API の `compileSdk` / `targetSdk` 更新 PR を手動マージ前提で作成する (#280)
+  - `targetSdk` の候補を現在の `compileSdk` 以下に制限し、手動検証の注意書きとラベルを付与する
+  - CLI で明示選択でき、共通プリセットより後に適用する
+
 ### Changed
 
 - `languages/go` の GitHub Actions workflow 向け regex custom manager で、`go install` に加えて `go run <package>@vX.Y.Z` 形式の固定版も Renovate の更新対象に含める (#273)

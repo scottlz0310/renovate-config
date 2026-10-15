@@ -122,6 +122,51 @@ Install-Module Pester -RequiredVersion 5.7.1 -Force -Scope CurrentUser
 | Security | `options/security` | セキュリティ更新を優先 |
 | Production | `options/production` | 本番環境向け保守的設定 |
 | Monorepo | `options/monorepo` | モノレポ対応設定 |
+| Android SDK | `options/android-sdk` | 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ） |
+
+### Android SDK の更新提案
+
+`options/android-sdk` は明示的に選択した場合だけ適用されます。CLI のオプション選択、または次のコマンドで追加できます。CLI は SDK プリセットを最後に配置します。
+
+```bash
+bunx @scottlz0310/renovate-config-init --presets android,automerge,schedule,android-sdk
+```
+
+手動設定では、共通のグループ化・自動マージ設定を上書きするため、`options/android-sdk` を **extends の最後**に指定してください。
+
+```json
+{
+  "extends": [
+    "github>scottlz0310/renovate-config//presets/default",
+    "github>scottlz0310/renovate-config//presets/languages/android",
+    "github>scottlz0310/renovate-config//presets/options/automerge",
+    "github>scottlz0310/renovate-config//presets/options/schedule",
+    "github>scottlz0310/renovate-config//presets/options/android-sdk"
+  ]
+}
+```
+
+初期対応は `build.gradle.kts` 内の、トップレベルの `android { ... }` にある整数代入です。閉じ括弧は行頭、内部の設定はインデントする通常の書式を対象とします。
+
+```kotlin
+android {
+    compileSdk = 37
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 36
+    }
+}
+```
+
+- `compileSdk` と `targetSdk` は別 PR とし、通常のライブラリ更新グループから外します。Dashboard 承認を挟まず PR を自動作成します。利用側の schedule・PR 件数制限は適用されます。
+- `targetSdk` の候補は、同じ Android ブロックで先に宣言された現在の `compileSdk` 以下に制限します。例では最大 37 です。両方が古い場合は、`compileSdk` の PR をマージすると次回の Renovate 実行で `targetSdk` の候補が増えます。
+- `minSdk`、Groovy DSL、変数参照、Version Catalog、式や小数・プレビュー SDK 記法は対象外です。`compileSdk` が対応する整数代入でない場合、`targetSdk` の PR も作りません。
+- 両 SDK の自動マージを無効化します。`targetSdk` の PR には `manual-verification-required` ラベルと手動確認の注意書きを付けます。ビルドや CI の成功だけでは、更新後の Android の動作変更や表示崩れを検証できません。対象 API の実機・エミュレータで主要画面、遷移、システムバーとの重なりを手動確認し、既存 UI テストも実行してください。`compileSdk` のみの更新はビルド・Android Lint・既存テストを基本とします。
+- ラベルはマージ制限ではありません。利用側の `packageRules` での再上書きや、別の自動マージ用 GitHub Actions 等がないことも確認してください。
+
+取得元には [endoflife.date の Android API](https://endoflife.date/api/v1/products/android) を使い、公開日を迎えた正式版の整数 API レベルだけを採用します。標準の `endoflife-date` datasource は OS バージョンを扱うため、`custom.apiVersion` を変換する custom datasource を使用します。JSON API を利用することで XML/HTML の独自解析や自前サーバーの運用を避けますが、第三者データの反映遅延・可用性に依存します。
+
+SDK 更新の提案は、Google Play の提出期限や最低 target API 要件への適合を保証しません。公式の動作変更・Play 要件の確認、各アプリの lint と UI テストの整備は引き続き必要です。
 
 ## 使用例
 
