@@ -162,6 +162,11 @@ const DETECTION_RULES: DetectionRule[] = [
 
 export const OPTION_PRESETS = [
 	{
+		preset: "android-sdk",
+		label: "Android SDK",
+		description: "Android SDK 更新 PR を作成（手動マージ）",
+	},
+	{
 		preset: "automerge",
 		label: "Auto-merge",
 		description: "Auto-merge minor/patch updates",

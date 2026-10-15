@@ -46,8 +46,12 @@ function generateRootConfig(options: GenerateOptions): object {
 		extendsSet.add(buildPresetRef("tools", tool));
 	}
 
-	for (const opt of options.options) {
+	// SDK の安全設定は共通のグループ化・自動マージ設定より後に適用する。
+	for (const opt of options.options.filter((opt) => opt !== "android-sdk")) {
 		extendsSet.add(buildPresetRef("options", opt));
+	}
+	if (options.options.includes("android-sdk")) {
+		extendsSet.add(buildPresetRef("options", "android-sdk"));
 	}
 
 	return {
