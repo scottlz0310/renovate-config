@@ -63,31 +63,31 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/package-managers/npm"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/package-managers/npm"
+	]
 }
 ```
 
 ## 対応言語・環境
 
-| 言語/環境 | プリセット | 説明 |
-|----------|-----------|------|
-| Node.js | `languages/nodejs` | npm datasource の依存パッケージ。公開後 1 日待機。Node ランタイム本体（`node-version` datasource）は 5 日待機 |
-| Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）|
-| TypeScript | `languages/typescript` | TypeScript 関連 |
-| Android | `languages/android` | Android (Kotlin/Java, Gradle) |
-| Python | `languages/python` | uv/pyproject.toml |
-| Docker | `languages/docker` | Dockerfile, docker-compose |
-| Go | `languages/go` | Go modules |
-| Rust | `languages/rust` | Cargo |
-| C# | `languages/csharp` | NuGet, .NET |
-| PowerShell | `languages/powershell` | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き） |
-| C++ | `languages/cpp` | Conan, vcpkg, CMake |
+| 言語/環境              | プリセット               | 説明                                                                                                          |
+| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Node.js                | `languages/nodejs`       | npm datasource の依存パッケージ。公開後 1 日待機。Node ランタイム本体（`node-version` datasource）は 5 日待機 |
+| Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）                                             |
+| TypeScript             | `languages/typescript`   | TypeScript 関連                                                                                               |
+| Android                | `languages/android`      | Android (Kotlin/Java, Gradle)                                                                                 |
+| Python                 | `languages/python`       | uv/pyproject.toml                                                                                             |
+| Docker                 | `languages/docker`       | Dockerfile, docker-compose                                                                                    |
+| Go                     | `languages/go`           | Go modules                                                                                                    |
+| Rust                   | `languages/rust`         | Cargo                                                                                                         |
+| C#                     | `languages/csharp`       | NuGet, .NET                                                                                                   |
+| PowerShell             | `languages/powershell`   | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き）                                           |
+| C++                    | `languages/cpp`          | Conan, vcpkg, CMake                                                                                           |
 
 `languages/android` は、リポジトリ内の `.ktlint-version`（`1.8.0` のように `x.y.z` だけを書いたファイル）から ktlint の版を検出し、[ktlint/ktlint](https://github.com/ktlint/ktlint) の GitHub Releases で更新を提案します。CI・lefthook・インストールスクリプトがこのファイルを読む構成にすると、版の定義を 1 か所にできます。
 
@@ -100,30 +100,30 @@ Install-Module Pester -RequiredVersion 5.7.1 -Force -Scope CurrentUser
 
 ## パッケージマネージャ
 
-| パッケージマネージャ | プリセット | 検出ファイル |
-|-------------------|-----------|-------------|
-| npm | `package-managers/npm` | `package-lock.json` |
-| pnpm | `package-managers/pnpm` | `pnpm-lock.yaml` |
-| Bun | `package-managers/bun` | `bun.lock`, `bun.lockb` |
+| パッケージマネージャ | プリセット              | 検出ファイル            |
+| -------------------- | ----------------------- | ----------------------- |
+| npm                  | `package-managers/npm`  | `package-lock.json`     |
+| pnpm                 | `package-managers/pnpm` | `pnpm-lock.yaml`        |
+| Bun                  | `package-managers/bun`  | `bun.lock`, `bun.lockb` |
 
 `package-managers/bun` は `.bun-version` の Bun ランタイム更新にも対応します。`package.json` の `packageManager` フィールドによる Bun バージョン更新は Corepack と Renovate が対応していないため対象外です。新規プロジェクトではテキスト形式の `bun.lock` を推奨します。
 
 ## ツール
 
-| ツール | プリセット | 説明 |
-|-------|-----------|------|
-| Pre-commit | `tools/precommit` | Pre-commit hooks |
-| Lefthook | `tools/lefthook` | Lefthook (Git hooks manager) |
+| ツール     | プリセット        | 説明                         |
+| ---------- | ----------------- | ---------------------------- |
+| Pre-commit | `tools/precommit` | Pre-commit hooks             |
+| Lefthook   | `tools/lefthook`  | Lefthook (Git hooks manager) |
 
 ## オプション
 
-| オプション | プリセット | 説明 |
-|-----------|-----------|------|
-| Automerge | `options/automerge` | minor/patch の自動マージ |
-| Schedule | `options/schedule` | スケジュール更新 (月曜 3am JST) |
-| Security | `options/security` | セキュリティ更新を優先 |
-| Production | `options/production` | 本番環境向け保守的設定 |
-| Monorepo | `options/monorepo` | モノレポ対応設定 |
+| オプション  | プリセット            | 説明                                                                 |
+| ----------- | --------------------- | -------------------------------------------------------------------- |
+| Automerge   | `options/automerge`   | minor/patch の自動マージ                                             |
+| Schedule    | `options/schedule`    | スケジュール更新 (月曜 3am JST)                                      |
+| Security    | `options/security`    | セキュリティ更新を優先                                               |
+| Production  | `options/production`  | 本番環境向け保守的設定                                               |
+| Monorepo    | `options/monorepo`    | モノレポ対応設定                                                     |
 | Android SDK | `options/android-sdk` | 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ） |
 
 ### Android SDK の更新提案
@@ -138,13 +138,13 @@ bunx @scottlz0310/renovate-config-init --presets android,automerge,schedule,andr
 
 ```json
 {
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/android",
-    "github>scottlz0310/renovate-config//presets/options/automerge",
-    "github>scottlz0310/renovate-config//presets/options/schedule",
-    "github>scottlz0310/renovate-config//presets/options/android-sdk"
-  ]
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/android",
+		"github>scottlz0310/renovate-config//presets/options/automerge",
+		"github>scottlz0310/renovate-config//presets/options/schedule",
+		"github>scottlz0310/renovate-config//presets/options/android-sdk"
+	]
 }
 ```
 
@@ -176,13 +176,13 @@ SDK 更新の提案は、Google Play の提出期限や最低 target API 要件�
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/python",
-    "github>scottlz0310/renovate-config//presets/languages/docker",
-    "github>scottlz0310/renovate-config//presets/options/security"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/python",
+		"github>scottlz0310/renovate-config//presets/languages/docker",
+		"github>scottlz0310/renovate-config//presets/options/security"
+	]
 }
 ```
 
@@ -190,15 +190,15 @@ SDK 更新の提案は、Google Play の提出期限や最低 target API 要件�
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/package-managers/pnpm",
-    "github>scottlz0310/renovate-config//presets/options/automerge",
-    "github>scottlz0310/renovate-config//presets/options/schedule"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/package-managers/pnpm",
+		"github>scottlz0310/renovate-config//presets/options/automerge",
+		"github>scottlz0310/renovate-config//presets/options/schedule"
+	]
 }
 ```
 
@@ -208,13 +208,13 @@ Bunを使うリポジトリでは、言語プリセットに加えて `package-m
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/package-managers/bun"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/package-managers/bun"
+	]
 }
 ```
 
@@ -228,12 +228,12 @@ Bunを使うリポジトリでは、言語プリセットに加えて `package-m
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs-major"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs-major"
+	]
 }
 ```
 

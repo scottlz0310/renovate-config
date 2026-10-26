@@ -26,6 +26,7 @@ If you want to add support for a new language or improve an existing language pr
    - Use `packageRules` to define language-specific behavior
    - Group related dependencies
 4. Validate your configuration:
+
    ```bash
    bun install
    bunx renovate-config-validator presets/languages/your-file.json

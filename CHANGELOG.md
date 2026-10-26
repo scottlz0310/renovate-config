@@ -158,11 +158,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 #### Core Features
+
 - 🎉 Initial release of renovate-config
 - Centralized Renovate configuration management for multi-language projects
 - Shareable preset system with `github>scottlz0310/renovate-config//presets/` format
 
 #### Language Support
+
 - **Node.js** - npm/pnpm package management (`languages/nodejs`)
 - **TypeScript** - TypeScript-specific configurations (`languages/typescript`)
 - **Python** - uv/pyproject.toml support (`languages/python`)
@@ -173,10 +175,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **C++** - Conan, vcpkg, and CMake support (`languages/cpp`)
 
 #### Tool Support
+
 - **Pre-commit** - Pre-commit hooks management (`tools/precommit`)
 - **Lefthook** - Git hooks manager support (`tools/lefthook`)
 
 #### Options
+
 - **Automerge** - Automatic merging for minor/patch updates (`options/automerge`)
 - **Schedule** - Scheduled updates (Monday 3am JST) (`options/schedule`)
 - **Security** - Security-focused update prioritization (`options/security`)
@@ -184,6 +188,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Monorepo** - Monorepo-optimized configurations (`options/monorepo`)
 
 #### CLI Tool
+
 - **renovate-config-init** - Interactive CLI for automatic configuration generation
   - Auto-detection of project structure (languages, tools, frameworks)
   - Interactive preset selection with detected defaults
@@ -191,6 +196,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Generates optimized `renovate.json` based on project analysis
 
 #### Default Configuration
+
 - Semantic commits enabled
 - Dependency dashboard enabled
 - Separate minor and patch updates
@@ -198,12 +204,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Timezone: Asia/Tokyo
 
 #### Documentation
+
 - Comprehensive README in Japanese and English
 - CONTRIBUTING.md with development guidelines
 - SECURITY.md for security reporting
 - MIT License
 
 #### Development Infrastructure
+
 - **pnpm** - Package manager (migrated from npm)
 - Biome for linting and formatting
 - Lefthook for Git hooks
@@ -213,6 +221,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renovate self-hosting configuration
 
 ### Changed
+
 - Migrated package manager from npm to pnpm
 - Updated all documentation to reflect pnpm usage
 - Updated GitHub Actions workflows to use pnpm

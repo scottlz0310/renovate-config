@@ -1,7 +1,7 @@
 ---
 name: Release
 
-'on':
+"on":
   push:
     tags:
       # Tag format: vX.Y.Z (must match package.json version)

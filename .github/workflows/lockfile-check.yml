@@ -1,40 +1,40 @@
 name: Lockfile Consistency Check
 permissions:
-    contents: read
+  contents: read
 
 on:
-    pull_request:
-        branches:
-            - main
-            - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
-    lockfile-consistency:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v7
-              with:
-                  fetch-depth: 0
+  lockfile-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version-file: ".bun-version"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: ".bun-version"
 
-            - name: Check for package.json changes without bun.lock update
-              env:
-                  BASE: ${{ github.base_ref }}
-              run: |
-                  set -euo pipefail
-                  echo "Comparing changes against origin/$BASE"
-                  CHANGED=$(git diff --name-only origin/$BASE..HEAD)
-                  echo "$CHANGED"
-                  if echo "$CHANGED" | grep -q "^package.json$"; then
-                      if echo "$CHANGED" | grep -q "^bun.lock$"; then
-                          echo "bun.lock updated alongside package.json"
-                          exit 0
-                      fi
-                      echo "package.json changed without bun.lock; inspecting dependency-related fields..."
-                      bun ./scripts/check-lock-consistency.js "$BASE"
-                  fi
+      - name: Check for package.json changes without bun.lock update
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          echo "Comparing changes against origin/$BASE"
+          CHANGED=$(git diff --name-only origin/$BASE..HEAD)
+          echo "$CHANGED"
+          if echo "$CHANGED" | grep -q "^package.json$"; then
+              if echo "$CHANGED" | grep -q "^bun.lock$"; then
+                  echo "bun.lock updated alongside package.json"
+                  exit 0
+              fi
+              echo "package.json changed without bun.lock; inspecting dependency-related fields..."
+              bun ./scripts/check-lock-consistency.js "$BASE"
+          fi
