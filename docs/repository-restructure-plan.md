@@ -104,11 +104,13 @@ renovate-config/
 ### フェーズ1: 準備
 
 1. **新しいブランチを作成**
+
    ```bash
    git checkout -b refactor/simplify-structure
    ```
 
 2. **バックアップとタグ作成**
+
    ```bash
    git tag -a backup-before-restructure -m "Backup before repository restructure"
    ```
@@ -116,6 +118,7 @@ renovate-config/
 ### フェーズ2: ディレクトリ移動
 
 1. **CLIのソースを移動**
+
    ```bash
    # packages/cli/src → src
    mv packages/cli/src ./src
@@ -137,12 +140,14 @@ renovate-config/
    - workspaces設定を削除
 
 3. **プリセットの配置確認**
+
    ```bash
    # presetsはそのまま維持（変更不要）
    # ルート直下にあるため、GitHub経由の参照パスは変更なし
    ```
 
 4. **不要なファイル・ディレクトリの削除**
+
    ```bash
    rm -rf packages/
    rm pnpm-workspace.yaml
@@ -151,6 +156,7 @@ renovate-config/
 ### フェーズ3: 設定ファイルの更新
 
 1. **package.jsonの更新**
+
    ```json
    {
      "name": "@scottlz0310/renovate-config-init",
@@ -177,6 +183,7 @@ renovate-config/
    ```
 
 2. **tsconfig.jsonの更新**
+
    ```json
    {
      "compilerOptions": {
@@ -196,6 +203,7 @@ renovate-config/
 ### フェーズ4: ドキュメント更新
 
 1. **README.md**
+
    ```bash
    # GitHubから直接インストール（新しい構造で動作）
    pnpm add -g git+https://github.com/scottlz0310/renovate-config.git
@@ -206,6 +214,7 @@ renovate-config/
    - workspace コマンドへの言及を削除
 
 3. **CHANGELOG.md**
+
    ```markdown
    ## [2.0.0] - YYYY-MM-DD
 
@@ -222,6 +231,7 @@ renovate-config/
 ### フェーズ5: テストと検証
 
 1. **ローカルでの動作確認**
+
    ```bash
    pnpm install
    pnpm run build
@@ -230,6 +240,7 @@ renovate-config/
    ```
 
 2. **インストール方法の検証**
+
    ```bash
    # テスト用ディレクトリで
    pnpm add -g "file:$(pwd)"
@@ -246,6 +257,7 @@ renovate-config/
    - 破壊的変更であることを明記
 
 2. **タグとリリース**
+
    ```bash
    git tag -a v2.0.0 -m "Release v2.0.0 - Simplified repository structure"
    git push origin v2.0.0

@@ -1,26 +1,14 @@
 # lefthook: renovate-config (TypeScript/Bun)
-# pre-commit: Biome で format / lint をステージ済みファイルに適用
-# pre-push: 型チェック + テスト + knip で CI と同等のゲートを設ける
+# pre-commit: Biome で format / lint / assist をステージ済みファイルに適用
+# 対象言語と除外は biome.json に集約し、CI と同じ範囲を検査する。
+# pre-push: 更新によって未変更ファイルにも生じる違反を全体チェックで検出する。
 pre-commit:
-  parallel: true
   commands:
-    biome-format:
-      glob: "*.{ts,js,json,jsonc}"
-      # 文字列の exclude は正規表現として解釈されるため、glob はリスト形式で指定する
-      exclude:
-        - "presets/**"
-        - "dist/**"
-      run: bunx biome format --write {staged_files}
+    biome:
+      run: bun run biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
-    biome-lint:
-      glob: "*.{ts,js}"
-      run: bunx biome lint {staged_files}
 
 pre-push:
   commands:
-    typecheck:
-      run: bun run tsc:check
-    test:
-      run: bun run test
-    knip:
-      run: bun run knip
+    check-ci:
+      run: bun run check:ci

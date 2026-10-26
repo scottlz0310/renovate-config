@@ -32,10 +32,10 @@ renovate-config-init
 ```
 
 The CLI detects your project structure and guides you through:
-1) Languages
-2) Package managers
-3) Tools
-4) Options
+1. Languages
+2. Package managers
+3. Tools
+4. Options
 
 ### Manual setup
 
@@ -43,13 +43,13 @@ Create `renovate.json` in your project root:
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/package-managers/npm"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/package-managers/npm"
+	]
 }
 ```
 
@@ -84,13 +84,13 @@ For a Node.js and TypeScript repository using Bun, commit `bun.lock` and `.bun-v
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/package-managers/bun"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/package-managers/bun"
+	]
 }
 ```
 
@@ -121,12 +121,12 @@ The `languages/nodejs-major` preset enables Node.js major version updates, which
 
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs-major"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs-major"
+	]
 }
 ```
 

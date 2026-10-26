@@ -1,54 +1,54 @@
 name: Build and Commit dist
 
 on:
-    push:
-        branches: [main]
-        paths:
-            - "src/**"
-            - "tsconfig.json"
-            - "package.json"
-            - ".github/workflows/build-dist.yml"
-    workflow_dispatch: # Allow manual trigger
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "tsconfig.json"
+      - "package.json"
+      - ".github/workflows/build-dist.yml"
+  workflow_dispatch: # Allow manual trigger
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    build-dist:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v7
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+  build-dist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version-file: ".bun-version"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: ".bun-version"
 
-            - name: Install Dependencies
-              run: bun install --frozen-lockfile
-              env:
-                  SKIP_LEFTHOOK: "1"
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+        env:
+          SKIP_LEFTHOOK: "1"
 
-            - name: Build
-              run: bun run build
+      - name: Build
+        run: bun run build
 
-            - name: Check for changes
-              id: check
-              run: |
-                  git add dist/
-                  if git diff --staged --quiet; then
-                    echo "changed=false" >> $GITHUB_OUTPUT
-                  else
-                    echo "changed=true" >> $GITHUB_OUTPUT
-                  fi
+      - name: Check for changes
+        id: check
+        run: |
+          git add dist/
+          if git diff --staged --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
-            - name: Commit and push
-              if: steps.check.outputs.changed == 'true'
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git commit -m "chore: update dist [skip ci]"
-                  git push
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update dist [skip ci]"
+          git push

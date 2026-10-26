@@ -81,10 +81,10 @@ Renovateはサブディレクトリからのプリセット読み込みをサポ
 
 **構文**: `github>owner/repo//path/to/preset`
 
-| 変更前 | 変更後 |
-|--------|--------|
-| `github>scottlz0310/renovate-config:default` | `github>scottlz0310/renovate-config//presets/default` |
-| `github>scottlz0310/renovate-config:nodejs` | `github>scottlz0310/renovate-config//presets/languages/nodejs` |
+| 変更前                                         | 変更後                                                          |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `github>scottlz0310/renovate-config:default`   | `github>scottlz0310/renovate-config//presets/default`           |
+| `github>scottlz0310/renovate-config:nodejs`    | `github>scottlz0310/renovate-config//presets/languages/nodejs`  |
 | `github>scottlz0310/renovate-config:automerge` | `github>scottlz0310/renovate-config//presets/options/automerge` |
 
 ---
@@ -240,40 +240,38 @@ npx @scottlz0310/renovate-config-init
 **ルート (./renovate.json)**:
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>scottlz0310/renovate-config//presets/default",
-    "github>scottlz0310/renovate-config//presets/languages/nodejs",
-    "github>scottlz0310/renovate-config//presets/languages/typescript",
-    "github>scottlz0310/renovate-config//presets/languages/docker",
-    "github>scottlz0310/renovate-config//presets/tools/precommit"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"github>scottlz0310/renovate-config//presets/default",
+		"github>scottlz0310/renovate-config//presets/languages/nodejs",
+		"github>scottlz0310/renovate-config//presets/languages/typescript",
+		"github>scottlz0310/renovate-config//presets/languages/docker",
+		"github>scottlz0310/renovate-config//presets/tools/precommit"
+	]
 }
 ```
 
 **サブパッケージ (./packages/api/renovate.json)**:
 ```json
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "../.."
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["../.."]
 }
 ```
 
 ### 検出ルール
 
-| ファイル/パターン | 検出されるプリセット |
-|------------------|---------------------|
-| `package.json` | languages/nodejs |
-| `tsconfig.json` | languages/typescript |
-| `pyproject.toml`, `uv.lock` | languages/python |
-| `Dockerfile`, `docker-compose.yml` | languages/docker |
-| `go.mod` | languages/go |
-| `Cargo.toml` | languages/rust |
-| `*.csproj`, `*.sln` | languages/csharp |
-| `CMakeLists.txt`, `conanfile.txt` | languages/cpp |
-| `.pre-commit-config.yaml` | tools/precommit |
+| ファイル/パターン                  | 検出されるプリセット |
+| ---------------------------------- | -------------------- |
+| `package.json`                     | languages/nodejs     |
+| `tsconfig.json`                    | languages/typescript |
+| `pyproject.toml`, `uv.lock`        | languages/python     |
+| `Dockerfile`, `docker-compose.yml` | languages/docker     |
+| `go.mod`                           | languages/go         |
+| `Cargo.toml`                       | languages/rust       |
+| `*.csproj`, `*.sln`                | languages/csharp     |
+| `CMakeLists.txt`, `conanfile.txt`  | languages/cpp        |
+| `.pre-commit-config.yaml`          | tools/precommit      |
 
 ### CLI オプション
 
@@ -302,26 +300,26 @@ renovate-config-init --output .github/renovate.json
 
 ```json
 {
-  "name": "@scottlz0310/renovate-config-init",
-  "version": "1.0.0",
-  "type": "module",
-  "bin": {
-    "renovate-config-init": "./dist/index.js"
-  },
-  "files": ["dist"],
-  "dependencies": {
-    "@clack/prompts": "^0.9.1",
-    "fast-glob": "^3.3"
-  },
-  "devDependencies": {
-    "@types/node": "^22",
-    "tsx": "^4",
-    "typescript": "^5.7"
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsx src/index.ts"
-  }
+	"name": "@scottlz0310/renovate-config-init",
+	"version": "1.0.0",
+	"type": "module",
+	"bin": {
+		"renovate-config-init": "./dist/index.js"
+	},
+	"files": ["dist"],
+	"dependencies": {
+		"@clack/prompts": "^0.9.1",
+		"fast-glob": "^3.3"
+	},
+	"devDependencies": {
+		"@types/node": "^22",
+		"tsx": "^4",
+		"typescript": "^5.7"
+	},
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsx src/index.ts"
+	}
 }
 ```
 
@@ -329,92 +327,94 @@ renovate-config-init --output .github/renovate.json
 
 ```typescript
 interface DetectionResult {
-  preset: string;           // e.g., "languages/nodejs"
-  confidence: 'high' | 'medium' | 'low';
-  matchedFiles: string[];
+	preset: string; // e.g., "languages/nodejs"
+	confidence: "high" | "medium" | "low";
+	matchedFiles: string[];
 }
 
 interface DetectionRule {
-  preset: string;
-  patterns: string[];
-  excludePatterns?: string[];
-  confidence: 'high' | 'medium' | 'low';
+	preset: string;
+	patterns: string[];
+	excludePatterns?: string[];
+	confidence: "high" | "medium" | "low";
 }
 
 const DETECTION_RULES: DetectionRule[] = [
-  {
-    preset: 'languages/nodejs',
-    patterns: ['package.json'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/typescript',
-    patterns: ['tsconfig.json'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/python',
-    patterns: ['pyproject.toml', 'uv.lock'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/docker',
-    patterns: ['Dockerfile', 'docker-compose.yml', 'docker-compose.yaml'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/go',
-    patterns: ['go.mod'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/rust',
-    patterns: ['Cargo.toml'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/csharp',
-    patterns: ['*.csproj', '*.sln'],
-    confidence: 'high',
-  },
-  {
-    preset: 'languages/cpp',
-    patterns: ['CMakeLists.txt', 'conanfile.txt', 'vcpkg.json'],
-    confidence: 'high',
-  },
-  {
-    preset: 'tools/precommit',
-    patterns: ['.pre-commit-config.yaml'],
-    confidence: 'high',
-  },
+	{
+		preset: "languages/nodejs",
+		patterns: ["package.json"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/typescript",
+		patterns: ["tsconfig.json"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/python",
+		patterns: ["pyproject.toml", "uv.lock"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/docker",
+		patterns: ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/go",
+		patterns: ["go.mod"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/rust",
+		patterns: ["Cargo.toml"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/csharp",
+		patterns: ["*.csproj", "*.sln"],
+		confidence: "high",
+	},
+	{
+		preset: "languages/cpp",
+		patterns: ["CMakeLists.txt", "conanfile.txt", "vcpkg.json"],
+		confidence: "high",
+	},
+	{
+		preset: "tools/precommit",
+		patterns: [".pre-commit-config.yaml"],
+		confidence: "high",
+	},
 ];
 
 export async function detectPresets(cwd: string): Promise<DetectionResult[]> {
-  // fast-globでパターンマッチング
+	// fast-globでパターンマッチング
 }
 ```
 
 ### 生成ロジック (generator.ts)
 
 ```typescript
-const REPO_OWNER = 'scottlz0310';
-const REPO_NAME = 'renovate-config';
-const PRESETS_PATH = 'presets';
+const REPO_OWNER = "scottlz0310";
+const REPO_NAME = "renovate-config";
+const PRESETS_PATH = "presets";
 
 interface GenerateOptions {
-  presets: string[];  // e.g., ["languages/nodejs", "options/automerge"]
+	presets: string[]; // e.g., ["languages/nodejs", "options/automerge"]
 }
 
 export function generateConfig(options: GenerateOptions): object {
-  const { presets } = options;
+	const { presets } = options;
 
-  return {
-    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-    extends: [
-      `github>${REPO_OWNER}/${REPO_NAME}//${PRESETS_PATH}/default`,
-      ...presets.map(p => `github>${REPO_OWNER}/${REPO_NAME}//${PRESETS_PATH}/${p}`),
-    ],
-  };
+	return {
+		$schema: "https://docs.renovatebot.com/renovate-schema.json",
+		extends: [
+			`github>${REPO_OWNER}/${REPO_NAME}//${PRESETS_PATH}/default`,
+			...presets.map(
+				(p) => `github>${REPO_OWNER}/${REPO_NAME}//${PRESETS_PATH}/${p}`,
+			),
+		],
+	};
 }
 ```
 
