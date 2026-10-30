@@ -7,7 +7,7 @@ describe("generator.generateConfig", () => {
 			languages: ["nodejs"],
 			packageManagers: [],
 			tools: [],
-			options: ["automerge"],
+			options: ["android-sdk"],
 		});
 		const root = files.find((f) => f.isRoot);
 		if (!root) throw new Error("Root file not found");
@@ -23,7 +23,7 @@ describe("generator.generateConfig", () => {
 		);
 		// biome-ignore lint/suspicious/noExplicitAny: test config object
 		expect((config as any).extends).toContain(
-			"github>scottlz0310/renovate-config//presets/options/automerge",
+			"github>scottlz0310/renovate-config//presets/options/android-sdk",
 		);
 	});
 

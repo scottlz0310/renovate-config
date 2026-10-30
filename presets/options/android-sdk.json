@@ -1,6 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Android SDK の安定版更新を提案する任意選択プリセット。automerge・schedule 等の共通プリセットより後に指定する。",
+	"description": "Android SDK の安定版更新を提案する任意選択プリセット。言語別プリセットより後に指定する。",
 	"customManagers": [
 		{
 			"customType": "regex",

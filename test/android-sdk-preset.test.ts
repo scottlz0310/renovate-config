@@ -232,8 +232,6 @@ describe("Android SDK プリセット", () => {
 				prCreation: "not-pending",
 				packageRules: [
 					...readPreset("languages/android").packageRules,
-					...readPreset("options/automerge").packageRules,
-					...readPreset("options/schedule").packageRules,
 					...preset.packageRules,
 				],
 			});

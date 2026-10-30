@@ -166,31 +166,6 @@ export const OPTION_PRESETS = [
 		label: "Android SDK",
 		description: "Android SDK 更新 PR を作成（手動マージ）",
 	},
-	{
-		preset: "automerge",
-		label: "Auto-merge",
-		description: "Auto-merge minor/patch updates",
-	},
-	{
-		preset: "schedule",
-		label: "Schedule",
-		description: "Scheduled updates (Mon 3am JST)",
-	},
-	{
-		preset: "security",
-		label: "Security",
-		description: "Prioritize security updates",
-	},
-	{
-		preset: "production",
-		label: "Production",
-		description: "Conservative settings",
-	},
-	{
-		preset: "monorepo",
-		label: "Monorepo",
-		description: "Monorepo-specific settings",
-	},
 ];
 
 async function detectPresetsInDir(cwd: string): Promise<DetectionResult[]> {

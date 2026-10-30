@@ -1,28 +1,5 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Schedule-based preset for controlled update timing",
-	"timezone": "Asia/Tokyo",
-	"packageRules": [
-		{
-			"matchUpdateTypes": ["major"],
-			"schedule": ["before 3am on Monday"],
-			"groupName": "Major updates (weekly)"
-		},
-		{
-			"matchUpdateTypes": ["minor"],
-			"schedule": ["before 3am on Monday and Thursday"],
-			"groupName": "Minor updates (twice weekly)"
-		},
-		{
-			"matchUpdateTypes": ["patch"],
-			"schedule": ["at any time"],
-			"groupName": "Patch updates (anytime)"
-		}
-	],
-	"lockFileMaintenance": {
-		"description": "Reset minimumReleaseAge: lockFileMaintenance upgrades have no releaseTimestamp, so an inherited minimumReleaseAge leaves the stability-days status pending forever",
-		"enabled": true,
-		"schedule": ["before 3am on Monday"],
-		"minimumReleaseAge": null
-	}
+	"description": "非推奨: options/schedule の従来の更新設定は解除済みです。extends から削除してください。",
+	"dependencyDashboardFooter": "⚠️ 非推奨の options プリセットが参照されています。これらが指定していたスケジュール・待機期間・自動マージ・承認要求・グループ化は中央プリセット側で解除済みです。解除のために利用側の変更は不要ですが、不要な参照を整理するため、options/schedule・options/production・options/automerge・options/security・options/monorepo のうち、renovate.json の extends で参照している項目を削除してください。"
 }

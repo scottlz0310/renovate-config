@@ -52,7 +52,7 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
   ☑ Pre-commit   (detected)
 
 ◆ Select Options:
-  ☑ Auto-merge
+  ☐ Android SDK
 
 ✓ Created ./renovate.json
 ```
@@ -119,19 +119,20 @@ Install-Module Pester -RequiredVersion 5.7.1 -Force -Scope CurrentUser
 
 | オプション  | プリセット            | 説明                                                                 |
 | ----------- | --------------------- | -------------------------------------------------------------------- |
-| Automerge   | `options/automerge`   | minor/patch の自動マージ                                             |
-| Schedule    | `options/schedule`    | スケジュール更新 (月曜 3am JST)                                      |
-| Security    | `options/security`    | セキュリティ更新を優先                                               |
-| Production  | `options/production`  | 本番環境向け保守的設定                                               |
-| Monorepo    | `options/monorepo`    | モノレポ対応設定                                                     |
 | Android SDK | `options/android-sdk` | 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ） |
+
+### 非推奨 options の移行
+
+`options/schedule`・`options/production`・`options/automerge`・`options/security`・`options/monorepo` は非推奨です。従来のスケジュール・長い待機期間・自動マージ・承認要求・これら5 options由来のグループ化を中央で一括解除しました。利用側の `extends` を変更しなくても、次回の Renovate 巡回から解除が反映されます。ファイルは既存参照がエラーにならないための空の受け皿として残します。CLI の選択肢からは除外し、`--presets` で指定した場合も既存の不明プリセット検査でエラーになります。
+
+これらを参照している間は、次回の Renovate 巡回で Dependency Dashboard の末尾に `extends` からの削除案内を表示します。複数参照しても同じ案内を1つ表示し、すべての参照を削除すると案内も消えます。独自の Config Warning Issue や更新 PR 本文への警告は追加しません。利用側で Dashboard を無効化したり `dependencyDashboardFooter` を上書きした場合は表示されません。
 
 ### Android SDK の更新提案
 
 `options/android-sdk` は明示的に選択した場合だけ適用されます。CLI のオプション選択、または次のコマンドで追加できます。CLI は SDK プリセットを最後に配置します。
 
 ```bash
-bunx @scottlz0310/renovate-config-init --presets android,automerge,schedule,android-sdk
+bunx @scottlz0310/renovate-config-init --presets android,android-sdk
 ```
 
 手動設定では、共通のグループ化・自動マージ設定を上書きするため、`options/android-sdk` を **extends の最後**に指定してください。
@@ -141,8 +142,6 @@ bunx @scottlz0310/renovate-config-init --presets android,automerge,schedule,andr
 	"extends": [
 		"github>scottlz0310/renovate-config//presets/default",
 		"github>scottlz0310/renovate-config//presets/languages/android",
-		"github>scottlz0310/renovate-config//presets/options/automerge",
-		"github>scottlz0310/renovate-config//presets/options/schedule",
 		"github>scottlz0310/renovate-config//presets/options/android-sdk"
 	]
 }
@@ -172,7 +171,7 @@ SDK 更新の提案は、Google Play の提出期限や最低 target API 要件�
 
 ## 使用例
 
-### Python + Docker + セキュリティ重視
+### Python + Docker
 
 ```json
 {
@@ -180,13 +179,12 @@ SDK 更新の提案は、Google Play の提出期限や最低 target API 要件�
 	"extends": [
 		"github>scottlz0310/renovate-config//presets/default",
 		"github>scottlz0310/renovate-config//presets/languages/python",
-		"github>scottlz0310/renovate-config//presets/languages/docker",
-		"github>scottlz0310/renovate-config//presets/options/security"
+		"github>scottlz0310/renovate-config//presets/languages/docker"
 	]
 }
 ```
 
-### Node.js + pnpm + 自動マージ + スケジュール
+### Node.js + pnpm
 
 ```json
 {
@@ -195,9 +193,7 @@ SDK 更新の提案は、Google Play の提出期限や最低 target API 要件�
 		"github>scottlz0310/renovate-config//presets/default",
 		"github>scottlz0310/renovate-config//presets/languages/nodejs",
 		"github>scottlz0310/renovate-config//presets/languages/typescript",
-		"github>scottlz0310/renovate-config//presets/package-managers/pnpm",
-		"github>scottlz0310/renovate-config//presets/options/automerge",
-		"github>scottlz0310/renovate-config//presets/options/schedule"
+		"github>scottlz0310/renovate-config//presets/package-managers/pnpm"
 	]
 }
 ```
@@ -249,8 +245,8 @@ renovate-config-init --yes
 # ドライラン（ファイルを作成せずプレビュー）
 renovate-config-init --dry-run
 
-# プリセットを指定（例: nodejs,pnpm,typescript,automerge）
-renovate-config-init --presets nodejs,pnpm,typescript,automerge
+# プリセットを指定（例: nodejs,pnpm,typescript）
+renovate-config-init --presets nodejs,pnpm,typescript
 
 # 出力先を指定（ファイル or ディレクトリ）
 renovate-config-init --output ./config/renovate.json
@@ -279,13 +275,21 @@ renovate-config-init --help
 
 ## デフォルト設定
 
-`presets/default.json` には以下が含まれます：
+`presets/default.json` が標準設定の唯一の正です。直下の `default.json` は `github>scottlz0310/renovate-config//presets/default` を参照する別名で、オンボーディングの自動検出や `local>scottlz0310/renovate-config` からも同じ設定に解決します。設定の変更は `presets/default.json` で行ってください。
+
+標準設定には以下が含まれます：
 
 - セマンティックコミットの有効化
 - 依存関係ダッシュボードの有効化
 - マイナー・パッチ更新の分離
 - 脆弱性アラートの有効化
 - タイムゾーン: Asia/Tokyo
+- スケジュール制限なし（`schedule: []`）。Renovate の巡回時に随時提案
+- 標準の公開後待機期間は3日（`minimumReleaseAge: "3 days"`）。`internalChecksFilter: "strict"` で待機中の版によるブランチ作成を抑制
+- 手動マージを前提とし、GitHub Actions・言語別・`config:recommended` 由来の既存グループ化は維持
+- lockfile maintenance は公開日時を持たないため `minimumReleaseAge: null` とする（これだけで maintenance を有効化しない）
+
+個別プリセット・利用側で明示した設定は引き続き優先されます。公開日時がない datasource では、標準の待機期間だけで3日の経過を保証できません。
 
 `presets/languages/nodejs.json` では npm パッケージ更新に `minimumReleaseAge: "1 day"` と `internalChecksFilter: "strict"` を適用し、公開直後のパッケージを含む lockfile で CI が失敗することを抑制します。
 

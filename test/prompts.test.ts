@@ -40,7 +40,7 @@ describe("prompts.selectPresets", () => {
 				toolOptions = args.options;
 				return ["precommit", "lefthook"];
 			})
-			.mockImplementationOnce(async () => ["automerge"]);
+			.mockImplementationOnce(async () => ["android-sdk"]);
 
 		const mockScanResult: ScanResult = {
 			root: {
@@ -83,7 +83,7 @@ describe("prompts.selectPresets", () => {
 			languages: ["nodejs"],
 			packageManagers: ["pnpm"],
 			tools: ["precommit", "lefthook"],
-			options: ["automerge"],
+			options: ["android-sdk"],
 		});
 
 		expect(Array.isArray(languageOptions)).toBe(true);
