@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-10-30
+
 ### Changed
 
 - 標準設定をスケジュール制限なし・公開後3日待機の手動マージ運用に変更。既存の GitHub Actions・言語別グループ化と Node.js の個別待機ルールは維持 (#297)
 - schedule・production・automerge・security・monorepo の5 optionsを非推奨化し、従来の更新設定を中央で一括解除した互換プリセットに変更。CLI選択肢から除外し、参照中は Dependency Dashboard に削除案内を表示 (#297)
+  - CLI の `--presets` に旧5 optionsを指定するとエラーになります。コマンド引数から該当項目を削除してください。既存の `renovate.json` の参照は引き続き解決できます。
 - 直下の `default.json` を `presets/default.json` の別名に統一し、別リポジトリからの参照解決と別名の形をテストで検査。直下もプリセット検証の対象に追加 (#298)
 
 ### Added
