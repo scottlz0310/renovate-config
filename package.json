@@ -49,9 +49,9 @@
 		"@vitest/coverage-v8": "^5.0.5",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
-		"knip": "^6.42.1",
+		"knip": "^6.43.0",
 		"lefthook": "^2.2.2",
-		"renovate": "^44.178.5",
+		"renovate": "^44.194.0",
 		"tsx": "^4.23.15",
 		"typescript": "^7.0.2",
 		"vitest": "^5.0.5"
