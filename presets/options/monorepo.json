@@ -1,23 +1,5 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Monorepo preset for handling monorepo dependencies",
-	"extends": ["group:monorepos", "group:recommended"],
-	"packageRules": [
-		{
-			"matchPackageNames": ["@angular/**"],
-			"groupName": "Angular monorepo"
-		},
-		{
-			"matchPackageNames": ["@nestjs/**"],
-			"groupName": "NestJS monorepo"
-		},
-		{
-			"matchPackageNames": ["@vue/**"],
-			"groupName": "Vue monorepo"
-		},
-		{
-			"matchPackageNames": ["@nuxt/**"],
-			"groupName": "Nuxt monorepo"
-		}
-	]
+	"description": "非推奨: options/monorepo の従来の更新設定は解除済みです。extends から削除してください。",
+	"dependencyDashboardFooter": "⚠️ 非推奨の options プリセットが参照されています。これらが指定していたスケジュール・待機期間・自動マージ・承認要求・グループ化は中央プリセット側で解除済みです。解除のために利用側の変更は不要ですが、不要な参照を整理するため、options/schedule・options/production・options/automerge・options/security・options/monorepo のうち、renovate.json の extends で参照している項目を削除してください。"
 }

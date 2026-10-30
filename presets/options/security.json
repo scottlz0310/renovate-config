@@ -1,27 +1,5 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Security-focused preset for prioritizing security updates",
-	"vulnerabilityAlerts": {
-		"enabled": true,
-		"labels": ["security", "priority"],
-		"schedule": ["at any time"],
-		"automerge": true,
-		"automergeType": "pr"
-	},
-	"packageRules": [
-		{
-			"matchUpdateTypes": ["patch"],
-			"matchCurrentVersion": "!/^0\\./",
-			"labels": ["patch"],
-			"prPriority": 5
-		},
-		{
-			"matchDatasources": ["npm", "pypi", "nuget", "go", "crate"],
-			"matchUpdateTypes": ["patch"],
-			"groupName": "Security patches",
-			"schedule": ["at any time"],
-			"prPriority": 10
-		}
-	],
-	"osvVulnerabilityAlerts": true
+	"description": "非推奨: options/security の従来の更新設定は解除済みです。extends から削除してください。",
+	"dependencyDashboardFooter": "⚠️ 非推奨の options プリセットが参照されています。これらが指定していたスケジュール・待機期間・自動マージ・承認要求・グループ化は中央プリセット側で解除済みです。解除のために利用側の変更は不要ですが、不要な参照を整理するため、options/schedule・options/production・options/automerge・options/security・options/monorepo のうち、renovate.json の extends で参照している項目を削除してください。"
 }

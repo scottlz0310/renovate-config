@@ -181,7 +181,7 @@ async function validateFile(filePath) {
 	}
 }
 
-const files = findJsonFiles(PRESETS_DIR);
+const files = ["default.json", ...findJsonFiles(PRESETS_DIR)];
 let hasError = false;
 
 async function main() {

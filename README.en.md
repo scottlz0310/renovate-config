@@ -53,6 +53,12 @@ Create `renovate.json` in your project root:
 }
 ```
 
+## 標準設定と参照先
+
+`presets/default.json` が標準設定の唯一の正です。直下の `default.json` は `github>scottlz0310/renovate-config//presets/default` を参照する別名で、オンボーディングや `local>scottlz0310/renovate-config` も同じ設定を使用します。変更は `presets/default.json` に集約してください。
+
+標準はスケジュール制限なし（`schedule: []`）、公開後3日待機（`minimumReleaseAge: "3 days"`・`internalChecksFilter: "strict"`）、手動マージです。GitHub Actions・言語別・`config:recommended` 由来の既存グループ化は維持します。Node.js の既存個別待機期間（npm は1日、Node ランタイムは5日）や利用側の明示設定は引き続き優先されます。公開日時がない datasource では3日の経過を保証できません。lockfile maintenance は公開日時を持たないため待機を除外しますが、標準設定だけでは有効化しません。
+
 ## Presets
 
 ### Languages
@@ -105,11 +111,9 @@ Use: `github>scottlz0310/renovate-config//presets/tools/<name>`
 
 Use: `github>scottlz0310/renovate-config//presets/options/<name>`
 
-- `automerge`
-- `schedule`
-- `security`
-- `production`
-- `monorepo`
+- `android-sdk` — 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ）
+
+`options/schedule`・`options/production`・`options/automerge`・`options/security`・`options/monorepo` は非推奨です。従来のスケジュール・長い待機期間・自動マージ・承認要求・これら5 options由来のグループ化を中央で一括解除しました。利用側の `extends` を変更しなくても次回の巡回から反映されます。ファイルは参照切れを防ぐため残し、Dependency Dashboard の末尾に不要になった参照の削除案内を表示します。複数参照時も案内は1つで、全参照を削除すると消えます。Dashboard の無効化や `dependencyDashboardFooter` の上書き時は表示されません。CLI の選択肢から除外し、`--presets` での指定もエラーになります。
 
 ## Node.js Major Version Updates (opt-in)
 
@@ -142,8 +146,8 @@ renovate-config-init --yes
 # Dry run (preview without writing files)
 renovate-config-init --dry-run
 
-# Specify presets (e.g. nodejs,pnpm,typescript,automerge)
-renovate-config-init --presets nodejs,pnpm,typescript,automerge
+# Specify presets (e.g. nodejs,pnpm,typescript)
+renovate-config-init --presets nodejs,pnpm,typescript
 
 # Specify output path (file or directory)
 renovate-config-init --output ./config/renovate.json
