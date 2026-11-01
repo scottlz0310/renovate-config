@@ -1,34 +1,43 @@
 ---
 name: Release
 
+# prepare-release.yml が作る `chore(release): vX.Y.Z` PR のマージ（main への push）で起動する。
+# draft（tag と draft Release の作成）→ publish（検証して npm へ公開）
+# → verify-package（公開物の照合）→ finalize（Release の公開）の順に進む。
+# npm の Trusted Publisher は repo とこの workflow のファイル名（release.yml）に紐づくため、名前を変えない。
+
 "on":
   push:
-    tags:
-      # Tag format: vX.Y.Z (must match package.json version)
-      - "v*"
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: "Tag to release (e.g. v2.0.0)."
-        required: true
-        type: string
+    branches: [main]
 
 permissions:
-  contents: write
-  id-token: write
-
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  publish-cli:
+  draft:
+    if: startsWith(github.event.head_commit.message, 'chore(release):')
+    uses: scottlz0310/release-automate/.github/workflows/reusable-publish-release.yml@3c860f1b178eb5b942d87c800153bc47887a7bfd # v3.2.1
+    permissions:
+      contents: write
+    with:
+      draft: true
+
+  publish:
+    needs: draft
+    if: needs.draft.outputs.release_state == 'draft'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: npm-publish-${{ github.repository }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          fetch-depth: 0
+          ref: ${{ needs.draft.outputs.target_sha }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -43,33 +52,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Determine tag
-        id: tag
-        shell: bash
+      - name: Verify package version matches tag
+        env:
+          TAG: ${{ needs.draft.outputs.tag_name }}
         run: |
           set -euo pipefail
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            TAG="${{ inputs.tag }}"
-          else
-            TAG="${GITHUB_REF_NAME}"
-          fi
-
-          if [[ "$TAG" != v* ]]; then
-            echo "Tag must start with 'v': $TAG"
-            exit 1
-          fi
-
-          TAG_VERSION="${TAG#v}"
-          PKG_VERSION="$(bun -e 'process.stdout.write((await Bun.file("package.json").json()).version)')"
-
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "tag_version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
-          echo "pkg_version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
-
-          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
-            echo "Version mismatch: tag=$TAG_VERSION package.json=$PKG_VERSION"
-            echo "Fix package.json version or tag name."
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$PKG_VERSION" != "${TAG#v}" ]; then
+            echo "::error::Version mismatch: tag=${TAG#v} package.json=$PKG_VERSION"
             exit 1
           fi
 
@@ -79,7 +69,26 @@ jobs:
       - name: Build CLI
         run: bun run build
 
+      - name: Pack and verify tarball
+        run: |
+          set -euo pipefail
+          npm pack --pack-destination package-output
+          packages=(package-output/*.tgz)
+          test "${#packages[@]}" = 1
+          tar -tzf "${packages[0]}" > package-files.txt
+          grep -qx 'package/dist/index.js' package-files.txt
+          grep -q '^package/presets/' package-files.txt
+
+      - name: Upload npm payload
+        uses: actions/upload-artifact@v7
+        with:
+          name: npm-payload
+          path: package-output/*.tgz
+          if-no-files-found: error
+
       - name: Publish to npm
+        env:
+          TAG: ${{ needs.draft.outputs.tag_name }}
         shell: bash
         run: |
           set -euo pipefail
@@ -87,19 +96,46 @@ jobs:
           unset NODE_AUTH_TOKEN
           unset NPM_CONFIG_USERCONFIG
 
-          npm publish --provenance --access public
+          version="${TAG#v}"
+          args=(--provenance --access public)
+          if [[ "${version%%+*}" == *-* ]]; then args+=(--tag next); fi
+          packages=(./package-output/*.tgz)
+          test "${#packages[@]}" = 1
+          npm publish "${packages[0]}" "${args[@]}"
 
-      - name: Create GitHub release (if missing)
+  verify-package:
+    needs: [draft, publish]
+    if: needs.draft.outputs.release_state == 'draft'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Download expected tarball
+        uses: actions/download-artifact@v8
+        with:
+          name: npm-payload
+          path: expected
+
+      - name: Verify registry tarball and provenance
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
+          TAG: ${{ needs.draft.outputs.tag_name }}
         run: |
           set -euo pipefail
-          TAG="${{ steps.tag.outputs.tag }}"
+          timeout 60 npm view "@scottlz0310/renovate-config-init@${TAG#v}" --json > metadata.json
+          tarball=$(jq -er '.dist.tarball' metadata.json)
+          jq -er '.dist.attestations.url' metadata.json
+          curl -fSL --connect-timeout 10 --max-time 60 "$tarball" -o registry.tgz
+          packages=(expected/*.tgz)
+          test "${#packages[@]}" = 1
+          cmp "${packages[0]}" registry.tgz
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "GitHub release already exists: $TAG"
-            exit 0
-          fi
-
-          gh release create "$TAG" --generate-notes
+  finalize:
+    needs: [draft, publish, verify-package]
+    if: needs.draft.outputs.release_state == 'draft'
+    uses: scottlz0310/release-automate/.github/workflows/reusable-finalize-release.yml@3c860f1b178eb5b942d87c800153bc47887a7bfd # v3.2.1
+    permissions:
+      contents: write
+    with:
+      tag_name: ${{ needs.draft.outputs.tag_name }}
+      target_sha: ${{ needs.draft.outputs.target_sha }}
+      append_release_evidence: true
+      verification_results: ${{ toJSON(needs) }}
