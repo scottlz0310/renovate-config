@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- リリース手順を release-automate（v3.2.1）に移行。手動の Prepare Release（`prepare-release.yml`）が `package.json` の版と CHANGELOG を確定する準備 PR を作り、そのマージで `release.yml` が tag と draft Release を作成、検証済みの tarball を npm へ公開（provenance 付き）し、公開物の照合後に Release を公開する。従来のタグ push と手動の `workflow_dispatch` による起動は廃止
+
 ## [2.7.0] - 2026-10-30
 
 ### Changed
