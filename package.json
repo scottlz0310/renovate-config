@@ -46,15 +46,15 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.6.4",
 		"@types/node": "^26.6.6",
-		"@vitest/coverage-v8": "^5.0.5",
+		"@vitest/coverage-v8": "^5.1.0",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
 		"knip": "^6.44.1",
 		"lefthook": "^2.2.2",
-		"renovate": "^44.202.0",
+		"renovate": "^44.205.1",
 		"tsx": "^4.23.15",
 		"typescript": "^7.0.2",
-		"vitest": "^5.0.5"
+		"vitest": "^5.1.0"
 	},
 	"trustedDependencies": [
 		"core-js-pure",
