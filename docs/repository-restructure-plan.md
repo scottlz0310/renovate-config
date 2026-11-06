@@ -18,6 +18,7 @@ renovate-config/
 ```
 
 **問題点：**
+
 - CLIツールがサブディレクトリに配置されているため、GitHubから直接インストールできない
 - `pnpm add -g git+https://...` が動作しない（ルートのpackage.jsonがprivate）
 - monorepoの複雑さが不要（複数の独立したパッケージを管理していない）
@@ -26,6 +27,7 @@ renovate-config/
 ### 2. インストール方法の制限
 
 **現状の動作：**
+
 - ✅ `pnpm dlx @scottlz0310/renovate-config-init` - npm経由で動作
 - ✅ `pnpm add -g @scottlz0310/renovate-config-init` - npm経由で動作
 - ❌ `pnpm add -g git+https://github.com/...` - 動作しない（privateパッケージ）
@@ -64,6 +66,7 @@ renovate-config/
 ```
 
 **メリット：**
+
 - シンプルで直感的な構造
 - `pnpm add -g git+https://github.com/scottlz0310/renovate-config.git` が動作する
 - CLIがリポジトリのメインコンテンツとして明確
@@ -71,6 +74,7 @@ renovate-config/
 - monorepoツール（workspace機能）が不要
 
 **デメリット：**
+
 - 既存のディレクトリ構造を大きく変更する必要がある
 - 移行作業が必要
 
@@ -91,10 +95,12 @@ renovate-config/
 ```
 
 **メリット：**
+
 - プリセットを独立したnpmパッケージとして配布可能
 - 現在の構造に近い
 
 **デメリット：**
+
 - monorepo構造を維持する必要がある
 - GitHubからの直接インストール問題は解決しない
 - 複雑さが増す
@@ -276,19 +282,23 @@ renovate-config/
 ### ユーザーへの影響
 
 **npmレジストリ経由のユーザー（大多数）:**
+
 - ✅ 影響なし（パッケージ名と動作は同じ）
 
 **GitHubリポジトリを直接参照するユーザー:**
+
 - ✅ プリセットの参照パス変更なし（`github>scottlz0310/renovate-config//presets/...`）
 - ✅ 新たにGit経由のインストールが可能に
 
 **ローカル開発者:**
+
 - ⚠️ リポジトリの再クローンが推奨
 - ⚠️ ビルドコマンドの変更（workspace関連のコマンドが不要に）
 
 ### 破壊的変更
 
 **該当なし** - 以下の理由により破壊的変更は最小限：
+
 - パッケージ名とCLIコマンド名は変更なし
 - npmレジストリからのインストール方法は変更なし
 - Renovateプリセットのパスは変更なし
@@ -320,6 +330,7 @@ renovate-config/
 ### ロールバック計画
 
 問題が発生した場合：
+
 ```bash
 # バックアップタグに戻る
 git reset --hard backup-before-restructure
