@@ -15,6 +15,7 @@ renovate-configテンプレートを各プロジェクトへ簡単に適用す�
 4. プロジェクトの言語/フレームワークに応じた設定を選択
 
 **問題点**:
+
 - どのプリセットを選べばよいか分かりにくい
 - プロジェクト構成の自動検出ができない
 - 設定ミスが起きやすい
@@ -169,6 +170,7 @@ npx @scottlz0310/renovate-config-init
 - **Project Detection**: fast-glob
 
 **Node.jsを選択した理由**:
+
 - 実行頻度が低い（プロジェクト初期設定時のみ）ため、起動速度の恩恵が小さい
 - npm配布・sysup連携が既存の仕組みで完結
 - Bun/Rust/Goは「そこまで要らない」
@@ -238,6 +240,7 @@ npx @scottlz0310/renovate-config-init
 ### monorepo時の生成ファイル
 
 **ルート (./renovate.json)**:
+
 ```json
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
@@ -252,6 +255,7 @@ npx @scottlz0310/renovate-config-init
 ```
 
 **サブパッケージ (./packages/api/renovate.json)**:
+
 ```json
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",

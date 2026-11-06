@@ -32,6 +32,7 @@ renovate-config-init
 ```
 
 The CLI detects your project structure and guides you through:
+
 1. Languages
 2. Package managers
 3. Tools
