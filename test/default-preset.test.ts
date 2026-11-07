@@ -133,6 +133,33 @@ describe("標準プリセットの入口と更新方針", () => {
 	);
 
 	it.each([
+		["major", ["dependencies", "major-manual-review"]],
+		["minor", ["dependencies", "automerge-candidate"]],
+		["patch", ["dependencies", "automerge-candidate"]],
+		[
+			"lockFileMaintenance",
+			["dependencies", "automerge-candidate", "lockfile-maintenance"],
+		],
+		["digest", ["dependencies"]],
+		["pin", ["dependencies"]],
+	])(
+		"%s 更新には集中オートマージ用のラベルが付く: %j",
+		async (updateType, expected) => {
+			const config = await resolve([prefix]);
+			const result = await applyPackageRules({
+				...config,
+				manager: "npm",
+				datasource: "npm",
+				depName: "example",
+				updateType,
+			});
+			expect([...config.labels, ...(result.addLabels ?? [])].sort()).toEqual(
+				[...expected].sort(),
+			);
+		},
+	);
+
+	it.each([
 		["npm", "npm", "1 day"],
 		["node-version", "nodenv", "5 days"],
 	])("%s の既存個別待機日数を維持する", async (datasource, manager, age) => {

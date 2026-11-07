@@ -23,6 +23,21 @@
       "semanticCommitType": "ci",
       "semanticCommitScope": "actions",
       "addLabels": ["github-actions"]
+    },
+    {
+      "description": "Mark minor/patch updates as candidates for the central auto-merge workflow (Renovate itself never auto-merges)",
+      "matchUpdateTypes": ["minor", "patch"],
+      "addLabels": ["automerge-candidate"]
+    },
+    {
+      "description": "Lock file maintenance is merged by the central workflow only after all individual updates are done",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "addLabels": ["automerge-candidate", "lockfile-maintenance"]
+    },
+    {
+      "description": "Major updates are never auto-merged",
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["major-manual-review"]
     }
   ]
 }

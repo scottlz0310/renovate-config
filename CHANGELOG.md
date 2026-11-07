@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 集中型オートマージ（`.github/workflows/global-automerge.yml`、`scripts/global-automerge.js`）を追加。GitHub App のインストール先を巡回し、作業中ブランチが無いリポジトリでだけ、1 実行につき 1 リポジトリ最大 1 本の Renovate PR をスカッシュマージする。個別の minor / patch を先に処理し、lock file maintenance は最後に回す。設定手順は `docs/global-automerge.md` (#333)
+
 ### Changed
+
+- 標準プリセットが更新種別のラベルを付与するようにした。minor / patch に `automerge-candidate`、lock file maintenance に `automerge-candidate` と `lockfile-maintenance`、major に `major-manual-review`。Renovate 自体の自動マージは引き続き無効 (#333)
 
 - Biome 2.6.5のフォーマット結果に合わせ、既存のMarkdown文書3件を整形した。
 
