@@ -4,6 +4,7 @@
 	"entry": [
 		"src/index.ts",
 		"scripts/check-lock-consistency.js",
+		"scripts/global-automerge.js",
 		"scripts/validate-presets.js"
 	],
 	"project": ["src/**/*.ts", "test/**/*.ts", "scripts/**/*.js"],
