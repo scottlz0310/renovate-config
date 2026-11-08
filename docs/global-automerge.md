@@ -45,6 +45,8 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 
 Actions の「Global Automerge」を手動実行する。`dry_run` を有効にするとマージせず判定結果だけを表示し、`repository`（`owner/name`）で対象を 1 リポジトリに絞れる。
 
+結果は実行ページの Summary に表で出る。候補 PR が無いリポジトリは件数にまとめ、マージした PR、スキップの理由、エラーだけを一覧にする。詳細は「Merge at most one Renovate PR per repository」ステップのログにある。
+
 ## lock file maintenance を自動マージする前提
 
 lock file maintenance は `minimumReleaseAge` を無効にしており、公開直後の版を取り込める。自動マージの対象にするリポジトリでは、パッケージマネージャ側の最小リリース経過日数の設定（bun / pnpm）が有効であることを確認する。Rust (cargo) など同等の仕組みが未確認のエコシステムは、確認できるまで対象に含めない。
