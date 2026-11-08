@@ -31,6 +31,7 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 1. GitHub App を作成し、権限を付与する。
    - Contents: Read and write
    - Pull requests: Read and write
+   - Actions: Read-only（非公開リポジトリで CI の状態を読むために必要）
    - Checks: Read-only
    - Commit statuses: Read-only
 2. 自動マージの対象にしたいリポジトリにだけ App をインストールする。巡回範囲はインストール先で決まる。
