@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 集中型オートマージ（`.github/workflows/global-automerge.yml`、`scripts/global-automerge.js`）を追加。GitHub App のインストール先を巡回し、作業中ブランチが無いリポジトリでだけ、1 実行につき 1 リポジトリ最大 1 本の Renovate PR をスカッシュマージする。個別の minor / patch を先に処理し、lock file maintenance は最後に回す。設定手順は `docs/global-automerge.md` (#333)
 
+- 集中型オートマージの結果を、Actions の実行ページの Summary にリポジトリごとの表で出力するようにした。候補 PR が無いリポジトリは件数にまとめ、マージした PR・スキップの理由・エラーだけを一覧にする (#333)
+
 ### Fixed
 
 - 集中型オートマージが、非公開リポジトリで CI の状態を取得できず `Resource not accessible by integration` で失敗する問題を修正。GitHub App に Actions: read を追加し、ワークフローのトークンにも同じ権限を要求する。**App 側で権限を承認してからマージすること**（先にマージするとトークン発行が失敗し、全リポジトリで停止する） (#333)

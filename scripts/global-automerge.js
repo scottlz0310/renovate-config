@@ -6,6 +6,7 @@
  * 使い方: GH_TOKEN=<App の installation token> bun scripts/global-automerge.js [--dry-run] [--repo owner/name]
  */
 import { execFile } from "node:child_process";
+import { appendFileSync } from "node:fs";
 import { promisify } from "node:util";
 
 export const LABEL_CANDIDATE = "automerge-candidate";
@@ -22,6 +23,8 @@ const RENOVATE_BRANCH_PREFIX = "renovate/";
 const RENOVATE_AUTHOR = /^(app\/)?renovate(\[bot\])?$/;
 const PASSING_CONCLUSIONS = ["SUCCESS", "NEUTRAL", "SKIPPED"];
 const MERGEABLE_STATES = ["CLEAN", "HAS_HOOKS"];
+
+export const NO_CANDIDATES = "候補 PR なし";
 
 const execFileAsync = promisify(execFile);
 
@@ -164,7 +167,7 @@ export async function processRepository(repo, { gh, dryRun }) {
 			PR_FIELDS,
 		]),
 	);
-	if (!prs.some(isCandidate)) return "候補 PR なし";
+	if (!prs.some(isCandidate)) return NO_CANDIDATES;
 
 	const branches = lines(
 		await gh([
@@ -228,12 +231,50 @@ export async function listRepositories(gh) {
 	);
 }
 
+const MAX_CELL_LENGTH = 300;
+
+function tableCell(text) {
+	const flat = text.replaceAll("\n", " ").replaceAll("|", "\\|");
+	return flat.length > MAX_CELL_LENGTH
+		? `${flat.slice(0, MAX_CELL_LENGTH)}…`
+		: flat;
+}
+
+/**
+ * 実行結果を GitHub Actions の Summary 用 Markdown にする。
+ * 候補 PR なしのリポジトリは件数にまとめ、対応が要るもの・動いたものだけを表にする。
+ *
+ * @param {{ repo: string, result: string, failed: boolean }[]} rows
+ * @param {{ dryRun: boolean }} options
+ */
+export function renderSummary(rows, { dryRun }) {
+	const noCandidates = rows.filter(
+		({ result, failed }) => !failed && result === NO_CANDIDATES,
+	).length;
+	const notable = rows.filter(
+		({ result, failed }) => failed || result !== NO_CANDIDATES,
+	);
+	const out = [`## Global Automerge${dryRun ? " (dry-run)" : ""}`, ""];
+	out.push(
+		`対象 ${rows.length} 件 / 候補 PR なし ${noCandidates} 件 / 失敗 ${rows.filter(({ failed }) => failed).length} 件`,
+		"",
+	);
+	if (notable.length > 0) {
+		out.push("| リポジトリ | 結果 |", "| --- | --- |");
+		for (const { repo, result } of notable) {
+			out.push(`| ${tableCell(repo)} | ${tableCell(result)} |`);
+		}
+		out.push("");
+	}
+	return out.join("\n");
+}
+
 /**
  * @param {string[]} argv
- * @param {{ gh: Gh, log: (message: string) => void }} deps
+ * @param {{ gh: Gh, log: (message: string) => void, summary?: (markdown: string) => void }} deps
  * @returns {Promise<number>} 終了コード
  */
-export async function main(argv, { gh, log }) {
+export async function main(argv, { gh, log, summary = () => {} }) {
 	const dryRun = argv.includes("--dry-run");
 	const repoIndex = argv.indexOf("--repo");
 	const only = repoIndex === -1 ? undefined : argv[repoIndex + 1];
@@ -243,15 +284,20 @@ export async function main(argv, { gh, log }) {
 
 	const repos = only ? [only] : await listRepositories(gh);
 	const failures = [];
+	const rows = [];
 	// リポジトリ間は独立。1 件の失敗で他を止めず、最後に失敗として終了コードへ反映する。
 	for (const repo of repos) {
 		try {
-			log(`${repo}: ${await processRepository(repo, { gh, dryRun })}`);
+			const result = await processRepository(repo, { gh, dryRun });
+			rows.push({ repo, result, failed: false });
+			log(`${repo}: ${result}`);
 		} catch (error) {
 			failures.push(repo);
+			rows.push({ repo, result: `エラー: ${error.message}`, failed: true });
 			log(`${repo}: エラー: ${error.message}`);
 		}
 	}
+	summary(renderSummary(rows, { dryRun }));
 	if (failures.length > 0) {
 		log(
 			`${failures.length} 件のリポジトリで失敗しました: ${failures.join(", ")}`,
@@ -265,5 +311,10 @@ if (import.meta.main) {
 	process.exitCode = await main(process.argv.slice(2), {
 		gh: runGh,
 		log: console.log,
+		summary: (markdown) => {
+			if (process.env.GITHUB_STEP_SUMMARY) {
+				appendFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
+			}
+		},
 	});
 }

@@ -5,7 +5,9 @@ import {
 	isWorkBranch,
 	listRepositories,
 	main,
+	NO_CANDIDATES,
 	processRepository,
+	renderSummary,
 	selectMergeTarget,
 } from "../scripts/global-automerge.js";
 
@@ -288,6 +290,62 @@ describe("listRepositories", () => {
 	});
 });
 
+describe("renderSummary", () => {
+	const row = (repo: string, result: string, failed = false) => ({
+		repo,
+		result,
+		failed,
+	});
+
+	it.each([
+		["実マージ", false, "## Global Automerge\n"],
+		["dry-run", true, "## Global Automerge (dry-run)\n"],
+	])("%s の見出しを付ける", (_name, dryRun, heading) => {
+		expect(renderSummary([], { dryRun })).toContain(heading);
+	});
+
+	it("候補なしは件数にまとめ、動きのあったものだけを表にする", () => {
+		const markdown = renderSummary(
+			[
+				row("o/a", NO_CANDIDATES),
+				row("o/b", NO_CANDIDATES),
+				row("o/c", "マージ: #1 chore: update foo (Priority 1)"),
+				row("o/d", "エラー: 権限不足", true),
+			],
+			{ dryRun: false },
+		);
+		expect(markdown).toContain("対象 4 件 / 候補 PR なし 2 件 / 失敗 1 件");
+		expect(markdown).toContain(
+			"| o/c | マージ: #1 chore: update foo (Priority 1) |",
+		);
+		expect(markdown).toContain("| o/d | エラー: 権限不足 |");
+		expect(markdown).not.toContain("| o/a |");
+	});
+
+	it("全件が候補なしなら表を出さない", () => {
+		const markdown = renderSummary([row("o/a", NO_CANDIDATES)], {
+			dryRun: false,
+		});
+		expect(markdown).not.toContain("| リポジトリ |");
+	});
+
+	it.each([
+		["パイプ", "a | b", "a \\| b"],
+		["改行", "a\nb", "a b"],
+	])("表を壊す文字（%s）をエスケープする", (_name, input, expected) => {
+		const markdown = renderSummary([row("o/a", input)], { dryRun: false });
+		expect(markdown).toContain(`| o/a | ${expected} |`);
+	});
+
+	it("長すぎる結果は切り詰める", () => {
+		const markdown = renderSummary([row("o/a", "x".repeat(1000), true)], {
+			dryRun: false,
+		});
+		expect(markdown).toContain(`${"x".repeat(300)}…`);
+		expect(markdown).not.toContain("x".repeat(301));
+	});
+});
+
 describe("main", () => {
 	it("1 件が失敗しても残りを処理し、終了コード 1 で失敗を伝える", async () => {
 		const log = vi.fn();
@@ -308,6 +366,21 @@ describe("main", () => {
 		expect(
 			calls.some((args) => args.includes("/installation/repositories")),
 		).toBe(false);
+	});
+
+	it("実行の最後に、全リポジトリの結果を Summary として 1 回渡す", async () => {
+		const summary = vi.fn();
+		const gh = vi.fn(async (args: string[]) => {
+			if (args.includes("/installation/repositories")) return "o/bad\no/good\n";
+			if (args.includes("o/bad")) throw new Error("権限不足");
+			return "[]";
+		});
+		await main(["--dry-run"], { gh, log: vi.fn(), summary });
+		expect(summary).toHaveBeenCalledTimes(1);
+		const markdown = summary.mock.calls[0][0];
+		expect(markdown).toContain("## Global Automerge (dry-run)");
+		expect(markdown).toContain("| o/bad | エラー: 権限不足 |");
+		expect(markdown).not.toContain("o/good");
 	});
 
 	it("--repo に値が無ければエラーにする", async () => {
