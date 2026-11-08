@@ -46,6 +46,8 @@ jobs:
           owner: ${{ github.repository_owner }}
           permission-contents: write
           permission-pull-requests: write
+          # 非公開リポジトリで gh pr list の statusCheckRollup (checkSuite.workflowRun) を読むために必要。
+          permission-actions: read
           permission-checks: read
           permission-statuses: read
 
