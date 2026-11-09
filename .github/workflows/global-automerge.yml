@@ -3,9 +3,8 @@ permissions:
   contents: read
 
 on:
-  schedule:
-    # 1 実行で 1 リポジトリ最大 1 PR のため、消化速度はこの間隔で決まる。
-    - cron: "17,47 * * * *"
+  # 定期実行は Cloudflare Workers の Cron Trigger (workers/automerge-trigger) が dispatch する。
+  # Actions の schedule は間引き・遅延されるため使わない。
   workflow_dispatch:
     inputs:
       dry_run:

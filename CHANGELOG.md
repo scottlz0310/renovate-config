@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 集中型オートマージの結果を、Actions の実行ページの Summary にリポジトリごとの表で出力するようにした。候補 PR が無いリポジトリは件数にまとめ、マージした PR・スキップの理由・エラーだけを一覧にする (#333)
 
+- 集中型オートマージの定期実行を、Cloudflare Workers の Cron Trigger（`workers/automerge-trigger`）に外部化した。GitHub App の JWT から Installation Access Token（`actions:write`）を発行し、`workflow_dispatch` を呼ぶ。`global-automerge.yml` から `schedule` を削除した。**デプロイと App への Actions: write の承認が済むまで定期実行は止まる**。手順は `docs/global-automerge.md` (#345)
+
+- GitHub App の作成スクリプトを `scripts/create-github-app.js` として追跡するようにした。所有者（個人 / 組織）をリポジトリから判定し、`actions: write` を要求し、秘密鍵を GitHub と Cloudflare Workers の両方の Secret に登録する。鍵の紛失・ローテーション用に、PEM から Worker の Secret を再登録する `scripts/sync-worker-secrets.js` を追加 (#345)
+
 ### Fixed
 
 - 集中型オートマージが、非公開リポジトリで CI の状態を取得できず `Resource not accessible by integration` で失敗する問題を修正。GitHub App に Actions: read を追加し、ワークフローのトークンにも同じ権限を要求する。**App 側で権限を承認してからマージすること**（先にマージするとトークン発行が失敗し、全リポジトリで停止する） (#333)
