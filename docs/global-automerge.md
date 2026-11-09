@@ -28,16 +28,20 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 
 ## セットアップ
 
-1. GitHub App を作成し、権限を付与する。
-   - Contents: Read and write
-   - Pull requests: Read and write
-   - Actions: Read-only（非公開リポジトリで CI の状態を読むために必要）
-   - Checks: Read-only
-   - Commit statuses: Read-only
-2. 自動マージの対象にしたいリポジトリにだけ App をインストールする。巡回範囲はインストール先で決まる。
-3. 本リポジトリの Settings に登録する。
-   - Variables: `GLOBAL_AUTOMERGE_CLIENT_ID`（App の Client ID）
-   - Secrets: `GLOBAL_AUTOMERGE_PRIVATE_KEY`（秘密鍵）
+GitHub App の作成から Secret / Variable の登録までは `scripts/create-github-app.js` が行う。前提は `gh` と wrangler（`bunx wrangler login`）にログイン済みであること、Worker をデプロイ済みであること（下記「定期実行」）。
+
+```sh
+bun scripts/create-github-app.js
+```
+
+ブラウザで GitHub の確認画面が開くので、内容を確認して「Create GitHub App」を押す。所有者（個人 / 組織）はリポジトリから自動判定する。スクリプトは次を登録する。鍵はメモリ上でのみ扱い、ディスクには書かない。
+
+- GitHub の Variable `GLOBAL_AUTOMERGE_CLIENT_ID` と Secret `GLOBAL_AUTOMERGE_PRIVATE_KEY`
+- Cloudflare Workers の Secret `GITHUB_APP_CLIENT_ID` と `GITHUB_APP_PRIVATE_KEY`（PKCS#8 に変換済み）
+
+その後、自動マージの対象にしたいリポジトリにだけ App をインストールする。巡回範囲はインストール先で決まる。
+
+App に付与する権限は Contents / Pull requests / Actions が Read and write、Checks / Commit statuses が Read-only。Actions は、Worker の `workflow_dispatch`（write）と、非公開リポジトリでの CI 状態の取得（read）に使う。手動で作る場合も同じ権限にする。
 
 `GLOBAL_AUTOMERGE_CLIENT_ID` が未登録の間、ワークフローはジョブごとスキップされる。削除すれば停止できる。
 
@@ -45,16 +49,19 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 
 Actions の `schedule` は間引き・遅延されるため、`workflow_dispatch` を Cloudflare Workers の Cron Trigger（`17,47 * * * *`）から呼ぶ（`workers/automerge-trigger`）。Worker は App の JWT で Installation Access Token（`actions: write`、本リポジトリのみ）を発行して dispatch する。PAT は使わない。多重起動は `concurrency` が防ぐ。
 
-1. App の権限に Actions を **Read and write** で追加し、インストール先で承認する（未承認だとトークン発行が失敗する）。
-2. 秘密鍵は PKCS#8 に変換する。手元に PEM が無ければ、App の設定ページの「Generate a private key」で新しい鍵を作る（鍵は複数持てるため、Actions 用の `GLOBAL_AUTOMERGE_PRIVATE_KEY` の鍵には影響しない）。
-   `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`
-3. デプロイと Secret 登録（`workers/automerge-trigger` で実行）:
+1. 既存の App を使う場合は、App の権限に Actions を **Read and write** で追加し、インストール先で承認する（未承認だとトークン発行が失敗する）。
+2. Worker をデプロイする（`workers/automerge-trigger` で実行）。
 
    ```sh
-   bunx wrangler secret put GITHUB_APP_CLIENT_ID --config wrangler.jsonc
-   bunx wrangler secret put GITHUB_APP_PRIVATE_KEY --config wrangler.jsonc < app.pkcs8.pem
    bunx wrangler deploy --config wrangler.jsonc
    ```
+
+3. Secret を登録する。新規に App を作るときは上の `scripts/create-github-app.js` が登録する。既存の App、鍵の紛失、ローテーションの場合は、App の設定ページの「Generate a private key」で新しい鍵を作り（鍵は複数持てるため、Actions 用の鍵には影響しない）、PEM を渡して再実行する。PKCS#8 への変換と登録まで行い、何度実行しても同じ結果になる。
+
+   ```sh
+   bun scripts/sync-worker-secrets.js <秘密鍵.pem>
+   ```
+
 4. 動作確認: Cloudflare ダッシュボードの Cron で手動実行するか、次の定時に Actions の「Global Automerge」が `workflow_dispatch` で起動することを確認する。
 
 ## 動作確認

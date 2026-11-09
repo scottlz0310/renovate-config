@@ -5,6 +5,8 @@
 		"src/index.ts",
 		"scripts/check-lock-consistency.js",
 		"scripts/global-automerge.js",
+		"scripts/create-github-app.js",
+		"scripts/sync-worker-secrets.js",
 		"scripts/validate-presets.js",
 		"workers/automerge-trigger/index.ts"
 	],
