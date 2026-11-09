@@ -72,4 +72,12 @@ Actions の「Global Automerge」を手動実行する。`dry_run` を有効に�
 
 ## lock file maintenance を自動マージする前提
 
-lock file maintenance は `minimumReleaseAge` を無効にしており、公開直後の版を取り込める。自動マージの対象にするリポジトリでは、パッケージマネージャ側の最小リリース経過日数の設定（bun / pnpm）が有効であることを確認する。Rust (cargo) など同等の仕組みが未確認のエコシステムは、確認できるまで対象に含めない。
+lock file maintenance は `minimumReleaseAge` を無効にしており、公開直後の版を取り込める。自動マージの対象にするリポジトリでは、パッケージマネージャ側の最小リリース経過日数を 3 日で有効にする。
+
+| 種別         | 設定                                                                        | 備考                                          |
+| ------------ | --------------------------------------------------------------------------- | --------------------------------------------- |
+| bun          | `bunfig.toml` の `[install]` に `minimumReleaseAge = 259200`（秒）          | 各リポジトリに必要                            |
+| pnpm         | 既定で有効（pnpm 11）                                                       | 設定不要                                      |
+| Rust (cargo) | `.cargo/config.toml` の `[registry]` に `global-min-publish-age = "3 days"` | Rust 1.100 以降で有効。それ未満では無視される |
+
+Rust は、リポジトリの `rust-toolchain.toml` が 1.100 以上になるまで、この設定が効かない。1.100 への更新は Renovate が提案するので、そのマージ後に lock file maintenance が保護される。

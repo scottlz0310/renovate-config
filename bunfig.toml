@@ -1,0 +1,6 @@
+# 公開から 3 日未満の版を新規に解決しない（Renovate の minimumReleaseAge と同じ水準）。
+# lock file maintenance は Renovate 側で minimumReleaseAge を無効にしており、
+# 集中型オートマージが無人でマージするため、この設定が公開直後の版への唯一の防御になる (#333)。
+# lockfile どおりに再現する frozen install には影響しない。
+[install]
+minimumReleaseAge = 259200
