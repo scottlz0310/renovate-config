@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `bunfig.toml` に最小リリース経過日数（3 日）を設定し、`docs/global-automerge.md` に bun / pnpm / Rust 別の前提設定を整理した。lock file maintenance を無人でマージするための前提条件 (#333)
+
 - 集中型オートマージ（`.github/workflows/global-automerge.yml`、`scripts/global-automerge.js`）を追加。GitHub App のインストール先を巡回し、作業中ブランチが無いリポジトリでだけ、1 実行につき 1 リポジトリ最大 1 本の Renovate PR をスカッシュマージする。個別の minor / patch を先に処理し、lock file maintenance は最後に回す。設定手順は `docs/global-automerge.md` (#333)
 
 - 集中型オートマージの結果を、Actions の実行ページの Summary にリポジトリごとの表で出力するようにした。候補 PR が無いリポジトリは件数にまとめ、マージした PR・スキップの理由・エラーだけを一覧にする (#333)
