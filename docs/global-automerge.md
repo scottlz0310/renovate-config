@@ -41,6 +41,21 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 
 `GLOBAL_AUTOMERGE_CLIENT_ID` が未登録の間、ワークフローはジョブごとスキップされる。削除すれば停止できる。
 
+## 定期実行（Cloudflare Workers）
+
+Actions の `schedule` は間引き・遅延されるため、`workflow_dispatch` を Cloudflare Workers の Cron Trigger（`17,47 * * * *`）から呼ぶ（`workers/automerge-trigger`）。Worker は App の JWT で Installation Access Token（`actions: write`、本リポジトリのみ）を発行して dispatch する。PAT は使わない。多重起動は `concurrency` が防ぐ。
+
+1. App の権限に Actions を **Read and write** で追加し、インストール先で承認する（未承認だとトークン発行が失敗する）。
+2. 秘密鍵は PKCS#8 に変換する: `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`
+3. デプロイと Secret 登録（`workers/automerge-trigger` で実行）:
+
+   ```sh
+   bunx wrangler secret put GITHUB_APP_CLIENT_ID --config wrangler.jsonc
+   bunx wrangler secret put GITHUB_APP_PRIVATE_KEY --config wrangler.jsonc < app.pkcs8.pem
+   bunx wrangler deploy --config wrangler.jsonc
+   ```
+4. 動作確認: Cloudflare ダッシュボードの Cron で手動実行するか、次の定時に Actions の「Global Automerge」が `workflow_dispatch` で起動することを確認する。
+
 ## 動作確認
 
 Actions の「Global Automerge」を手動実行する。`dry_run` を有効にするとマージせず判定結果だけを表示し、`repository`（`owner/name`）で対象を 1 リポジトリに絞れる。

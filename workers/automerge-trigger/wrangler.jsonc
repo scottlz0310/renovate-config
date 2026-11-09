@@ -1,0 +1,14 @@
+{
+	"name": "renovate-config-automerge-trigger",
+	"main": "index.ts",
+	"compatibility_date": "2026-11-01",
+	"workers_dev": false,
+	"triggers": {
+		"crons": ["17,47 * * * *"]
+	},
+	"vars": {
+		"TARGET_REPOSITORY": "scottlz0310/renovate-config",
+		"WORKFLOW_FILE": "global-automerge.yml",
+		"WORKFLOW_REF": "main"
+	}
+}

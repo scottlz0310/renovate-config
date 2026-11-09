@@ -5,8 +5,14 @@
 		"src/index.ts",
 		"scripts/check-lock-consistency.js",
 		"scripts/global-automerge.js",
-		"scripts/validate-presets.js"
+		"scripts/validate-presets.js",
+		"workers/automerge-trigger/index.ts"
 	],
-	"project": ["src/**/*.ts", "test/**/*.ts", "scripts/**/*.js"],
+	"project": [
+		"src/**/*.ts",
+		"test/**/*.ts",
+		"scripts/**/*.js",
+		"workers/**/*.ts"
+	],
 	"ignore": ["dist/**"]
 }
