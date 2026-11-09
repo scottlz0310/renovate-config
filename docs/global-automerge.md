@@ -46,7 +46,8 @@ CI の判定は、チェックが 1 件以上あり、すべて完了してい�
 Actions の `schedule` は間引き・遅延されるため、`workflow_dispatch` を Cloudflare Workers の Cron Trigger（`17,47 * * * *`）から呼ぶ（`workers/automerge-trigger`）。Worker は App の JWT で Installation Access Token（`actions: write`、本リポジトリのみ）を発行して dispatch する。PAT は使わない。多重起動は `concurrency` が防ぐ。
 
 1. App の権限に Actions を **Read and write** で追加し、インストール先で承認する（未承認だとトークン発行が失敗する）。
-2. 秘密鍵は PKCS#8 に変換する: `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`
+2. 秘密鍵は PKCS#8 に変換する。手元に PEM が無ければ、App の設定ページの「Generate a private key」で新しい鍵を作る（鍵は複数持てるため、Actions 用の `GLOBAL_AUTOMERGE_PRIVATE_KEY` の鍵には影響しない）。
+   `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`
 3. デプロイと Secret 登録（`workers/automerge-trigger` で実行）:
 
    ```sh
