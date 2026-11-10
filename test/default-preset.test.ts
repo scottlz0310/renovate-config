@@ -160,22 +160,25 @@ describe("標準プリセットの入口と更新方針", () => {
 	);
 
 	it.each([
-		["npm", "npm", "1 day"],
+		["npm", "npm", "3 days"],
 		["node-version", "nodenv", "5 days"],
-	])("%s の既存個別待機日数を維持する", async (datasource, manager, age) => {
-		const config = await resolve([
-			prefix,
-			`${prefix}//presets/languages/nodejs`,
-		]);
-		const result = await applyPackageRules({
-			...config,
-			datasource,
-			manager,
-			depName: datasource === "npm" ? "example" : "node",
-			updateType: "patch",
-		});
-		expect(result.minimumReleaseAge).toBe(age);
-	});
+	])(
+		"languages/nodejs 併用時の %s (%s) の待機日数が %s になる",
+		async (datasource, manager, age) => {
+			const config = await resolve([
+				prefix,
+				`${prefix}//presets/languages/nodejs`,
+			]);
+			const result = await applyPackageRules({
+				...config,
+				datasource,
+				manager,
+				depName: datasource === "npm" ? "example" : "node",
+				updateType: "patch",
+			});
+			expect(result.minimumReleaseAge).toBe(age);
+		},
+	);
 });
 
 describe("非推奨 options の削除案内", () => {

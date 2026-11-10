@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `presets/languages/nodejs.json` に残っていた npm パッケージ向けの `minimumReleaseAge: "1 day"` を削除し、`presets/default.json` およびパッケージマネージャ側（`bunfig.toml` / pnpm）の 3 日待機と一致させた。Renovate が公開 1 日後に更新 PR を作成し、lockfile 更新時の `bun install` が 3 日待機制限で失敗していた問題を解消
+
 - 集中型オートマージが、非公開リポジトリで CI の状態を取得できず `Resource not accessible by integration` で失敗する問題を修正。GitHub App に Actions: read を追加し、ワークフローのトークンにも同じ権限を要求する。**App 側で権限を承認してからマージすること**（先にマージするとトークン発行が失敗し、全リポジトリで停止する） (#333)
 
 ### Changed
