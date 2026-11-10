@@ -75,19 +75,19 @@ CLIがプロジェクト構成を自動検出し、最適な `renovate.json` を
 
 ## 対応言語・環境
 
-| 言語/環境              | プリセット               | 説明                                                                                                          |
-| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| Node.js                | `languages/nodejs`       | npm datasource の依存パッケージ。公開後 1 日待機。Node ランタイム本体（`node-version` datasource）は 5 日待機 |
-| Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）                                             |
-| TypeScript             | `languages/typescript`   | TypeScript 関連                                                                                               |
-| Android                | `languages/android`      | Android (Kotlin/Java, Gradle)                                                                                 |
-| Python                 | `languages/python`       | uv/pyproject.toml                                                                                             |
-| Docker                 | `languages/docker`       | Dockerfile, docker-compose                                                                                    |
-| Go                     | `languages/go`           | Go modules                                                                                                    |
-| Rust                   | `languages/rust`         | Cargo                                                                                                         |
-| C#                     | `languages/csharp`       | NuGet, .NET                                                                                                   |
-| PowerShell             | `languages/powershell`   | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き）                                           |
-| C++                    | `languages/cpp`          | Conan, vcpkg, CMake                                                                                           |
+| 言語/環境              | プリセット               | 説明                                                                                                                  |
+| ---------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Node.js                | `languages/nodejs`       | npm datasource の依存パッケージ（標準の公開後 3 日待機）。Node ランタイム本体（`node-version` datasource）は 5 日待機 |
+| Node.js (major opt-in) | `languages/nodejs-major` | Node.js メジャーバージョン更新を有効化（engines/nvm/Docker 対応）                                                     |
+| TypeScript             | `languages/typescript`   | TypeScript 関連                                                                                                       |
+| Android                | `languages/android`      | Android (Kotlin/Java, Gradle)                                                                                         |
+| Python                 | `languages/python`       | uv/pyproject.toml                                                                                                     |
+| Docker                 | `languages/docker`       | Dockerfile, docker-compose                                                                                            |
+| Go                     | `languages/go`           | Go modules                                                                                                            |
+| Rust                   | `languages/rust`         | Cargo                                                                                                                 |
+| C#                     | `languages/csharp`       | NuGet, .NET                                                                                                           |
+| PowerShell             | `languages/powershell`   | PowerShell Gallery の `Install-Module -RequiredVersion`（注釈付き）                                                   |
+| C++                    | `languages/cpp`          | Conan, vcpkg, CMake                                                                                                   |
 
 `languages/android` は、リポジトリ内の `.ktlint-version`（`1.8.0` のように `x.y.z` だけを書いたファイル）から ktlint の版を検出し、[ktlint/ktlint](https://github.com/ktlint/ktlint) の GitHub Releases で更新を提案します。CI・lefthook・インストールスクリプトがこのファイルを読む構成にすると、版の定義を 1 か所にできます。
 
@@ -290,8 +290,6 @@ renovate-config-init --help
 - lockfile maintenance は公開日時を持たないため `minimumReleaseAge: null` とする（これだけで maintenance を有効化しない）
 
 個別プリセット・利用側で明示した設定は引き続き優先されます。公開日時がない datasource では、標準の待機期間だけで3日の経過を保証できません。
-
-`presets/languages/nodejs.json` では npm パッケージ更新に `minimumReleaseAge: "1 day"` と `internalChecksFilter: "strict"` を適用し、公開直後のパッケージを含む lockfile で CI が失敗することを抑制します。
 
 **Node ランタイム本体（`node-version` datasource — `.node-version` / `.nvmrc` / `engines.node`）は `minimumReleaseAge: "5 days"` と、npm パッケージより長く待機します。** ここで待つ対象がパッケージ自体ではなく**他ベンダーの追随**（Cloudflare Pages や `node-build` の定義追加、Docker 公式イメージ、`actions/setup-node` のマニフェスト）であり、いずれもリリースから数日遅れるためです。リリース当日に更新ブランチを立てると、外部ビルド環境が `node-build: definition not found` のようなエラーで失敗します。Node のリリース間隔（2 週間程度）より十分短く、かつ外部が追随する時間を取れる値として 5 日としています。
 

@@ -58,7 +58,7 @@ Create `renovate.json` in your project root:
 
 `presets/default.json` が標準設定の唯一の正です。直下の `default.json` は `github>scottlz0310/renovate-config//presets/default` を参照する別名で、オンボーディングや `local>scottlz0310/renovate-config` も同じ設定を使用します。変更は `presets/default.json` に集約してください。
 
-標準はスケジュール制限なし（`schedule: []`）、公開後3日待機（`minimumReleaseAge: "3 days"`・`internalChecksFilter: "strict"`）、手動マージです。GitHub Actions・言語別・`config:recommended` 由来の既存グループ化は維持します。Node.js の既存個別待機期間（npm は1日、Node ランタイムは5日）や利用側の明示設定は引き続き優先されます。公開日時がない datasource では3日の経過を保証できません。lockfile maintenance は公開日時を持たないため待機を除外しますが、標準設定だけでは有効化しません。
+標準はスケジュール制限なし（`schedule: []`）、公開後3日待機（`minimumReleaseAge: "3 days"`・`internalChecksFilter: "strict"`）、手動マージです。GitHub Actions・言語別・`config:recommended` 由来の既存グループ化は維持します。Node.js の既存個別待機期間（Node ランタイムは5日）や利用側の明示設定は引き続き優先されます。公開日時がない datasource では3日の経過を保証できません。lockfile maintenance は公開日時を持たないため待機を除外しますが、標準設定だけでは有効化しません。
 
 ## Presets
 
@@ -66,7 +66,7 @@ Create `renovate.json` in your project root:
 
 Use: `github>scottlz0310/renovate-config//presets/languages/<name>`
 
-- `nodejs` — npm packages wait 1 day after publish; the Node.js runtime itself (`node-version` datasource) waits 5 days, because what has to catch up there is other vendors' build images rather than the package itself
+- `nodejs` — npm packages use the default 3-day wait after publish; the Node.js runtime itself (`node-version` datasource) waits 5 days, because what has to catch up there is other vendors' build images rather than the package itself
 - `nodejs-major` — opt-in preset to enable Node.js major version updates (engines/nvm/nodenv/Docker)
 - `typescript`
 - `android` — also detects the ktlint version from a `.ktlint-version` file (containing only `x.y.z`, e.g. `1.8.0`) and proposes updates from the [ktlint/ktlint](https://github.com/ktlint/ktlint) GitHub Releases
