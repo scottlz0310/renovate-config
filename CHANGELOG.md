@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- 対象 4 リポジトリ（`md-peruse` / `arbor` / `clp2cfg` / `agent-statusline`）の `rust-toolchain.toml` が 1.100.0 へ更新され、cargo 1.100.0 で `registry.global-min-publish-age` 警告の解消と 3 日未満のクレート除外を確認したため、`docs/global-automerge.md` の Rust 欄から移行待ちの注記を整理した (#348)
+
 - 標準プリセットが更新種別のラベルを付与するようにした。minor / patch に `automerge-candidate`、lock file maintenance に `automerge-candidate` と `lockfile-maintenance`、major に `major-manual-review`。Renovate 自体の自動マージは引き続き無効 (#333)
 
 - Biome 2.6.5のフォーマット結果に合わせ、既存のMarkdown文書3件を整形した。
