@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `presets/options/android-sdk.json` を Google 公式 SDK Repository XML（`repository2-3.xml`）参照へ切り替え、Android マイナー API レベル（`37.1` / `37.2` 等）と AGP 9 ブロック構文（`compileSdk { version = release(...) { minorApiLevel = ... } }`）の自動更新に対応した (#415)
-  - 既存の整数代入形式（`compileSdk = 37` 等）との後方互換を維持し、AGP 9.x が保証される API 37 以上の整数代入からマイナー版へ更新する際に AGP 9 ブロック構文へ自動変換する。API 36 以下の整数代入は AGP 8.13 未満の既存利用先を壊さないようメジャー整数更新のみ追従し、ブロック構文移行済みの環境では `36.1` 等のマイナー更新も追跡する。メジャー `.0` 更新時は元の記法を維持し、既存ブロック更新時は行末コメントと改行コード（LF / CRLF）を保持する
+  - 既存の整数代入形式（`compileSdk = 37` 等）との後方互換を維持し、マイナー版へ更新する際は AGP 9 ブロック構文へ自動変換する（AGP 8.13+ 前提）。メジャー `.0` 更新時は元の記法を維持し、既存ブロック更新時は行末コメントと改行コード（LF / CRLF）を保持する
   - `targetSdk` は引き続き現在の `compileSdk` のメジャー API レベル以下（整数版のみ）に制限して別 PR で提案する
   - XML にはリリース日時が無いため `minimumReleaseAge: null` を設定し、`presets/default.json` の 3 日待機で PR 作成が止まらないようにした
   - `compileSdk` のマイナー更新は集中型オートマージ対象（`automerge-candidate`）、`compileSdk` のメジャー更新（`major-manual-review`）と `targetSdk`（`manual-verification-required`）は手動マージとする
