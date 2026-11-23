@@ -27,6 +27,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `presets/options/android-sdk.json` を Google 公式 SDK Repository XML（`repository2-3.xml`）参照へ切り替え、Android マイナー API レベル（`37.1` / `37.2` 等）と AGP 9 ブロック構文（`compileSdk { version = release(...) { minorApiLevel = ... } }`）の自動更新に対応した (#415)
+  - 既存の整数代入形式（`compileSdk = 37` 等）との後方互換を維持し、マイナー版へ更新する際は AGP 9 ブロック構文へ自動変換する（AGP 8.13+ 前提）。メジャー `.0` 更新時は元の記法を維持し、既存ブロック更新時は行末コメントと改行コード（LF / CRLF）を保持する
+  - `targetSdk` は引き続き現在の `compileSdk` のメジャー API レベル以下（整数版のみ）に制限して別 PR で提案する
+  - XML にはリリース日時が無いため `minimumReleaseAge: null` を設定し、`presets/default.json` の 3 日待機で PR 作成が止まらないようにした
+  - `compileSdk` のマイナー更新は集中型オートマージ対象（`automerge-candidate`）、`compileSdk` のメジャー更新（`major-manual-review`）と `targetSdk`（`manual-verification-required`）は手動マージとする
+
 - 対象 4 リポジトリ（`md-peruse` / `arbor` / `clp2cfg` / `agent-statusline`）の `rust-toolchain.toml` が 1.100.0 へ更新され、cargo 1.100.0 で `registry.global-min-publish-age` 警告の解消と 3 日未満のクレート除外を確認したため、`docs/global-automerge.md` の Rust 欄から移行待ちの注記を整理した (#348)
 
 - 標準プリセットが更新種別のラベルを付与するようにした。minor / patch に `automerge-candidate`、lock file maintenance に `automerge-candidate` と `lockfile-maintenance`、major に `major-manual-review`。Renovate 自体の自動マージは引き続き無効 (#333)

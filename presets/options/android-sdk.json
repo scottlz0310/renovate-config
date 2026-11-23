@@ -1,6 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"description": "Android SDK の安定版更新を提案する任意選択プリセット。言語別プリセットより後に指定する。",
+	"description": "Android SDK の安定版更新（マイナー API レベル・AGP 9 ブロック構文対応）を提案する任意選択プリセット。言語別プリセットより後に指定する。",
 	"customManagers": [
 		{
 			"customType": "regex",
@@ -8,8 +8,11 @@
 			"matchStringsStrategy": "recursive",
 			"matchStrings": [
 				"(?:^|\\r?\\n)android[\\t ]*\\{[\\s\\S]*?\\r?\\n\\}",
-				"(?:^|\\r?\\n)[\\t ]*compileSdk[\\t ]*=[\\t ]*(?<currentValue>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)"
+				"(?:^|\\r?\\n)(?<indentation>[\\t ]*)(?:compileSdk[\\t ]*=[\\t ]*(?<majorInt>\\d+)|compileSdk[\\t ]*\\{[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*(?<majorBlock>\\d+)[\\t ]*\\)(?:[\\t ]*\\{[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*(?<minor>\\d+)[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*\\})?[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*\\})[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)",
+				"(?:\\r?\\n)?[\\t ]*(?:compileSdk[\\t ]*=[\\t ]*\\d+|compileSdk[\\t ]*\\{[\\s\\S]*\\})"
 			],
+			"currentValueTemplate": "{{{majorInt}}}{{{majorBlock}}}.{{#if minor}}{{{minor}}}{{else}}0{{/if}}",
+			"autoReplaceStringTemplate": "{{#if (containsString replaceString '{')}}{{#if newMinor}}{{#if (equals (replace '(?:^|\\r?\\n)[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*\\d+' '' replaceString) replaceString)}}{{#if (containsString replaceString '\r')}}{{replace '__SDK_NL__' '\r\n' (replace '__SDK_IND__' indentation (replace '__SDK_MINOR__' newMinor (replace '__SDK_MAJOR__' newMajor (replace '((?:^|\\r?\\n)[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*)\\d+([\\t ]*\\))([\\t ]*(?://[^\\r\\n]*)?)' '$1__SDK_MAJOR__$2 {$3__SDK_NL____SDK_IND____SDK_IND____SDK_IND__minorApiLevel = __SDK_MINOR____SDK_NL____SDK_IND____SDK_IND__}' replaceString))))}}{{else}}{{replace '__SDK_NL__' '\n' (replace '__SDK_IND__' indentation (replace '__SDK_MINOR__' newMinor (replace '__SDK_MAJOR__' newMajor (replace '((?:^|\\r?\\n)[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*)\\d+([\\t ]*\\))([\\t ]*(?://[^\\r\\n]*)?)' '$1__SDK_MAJOR__$2 {$3__SDK_NL____SDK_IND____SDK_IND____SDK_IND__minorApiLevel = __SDK_MINOR____SDK_NL____SDK_IND____SDK_IND__}' replaceString))))}}{{/if}}{{else}}{{replace '__SDK_MINOR__' newMinor (replace '__SDK_MAJOR__' newMajor (replace '((?:^|\\r?\\n)[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*)\\d+' '$1__SDK_MINOR__' (replace '((?:^|\\r?\\n)[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*)\\d+([\\t ]*\\))' '$1__SDK_MAJOR__$2' replaceString)))}}{{/if}}{{else}}{{#if (equals (replace '(?:^|\\r?\\n)[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*\\d+' '' replaceString) replaceString)}}{{replace '__SDK_MAJOR__' newMajor (replace '((?:^|\\r?\\n)[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*)\\d+([\\t ]*\\))' '$1__SDK_MAJOR__$2' replaceString)}}{{else}}{{replace '__SDK_MAJOR__' newMajor (replace '((?:^|\\r?\\n)[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*)\\d+([\\t ]*\\))[\\t ]*\\{[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*\\d+[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*\\}' '$1__SDK_MAJOR__$2' replaceString)}}{{/if}}{{/if}}{{else}}{{#if newMinor}}{{#if (containsString replaceString '\r')}}{{replace '__SDK_NL__' '\r\n' (replace '__SDK_IND__' indentation (replace '__SDK_MINOR__' newMinor (replace '__SDK_MAJOR__' newMajor (replace 'compileSdk[\\t ]*=[\\t ]*\\d+' 'compileSdk {__SDK_NL____SDK_IND____SDK_IND__version = release(__SDK_MAJOR__) {__SDK_NL____SDK_IND____SDK_IND____SDK_IND__minorApiLevel = __SDK_MINOR____SDK_NL____SDK_IND____SDK_IND__}__SDK_NL____SDK_IND__}' replaceString))))}}{{else}}{{replace '__SDK_NL__' '\n' (replace '__SDK_IND__' indentation (replace '__SDK_MINOR__' newMinor (replace '__SDK_MAJOR__' newMajor (replace 'compileSdk[\\t ]*=[\\t ]*\\d+' 'compileSdk {__SDK_NL____SDK_IND____SDK_IND__version = release(__SDK_MAJOR__) {__SDK_NL____SDK_IND____SDK_IND____SDK_IND__minorApiLevel = __SDK_MINOR____SDK_NL____SDK_IND____SDK_IND__}__SDK_NL____SDK_IND__}' replaceString))))}}{{/if}}{{else}}{{replace '__SDK_MAJOR__' newMajor (replace '(compileSdk[\\t ]*=[\\t ]*)\\d+' '$1__SDK_MAJOR__' replaceString)}}{{/if}}{{/if}}",
 			"depNameTemplate": "android-compile-sdk",
 			"depTypeTemplate": "compileSdk",
 			"packageNameTemplate": "latest",
@@ -22,22 +25,22 @@
 			"matchStringsStrategy": "recursive",
 			"matchStrings": [
 				"(?:^|\\r?\\n)android[\\t ]*\\{[\\s\\S]*?\\r?\\n\\}",
-				"(?:^|\\r?\\n)[\\t ]*compileSdk[\\t ]*=[\\t ]*(?<compileSdk>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)[\\s\\S]*",
+				"(?:^|\\r?\\n)[\\t ]*(?:compileSdk[\\t ]*=[\\t ]*(?<compileSdkInt>\\d+)|compileSdk[\\t ]*\\{[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*version[\\t ]*=[\\t ]*release\\([\\t ]*(?<compileSdkBlock>\\d+)[\\t ]*\\)(?:[\\t ]*\\{[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*(?:it\\.)?minorApiLevel[\\t ]*=[\\t ]*\\d+[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*\\})?[\\t ]*(?://[^\\r\\n]*)?\\r?\\n[\\t ]*\\})[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)[\\s\\S]*",
 				"(?:^|\\r?\\n)[\\t ]*targetSdk[\\t ]*=[\\t ]*(?<currentValue>\\d+)[\\t ]*(?://[^\\r\\n]*)?(?:\\r?\\n|$)"
 			],
 			"depNameTemplate": "android-target-sdk",
 			"depTypeTemplate": "targetSdk",
-			"packageNameTemplate": "{{{compileSdk}}}",
+			"packageNameTemplate": "{{{compileSdkInt}}}{{{compileSdkBlock}}}",
 			"datasourceTemplate": "custom.android-sdk",
 			"versioningTemplate": "loose"
 		}
 	],
 	"customDatasources": {
 		"android-sdk": {
-			"defaultRegistryUrlTemplate": "https://endoflife.date/api/v1/products/android",
-			"format": "json",
+			"defaultRegistryUrlTemplate": "https://dl.google.com/android/repository/repository2-3.xml",
+			"format": "plain",
 			"transformTemplates": [
-				"{\"releases\": [result.releases[$exists($match(name, /^\\d+(\\.\\d+)?$/)) and $exists($match(custom.apiVersion, /^\\d+$/)) and releaseDate <= $substring($now(), 0, 10)][('{{{packageName}}}' = 'latest') ? true : $number(custom.apiVersion) <= $number('{{{packageName}}}')].{\"version\": custom.apiVersion, \"releaseTimestamp\": releaseDate & 'T00:00:00Z', \"isStable\": true}], \"homepage\": \"https://developer.android.com/about/versions\"}"
+				"($xml := $join(releases.version, '\\n'); $pkgs := [$match($xml, /<remotePackage path=\"platforms;android-(\\d+(?:\\.\\d+)?)\"[^>]*>([\\s\\S]*?)<\\/remotePackage>/)]; $stable := [$pkgs[$exists($match(groups[1], /<channelRef\\s+ref=[\"']channel-0[\"']\\s*\\/>/)) and $not($exists($match(groups[1], /<codename>\\s*[^\\s<][^<]*<\\/codename>/)))].groups[0]]; $versions := ('{{{packageName}}}' = 'latest') ? [$distinct($map($stable, function($v) { $contains($v, '.') ? $v : $v & '.0' }))] : [$distinct($map($stable, function($v) { $contains($v, '.') ? $substringBefore($v, '.') : $v }))[$number($) <= $number('{{{packageName}}}')]]; {\"releases\": [$map($versions, function($v) { {\"version\": $v, \"isStable\": true} })], \"homepage\": \"https://developer.android.com/about/versions\"})"
 			]
 		}
 	},
@@ -46,6 +49,7 @@
 			"matchDatasources": ["custom.android-sdk"],
 			"groupName": null,
 			"automerge": false,
+			"minimumReleaseAge": null,
 			"autoReplaceGlobalMatch": false,
 			"dependencyDashboardApproval": false,
 			"prCreation": "immediate",
@@ -55,7 +59,7 @@
 		{
 			"matchDatasources": ["custom.android-sdk"],
 			"matchDepTypes": ["compileSdk"],
-			"prBodyNotes": ["compileSdk の更新です。ビルド・Android Lint・既存テストを実行してください。targetSdk は現在の compileSdk 以下まで別 PR で提案します。"]
+			"prBodyNotes": ["compileSdk の更新です。ビルド・Android Lint・既存テストを実行してください。targetSdk は現在の compileSdk のメジャー API レベル以下まで別 PR で提案します。"]
 		},
 		{
 			"matchDatasources": ["custom.android-sdk"],
