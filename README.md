@@ -163,7 +163,7 @@ android {
 }
 ```
 
-- 既存の整数代入（`compileSdk = 37`）にも対応します。マイナー API レベル（例: `37.2`）へ更新する際は AGP 9 ブロック構文へ自動変換します（AGP 8.13+ が前提です）。メジャー `.0` 版（例: `38.0`）への更新時は元の記法を維持します（整数代入は `compileSdk = 38`、ブロック構文は `version = release(38)`）。
+- 既存の整数代入（`compileSdk = 37` など）にも対応します。API 37 以上は AGP 9.x 必須でブロック構文対応が保証されるため、マイナー API レベル（例: `37.2`）へ更新する際に AGP 9 ブロック構文へ自動変換します。一方、API 36 以下の整数代入（`compileSdk = 36` 等）は AGP 8.13 未満の既存利用先を壊さないようメジャー整数更新のみを提案し、AGP 8.13+ で既にブロック構文（`version = release(36)` 等）へ移行済みのリポジトリでは `36.1` 等のマイナー更新も追跡します。メジャー `.0` 版（例: `38.0`）への更新時は元の記法を維持します（整数代入は `compileSdk = 38`、ブロック構文は `version = release(38)`）。既存ブロックの更新時は行末コメントと改行コード（LF / CRLF）を保持します。
 - `compileSdk` と `targetSdk` は別 PR とし、通常のライブラリ更新グループから外します。Dashboard 承認を挟まず PR を自動作成します。利用側の schedule・PR 件数制限は適用されます。
 - `targetSdk` の候補は、同じ Android ブロックで先に宣言された現在の `compileSdk` のメジャー API レベル以下（整数版のみ）に制限します。例では最大 37 です。両方が古い場合は、`compileSdk` の PR をマージすると次回の Renovate 実行で `targetSdk` の候補が増えます。
 - `minSdk`、Groovy DSL、変数参照、Version Catalog、式、プレビュー SDK（`version = preview(...)`）、`sdkExtension` 等を含むブロック構文は対象外です。`compileSdk` が対応書式でない場合、`targetSdk` の PR も作りません。

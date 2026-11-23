@@ -168,6 +168,34 @@ async function runAutoReplace(
 	}
 }
 
+async function runLookupWithXml(content: string, xml = repositoryXml) {
+	const originalGetReleases = CustomDatasource.prototype.getReleases;
+	vi.spyOn(CustomDatasource.prototype, "getReleases").mockImplementation(
+		async function (this: CustomDatasource, config) {
+			vi.spyOn(this.http, "getPlain").mockResolvedValue({ body: xml });
+			return originalGetReleases.call(this, config);
+		},
+	);
+	const dependency = extract(content, compileManager)?.deps[0];
+	expect(dependency).toBeDefined();
+	const merged = await applyPackageRules({
+		...defaultPreset,
+		...dependency,
+		manager: "custom.regex",
+		customDatasources: preset.customDatasources,
+		minimumReleaseAgeBehaviour: "timestamp-required",
+		updatePinnedDependencies: true,
+		separateMajorMinor: true,
+		packageRules: [
+			...defaultPreset.packageRules,
+			...androidPreset.packageRules,
+			...preset.packageRules,
+		],
+	});
+	const lookupResult = (await lookupUpdates(merged)).unwrap();
+	return { dependency, merged, lookupResult };
+}
+
 afterEach(() => vi.restoreAllMocks());
 
 describe("Android SDK プリセット", () => {
@@ -193,7 +221,7 @@ describe("Android SDK プリセット", () => {
 				currentValue: "37.0",
 				packageName: "latest",
 				indentation: "    ",
-				replaceString: "compileSdk = 37",
+				replaceString: `${newline}    compileSdk = 37`,
 			},
 		]);
 		expect(extract(content)?.deps).toMatchObject([
@@ -208,6 +236,23 @@ describe("Android SDK プリセット", () => {
 	});
 
 	it.each([
+		["35", "35.0", "latest-major"],
+		["36", "36.0", "latest-major"],
+		["37", "37.0", "latest"],
+		["38", "38.0", "latest"],
+	])(
+		"整数代入の API レベルに応じて packageName を切り替える: compileSdk = %s -> %s (%s)",
+		(compile, expectedValue, expectedPackageName) => {
+			expect(
+				extract(gradle(compile, "34"), compileManager)?.deps[0],
+			).toMatchObject({
+				currentValue: expectedValue,
+				packageName: expectedPackageName,
+			});
+		},
+	);
+
+	it.each([
 		[
 			"minorApiLevel あり",
 			[
@@ -219,6 +264,12 @@ describe("Android SDK プリセット", () => {
 			],
 			"37.1",
 			"37",
+		],
+		[
+			"API 36 のブロック構文（AGP 8.13+ 確定）",
+			["    compileSdk {", "        version = release(36)", "    }"],
+			"36.0",
+			"36",
 		],
 		[
 			"it.minorApiLevel あり",
@@ -357,10 +408,17 @@ describe("Android SDK プリセット", () => {
 			"36.0",
 			"35.0",
 		]);
+		expect(await releases("latest-major")).toEqual(["37.0", "36.0", "35.0"]);
 	});
 
 	it.each([
 		["空 XML", "<sdk:sdk-repository></sdk:sdk-repository>", "latest", []],
+		[
+			"空 XML（latest-major）",
+			"<sdk:sdk-repository></sdk:sdk-repository>",
+			"latest-major",
+			[],
+		],
 		[
 			"空 XML（targetSdk）",
 			"<sdk:sdk-repository></sdk:sdk-repository>",
@@ -371,6 +429,12 @@ describe("Android SDK プリセット", () => {
 			"1 件のみ（latest）",
 			`<sdk:sdk-repository>\n${remotePackage("platforms;android-36", "36", { codename: null })}\n</sdk:sdk-repository>`,
 			"latest",
+			["36.0"],
+		],
+		[
+			"1 件のみ（latest-major）",
+			`<sdk:sdk-repository>\n${remotePackage("platforms;android-36", "36", { codename: null })}\n</sdk:sdk-repository>`,
+			"latest-major",
 			["36.0"],
 		],
 		[
@@ -424,10 +488,71 @@ describe("Android SDK プリセット", () => {
 		expect(await releases(after.packageName)).toEqual(["37", "36", "35"]);
 	});
 
+	it("AGP 8.13 未満の既存利用先（compileSdk = 36）では 36.1 へのブロック変換を提案せずメジャー整数更新のみ行う", async () => {
+		const content = gradle("36 // AGP 8.12.3", "35");
+		const { merged, lookupResult } = await runLookupWithXml(content);
+		expect(lookupResult.ok).toBe(true);
+		expect(lookupResult.val?.updates).toEqual([
+			expect.objectContaining({
+				updateType: "major",
+				newValue: "37.0",
+				newMajor: 37,
+				newMinor: 0,
+			}),
+		]);
+		const majorUpdate = lookupResult.val?.updates?.[0];
+		const ruled = await applyPackageRules({
+			...merged,
+			...majorUpdate,
+			packageRules: [
+				...defaultPreset.packageRules,
+				...androidPreset.packageRules,
+				...preset.packageRules,
+			],
+		});
+		expect(ruled.addLabels).toContain("major-manual-review");
+		expect(ruled.addLabels).not.toContain("automerge-candidate");
+		expect(
+			isCandidate({
+				labels: (ruled.addLabels ?? []).map((name: string) => ({ name })),
+				isDraft: false,
+				isCrossRepository: false,
+				headRefName: "renovate/android-sdk",
+				author: { login: "app/renovate" },
+				baseRefName: "main",
+			}),
+		).toBe(false);
+
+		const replaced = await runAutoReplace(compileManager, content, {
+			newValue: majorUpdate.newValue,
+			newMajor: majorUpdate.newMajor,
+			newMinor: majorUpdate.newMinor,
+		});
+		expect(replaced).toBe(gradle("37 // AGP 8.12.3", "35"));
+	});
+
+	it("AGP 8.13+ で既にブロック構文（release(36)）を使う利用先は 36.1 のマイナー更新を提案する", async () => {
+		const content = gradleBlock(
+			["    compileSdk {", "        version = release(36)", "    }"],
+			"35",
+		);
+		const { lookupResult } = await runLookupWithXml(content);
+		expect(lookupResult.val?.updates).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					updateType: "minor",
+					newValue: "36.1",
+					newMajor: 36,
+					newMinor: 1,
+				}),
+			]),
+		);
+	});
+
 	it.each([
 		{
-			name: "整数代入からマイナー版へ更新すると AGP 9 ブロック構文へ変換し行末コメントを保持する",
-			content: gradle("37 // API 37", "36 // API 36"),
+			name: "整数代入からマイナー版へ更新すると AGP 9 ブロック構文へ変換し行末コメントを保持する（LF）",
+			content: gradle("37 // API 37", "36 // API 36", "\n"),
 			update: { newValue: "37.2", newMajor: 37, newMinor: 2 },
 			expected: [
 				"android {",
@@ -446,10 +571,30 @@ describe("Android SDK プリセット", () => {
 			].join("\n"),
 		},
 		{
-			name: "整数代入からメジャー .0 版へ更新すると整数代入と行末コメントを維持する",
-			content: gradle("37 // API 37", "36 // API 36"),
+			name: "整数代入からマイナー版へ更新すると CRLF と行末コメントを保持する",
+			content: gradle("37 // API 37", "36 // API 36", "\r\n"),
+			update: { newValue: "37.2", newMajor: 37, newMinor: 2 },
+			expected: [
+				"android {",
+				"    compileSdk {",
+				"        version = release(37) {",
+				"            minorApiLevel = 2",
+				"        }",
+				"    } // API 37",
+				"    defaultConfig {",
+				"        minSdk = 26",
+				"        targetSdk = 36 // API 36",
+				"        versionCode = 36",
+				"    }",
+				"}",
+				"",
+			].join("\r\n"),
+		},
+		{
+			name: "整数代入からメジャー .0 版へ更新すると整数代入・改行・行末コメントを維持する（CRLF）",
+			content: gradle("37 // API 37", "36 // API 36", "\r\n"),
 			update: { newValue: "38.0", newMajor: 38, newMinor: 0 },
-			expected: gradle("38 // API 37", "36 // API 36"),
+			expected: gradle("38 // API 37", "36 // API 36", "\r\n"),
 		},
 		{
 			name: "AGP 9 ブロック構文のマイナー更新（37.1 → 37.2）",
@@ -476,63 +621,125 @@ describe("Android SDK プリセット", () => {
 			),
 		},
 		{
-			name: "AGP 9 ブロック構文の it.minorApiLevel を維持して更新する",
+			name: "行末コメント付き AGP 9 ブロック構文のマイナー更新で全コメントと CRLF を保持する",
 			content: gradleBlock(
 				[
-					"    compileSdk {",
-					"        version = release(37) {",
-					"            it.minorApiLevel = 1",
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
+					"            minorApiLevel = 1 // QPR1",
 					"        }",
-					"    }",
+					"    } // end",
 				],
 				"36",
+				"\r\n",
 			),
 			update: { newValue: "37.2", newMajor: 37, newMinor: 2 },
 			expected: gradleBlock(
 				[
-					"    compileSdk {",
-					"        version = release(37) {",
-					"            it.minorApiLevel = 2",
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
+					"            minorApiLevel = 2 // QPR1",
 					"        }",
-					"    }",
+					"    } // end",
 				],
 				"36",
+				"\r\n",
 			),
 		},
 		{
-			name: "AGP 9 ブロック構文のメジャー更新（37.2 → 38.0）で minorApiLevel ブロックを外す",
+			name: "AGP 9 ブロック構文の it.minorApiLevel とコメントと CRLF を維持して更新する",
 			content: gradleBlock(
 				[
-					"    compileSdk {",
-					"        version = release(37) {",
-					"            minorApiLevel = 2",
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
+					"            it.minorApiLevel = 1 // QPR1",
 					"        }",
 					"    }",
 				],
 				"36",
+				"\r\n",
+			),
+			update: { newValue: "37.2", newMajor: 37, newMinor: 2 },
+			expected: gradleBlock(
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
+					"            it.minorApiLevel = 2 // QPR1",
+					"        }",
+					"    }",
+				],
+				"36",
+				"\r\n",
+			),
+		},
+		{
+			name: "AGP 9 ブロック構文のメジャー更新（37.2 → 38.0）で外側コメントと CRLF を保持し minorApiLevel ブロックを外す",
+			content: gradleBlock(
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
+					"            minorApiLevel = 2 // QPR2",
+					"        }",
+					"    } // end",
+				],
+				"36",
+				"\r\n",
 			),
 			update: { newValue: "38.0", newMajor: 38, newMinor: 0 },
 			expected: gradleBlock(
-				["    compileSdk {", "        version = release(38)", "    }"],
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(38)",
+					"    } // end",
+				],
 				"36",
+				"\r\n",
 			),
 		},
 		{
-			name: "minorApiLevel なしブロックからマイナー版（37.0 → 37.2）へ更新する",
+			name: "minorApiLevel なしブロックからマイナー版（37.0 → 37.2）へ更新しコメントと CRLF を保持する",
 			content: gradleBlock(
-				["    compileSdk {", "        version = release(37)", "    }"],
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(37) // API 37",
+					"    } // end",
+				],
 				"36",
+				"\r\n",
 			),
 			update: { newValue: "37.2", newMajor: 37, newMinor: 2 },
 			expected: gradleBlock(
 				[
-					"    compileSdk {",
-					"        version = release(37) {",
+					"    compileSdk { // AGP 9",
+					"        version = release(37) { // API 37",
 					"            minorApiLevel = 2",
 					"        }",
-					"    }",
+					"    } // end",
 				],
 				"36",
+				"\r\n",
+			),
+		},
+		{
+			name: "minorApiLevel なしブロックからメジャー版（37.0 → 38.0）へ更新しコメントと CRLF を保持する",
+			content: gradleBlock(
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(37) // API 37",
+					"    } // end",
+				],
+				"36",
+				"\r\n",
+			),
+			update: { newValue: "38.0", newMajor: 38, newMinor: 0 },
+			expected: gradleBlock(
+				[
+					"    compileSdk { // AGP 9",
+					"        version = release(38) // API 37",
+					"    } // end",
+				],
+				"36",
+				"\r\n",
 			),
 		},
 		{
