@@ -117,9 +117,9 @@ Install-Module Pester -RequiredVersion 5.7.1 -Force -Scope CurrentUser
 
 ## オプション
 
-| オプション  | プリセット            | 説明                                                                 |
-| ----------- | --------------------- | -------------------------------------------------------------------- |
-| Android SDK | `options/android-sdk` | 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ） |
+| オプション  | プリセット            | 説明                                                                               |
+| ----------- | --------------------- | ---------------------------------------------------------------------------------- |
+| Android SDK | `options/android-sdk` | 安定版 API（マイナー API レベル含む）の compileSdk / targetSdk 更新 PR（任意選択） |
 
 ### 非推奨 options の移行
 
@@ -147,11 +147,15 @@ bunx @scottlz0310/renovate-config-init --presets android,android-sdk
 }
 ```
 
-初期対応は `build.gradle.kts` 内の、トップレベルの `android { ... }` にある整数代入です。閉じ括弧は行頭、内部の設定はインデントする通常の書式を対象とします。
+対応書式は `build.gradle.kts` 内の、トップレベルの `android { ... }` にある AGP 9 ブロック構文（AGP 8.13+）および既存の整数代入です。閉じ括弧は行頭、内部の設定はインデントする通常の書式を対象とします。
 
 ```kotlin
 android {
-    compileSdk = 37
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
     defaultConfig {
         minSdk = 26
         targetSdk = 36
@@ -159,13 +163,15 @@ android {
 }
 ```
 
+- 既存の整数代入（`compileSdk = 37`）にも対応します。マイナー API レベル（例: `37.2`）へ更新する際は AGP 9 ブロック構文へ自動変換します（AGP 8.13+ が前提です）。メジャー `.0` 版（例: `38.0`）への更新時は元の記法を維持します（整数代入は `compileSdk = 38`、ブロック構文は `version = release(38)`）。
 - `compileSdk` と `targetSdk` は別 PR とし、通常のライブラリ更新グループから外します。Dashboard 承認を挟まず PR を自動作成します。利用側の schedule・PR 件数制限は適用されます。
-- `targetSdk` の候補は、同じ Android ブロックで先に宣言された現在の `compileSdk` 以下に制限します。例では最大 37 です。両方が古い場合は、`compileSdk` の PR をマージすると次回の Renovate 実行で `targetSdk` の候補が増えます。
-- `minSdk`、Groovy DSL、変数参照、Version Catalog、式や小数・プレビュー SDK 記法は対象外です。`compileSdk` が対応する整数代入でない場合、`targetSdk` の PR も作りません。
-- 両 SDK の自動マージを無効化します。`targetSdk` の PR には `manual-verification-required` ラベルと手動確認の注意書きを付けます。ビルドや CI の成功だけでは、更新後の Android の動作変更や表示崩れを検証できません。対象 API の実機・エミュレータで主要画面、遷移、システムバーとの重なりを手動確認し、既存 UI テストも実行してください。`compileSdk` のみの更新はビルド・Android Lint・既存テストを基本とします。
+- `targetSdk` の候補は、同じ Android ブロックで先に宣言された現在の `compileSdk` のメジャー API レベル以下（整数版のみ）に制限します。例では最大 37 です。両方が古い場合は、`compileSdk` の PR をマージすると次回の Renovate 実行で `targetSdk` の候補が増えます。
+- `minSdk`、Groovy DSL、変数参照、Version Catalog、式、プレビュー SDK（`version = preview(...)`）、`sdkExtension` 等を含むブロック構文は対象外です。`compileSdk` が対応書式でない場合、`targetSdk` の PR も作りません。
+- Renovate 自体の自動マージは無効化します。`presets/default` と併用した場合、`compileSdk` のマイナー更新（例: `37.0` → `37.2`）は `automerge-candidate` が付与され集中型オートマージの対象になります。`compileSdk` のメジャー更新（`major-manual-review`）と `targetSdk` の更新（`manual-verification-required`）は手動マージのままです。
+- `targetSdk` の PR には `manual-verification-required` ラベルと手動確認の注意書きを付けます。ビルドや CI の成功だけでは、更新後の Android の動作変更や表示崩れを検証できません。対象 API の実機・エミュレータで主要画面、遷移、システムバーとの重なりを手動確認し、既存 UI テストも実行してください。`compileSdk` のみの更新はビルド・Android Lint・既存テストを基本とします。
 - ラベルはマージ制限ではありません。利用側の `packageRules` での再上書きや、別の自動マージ用 GitHub Actions 等がないことも確認してください。
 
-取得元には [endoflife.date の Android API](https://endoflife.date/api/v1/products/android) を使い、公開日を迎えた正式版の整数 API レベルだけを採用します。標準の `endoflife-date` datasource は OS バージョンを扱うため、`custom.apiVersion` を変換する custom datasource を使用します。JSON API を利用することで XML/HTML の独自解析や自前サーバーの運用を避けますが、第三者データの反映遅延・可用性に依存します。
+取得元には Google 公式の [Android SDK Repository XML](https://dl.google.com/android/repository/repository2-3.xml) を使い、安定版チャンネル（`channel-0`）かつ `codename` 空の正式版プラットフォーム（マイナー API レベル含む）のみを採用します。`-beta*`・`CANARY`・`-ext*` 等のプレビュー・拡張パッケージは除外します。XML には各プラットフォームのリリース日時が含まれないため、この datasource に対しては `minimumReleaseAge: null` を設定し、`presets/default` の 3 日待機で PR 作成が止まらないようにしています。
 
 SDK 更新の提案は、Google Play の提出期限や最低 target API 要件への適合を保証しません。公式の動作変更・Play 要件の確認、各アプリの lint と UI テストの整備は引き続き必要です。
 

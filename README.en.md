@@ -112,7 +112,7 @@ Use: `github>scottlz0310/renovate-config//presets/tools/<name>`
 
 Use: `github>scottlz0310/renovate-config//presets/options/<name>`
 
-- `android-sdk` — 安定版 API の compileSdk / targetSdk 更新 PR（任意選択・手動マージ）
+- `android-sdk` — 安定版 API（マイナー API レベル・AGP 9 ブロック構文対応）の compileSdk / targetSdk 更新 PR（任意選択）
 
 `options/schedule`・`options/production`・`options/automerge`・`options/security`・`options/monorepo` は非推奨です。従来のスケジュール・長い待機期間・自動マージ・承認要求・これら5 options由来のグループ化を中央で一括解除しました。利用側の `extends` を変更しなくても次回の巡回から反映されます。ファイルは参照切れを防ぐため残し、Dependency Dashboard の末尾に不要になった参照の削除案内を表示します。複数参照時も案内は1つで、全参照を削除すると消えます。Dashboard の無効化や `dependencyDashboardFooter` の上書き時は表示されません。CLI の選択肢から除外し、`--presets` での指定もエラーになります。
 
